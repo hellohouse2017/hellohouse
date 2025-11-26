@@ -86,25 +86,23 @@
         img { max-width: 100%; display: block; }
 
         /* =========================================
-           Navbar (標準版)
+           Navbar (標準版 - 修正手機選單)
            ========================================= */
         .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
+        
         .nav-menu { display: flex; align-items: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
         .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
         .nav-link:hover, .nav-link.active { color: var(--c-accent); }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 5px; left: 0; background-color: var(--c-accent); transition: width 0.3s; }
         .nav-link:hover::after { width: 100%; }
         
-        /* 查詢空房按鈕 */
         .nav-link.nav-btn-booking::after { display: none; }
-        .nav-btn-booking {
-            background-color: var(--c-accent); color: white !important;
-            padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent);
-        }
+        .nav-btn-booking { background-color: var(--c-accent); color: white !important; padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent); }
         .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
 
+        /* Dropdown (Desktop) */
         .dropdown { position: relative; }
         .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #fff; width: 200px; list-style: none; padding: 10px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; transition: all 0.3s ease; border-top: 3px solid var(--c-accent); margin: 0; }
         .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
@@ -116,6 +114,102 @@
         .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--c-accent); transition: 0.3s; }
         .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
         .nav-item:hover .arrow-icon { transform: rotate(180deg); }
+
+        /* =========================================
+           🔥 Mobile Menu Fix (分流點擊版) 🔥
+           ========================================= */
+        @media (max-width: 960px) {
+            .menu-toggle { display: block; }
+            
+            .nav-menu { 
+                position: fixed; left: -100%; top: 70px; 
+                flex-direction: column; 
+                background-color: #1A202C; 
+                width: 100%; height: calc(100vh - 70px); 
+                text-align: center; transition: 0.3s; 
+                padding-top: 0; gap: 0; 
+                align-items: stretch; 
+                overflow-y: auto;
+            }
+            .nav-menu.active { left: 0; }
+            
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link::after { display: none; }
+            
+            /* 主選單連結：靠左對齊 */
+            .nav-link { 
+                display: flex;
+                align-items: center;
+                justify-content: flex-start; 
+                padding: 0; 
+                font-size: 1.1rem; 
+                color: #ffffff !important; 
+                width: 100%;
+            }
+            
+            /* 文字區域：可點擊跳轉 */
+            .nav-link span {
+                flex-grow: 1;
+                padding: 20px 30px; 
+                text-align: left;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            /* 箭頭區域：獨立點擊開關 */
+            .arrow-icon { 
+                margin-left: 0; 
+                width: 60px; 
+                height: 65px; 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-left: 1px solid rgba(255,255,255,0.1); 
+                background: rgba(0,0,0,0.1);
+                cursor: pointer;
+            }
+            
+            /* 下拉選單容器 */
+            .dropdown-menu { 
+                position: static !important; 
+                opacity: 1 !important; 
+                visibility: visible !important; 
+                transform: none !important; 
+                width: 100%; 
+                background-color: #0d1117 !important; 
+                box-shadow: inset 0 5px 10px rgba(0,0,0,0.5) !important; 
+                border-top: none !important; 
+                display: none; 
+                padding: 0 !important;
+            }
+            .dropdown.active .dropdown-menu { display: block; }
+            
+            /* 子選單連結 */
+            .dropdown-link { 
+                color: #e2e8f0 !important; 
+                padding: 18px 30px 18px 50px !important; /* 縮排 */
+                justify-content: flex-start !important; 
+                width: 100%;
+                border-bottom: 1px solid rgba(255,255,255,0.03);
+                font-size: 1rem !important;
+            }
+            .dropdown-link:hover { background-color: rgba(255,255,255,0.05) !important; color: #ffffff !important; }
+
+            /* 按鈕 */
+            .nav-link.nav-btn-booking { 
+                justify-content: center; background: var(--c-accent); border: none; 
+                margin: 20px auto; width: 80%; text-align: center; padding: 15px;
+            }
+            .nav-link.nav-btn-booking span { justify-content: center; padding: 0; }
+
+            /* Page Specific RWD */
+            .info-grid { grid-template-columns: 1fr; }
+            .address-text { font-size: 1.3rem; flex-direction: column; gap: 5px; }
+            .warning-badge { font-size: 0.9rem; text-align: left; padding: 10px; border-radius: 8px;}
+            .parking-grid { grid-template-columns: 1fr; }
+            .page-header { margin-top: 0; }
+        }
 
         /* =========================================
            Page Hero
@@ -213,7 +307,7 @@
         .btn-map-sm:hover { background: var(--c-accent); color: white; }
 
         /* =========================================
-           Footer (完全修正版 - 與 Agreement 頁面一致)
+           Footer (標準版 - 與 Agreement 頁面一致)
            ========================================= */
         .footer { 
             background-color: var(--theme-dark-bg); 
@@ -262,37 +356,20 @@
             text-align: center;
             flex-shrink: 0; 
         }
-        .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #444; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
-        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #333; font-size: 0.85rem; }
+        .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #333; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
         
         .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
         .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
 
-        @media (max-width: 960px) {
-            .menu-toggle { display: block; }
-            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: var(--theme-dark-bg); width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
-            .nav-menu.active { left: 0; }
-            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
-            .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
-            .nav-link::after { display: none; }
-            
-            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background-color: rgba(0,0,0,0.2); box-shadow: none; border-top: none; display: none; }
-            .dropdown.active .dropdown-menu { display: block; }
-            .dropdown-link { color: #ddd; padding: 15px; justify-content: center; white-space: normal; }
-            
-            .info-grid { grid-template-columns: 1fr; }
-            .address-text { font-size: 1.3rem; flex-direction: column; gap: 5px; }
-            .warning-badge { font-size: 0.9rem; text-align: left; padding: 10px; border-radius: 8px;}
-            .parking-grid { grid-template-columns: 1fr; }
-            .page-header { margin-top: 0; }
-        }
+        /* Animation */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
         @media (max-width: 768px) {
             .footer-grid { grid-template-columns: 1fr; gap: 40px; }
             .container { padding: 50px 0; }
         }
-        
-        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
     </style>
 </head>
 <body>
@@ -303,52 +380,60 @@
             <div class="menu-toggle" id="mobile-menu">
                 <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </div>
+            
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a>
+                    <a href="index.html" class="nav-link">
+                        <span><i class="fa-solid fa-house"></i> 首頁</span>
+                    </a>
                 </li>
+
                 <li class="nav-item">
-                    <a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a>
+                    <a href="rooms.html" class="nav-link">
+                        <span><i class="fa-solid fa-bed"></i> 房型介紹</span>
+                    </a>
                 </li>
                 
                 <li class="nav-item dropdown">
                     <a href="agreement.html" class="nav-link dropdown-toggle">
-                        <i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i>
-                    </a>
+                        <span><i class="fa-solid fa-file-signature"></i> 入住契約</span>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約/條款</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a href="traffic.html" class="nav-link active"><i class="fa-solid fa-car"></i> 交通停車</a>
+                    <a href="traffic.html" class="nav-link active">
+                        <span><i class="fa-solid fa-car"></i> 交通停車</span>
+                    </a>
                 </li>
                 
                 <li class="nav-item dropdown">
                     <a href="travel.html" class="nav-link dropdown-toggle">
-                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i>
-                    </a>
+                        <span><i class="fa-solid fa-map-location-dot"></i> 旅遊行程</span>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-bowl-food"></i> 鹽埕美食地圖</a></li>
-                        <li><a href="attractions.html" class="dropdown-link"><i class="fa-solid fa-camera"></i> 周邊景點導覽</a></li>
+                        <li><a href="attractions.html" class="dropdown-link"><i class="fa-solid fa-location-arrow"></i> 周邊景點</a></li>
+                        <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-utensils"></i> 美食地圖</a></li>
                     </ul>
                 </li>
                 
                 <li class="nav-item dropdown">
                     <a href="packages.html" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
-                        <i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i>
-                    </a>
+                        <span><i class="fa-solid fa-bullhorn"></i> 住宿情報</span>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
-                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟方案</a></li>
-                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
-                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
+                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a href="check.html" class="nav-link nav-btn-booking">
-                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    <a href="check.html" class="nav-link nav-btn-booking" style="justify-content: center;">
+                        <span><i class="fa-solid fa-calendar-check"></i> 查詢空房</span>
                     </a>
                 </li>
             </ul>
@@ -525,7 +610,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Animation
+            // 1. 動畫效果 (Fade-in)
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -533,28 +618,49 @@
             }, { threshold: 0.1 });
             document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-            // Navbar Logic
             const mobileMenu = document.getElementById('mobile-menu');
             const navMenu = document.querySelector('.nav-menu');
+            const allDropdowns = document.querySelectorAll('.dropdown');
+
+            // 2. 漢堡選單開關
             mobileMenu.addEventListener('click', () => {
                 mobileMenu.classList.toggle('is-active');
                 navMenu.classList.toggle('active');
             });
 
-            // Mobile Link Fix
-            document.querySelectorAll('.dropdown').forEach(dropdown => {
-                const toggle = dropdown.querySelector('.dropdown-toggle');
-                if(toggle) {
-                    toggle.addEventListener('click', (e) => {
+            // 3. 手機版下拉選單邏輯 (分流點擊：箭頭負責開合，文字負責跳轉)
+            allDropdowns.forEach(dropdown => {
+                const link = dropdown.querySelector('.dropdown-toggle');
+                const arrow = link.querySelector('.arrow-icon'); // 抓取箭頭
+                
+                if(link && arrow) {
+                    // 監聽箭頭點擊：只負責切換選單開合
+                    arrow.addEventListener('click', (e) => {
                         if (window.innerWidth <= 960) {
-                            const href = toggle.getAttribute('href');
-                            if (href && href !== '#' && href !== 'javascript:void(0)') {
-                                return; 
+                            e.preventDefault(); 
+                            e.stopPropagation(); 
+                            
+                            const isAlreadyOpen = dropdown.classList.contains('active');
+                            
+                            // 關閉其他所有選單 (互斥效果)
+                            allDropdowns.forEach(d => d.classList.remove('active'));
+                            
+                            // 如果原本沒開，就打開
+                            if (!isAlreadyOpen) {
+                                dropdown.classList.add('active');
                             }
-                            e.preventDefault();
-                            dropdown.classList.toggle('active');
                         }
                     });
+                    
+                    // 備註：文字部分 (span) 不需要 JS，瀏覽器會自動處理 href 跳轉
+                }
+            });
+
+            // 4. 點擊頁面其他地方關閉選單
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    mobileMenu.classList.remove('is-active');
                 }
             });
         });
