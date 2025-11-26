@@ -15,7 +15,7 @@
 
     <style>
         /* =========================================
-           Design System (全站統一)
+           Design System
            ========================================= */
         :root {
             --c-primary: #1A202C;       
@@ -44,7 +44,9 @@
         ul { list-style: none; padding: 0; margin: 0; }
         img { max-width: 100%; display: block; }
 
-        /* Navbar (標準版) */
+        /* =========================================
+           Navbar (標準版)
+           ========================================= */
         .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
@@ -58,6 +60,7 @@
         .nav-btn-booking { background-color: var(--c-accent); color: white !important; padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent); }
         .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
 
+        /* Dropdown (Desktop) */
         .dropdown { position: relative; }
         .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #fff; width: 200px; list-style: none; padding: 10px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; transition: all 0.3s ease; border-top: 3px solid var(--c-accent); margin: 0; }
         .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
@@ -153,13 +156,12 @@
         .calendar-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         .hidden { display: none !important; }
 
-        /* Footer (標準版) */
-        .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 80px 0 40px; border-top: 3px solid var(--c-accent); width: 100%; margin-top: auto; text-align: left; }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 50px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        /* Footer & Sticky */
+        .footer { background-color: #1A202C; color: #aaa; padding: 80px 0 40px; border-top: 3px solid var(--c-accent); width: 100%; margin-top: auto; text-align: left; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .footer h3 { color: white; font-size: 1.1rem; margin-bottom: 25px; font-family: var(--font-serif); letter-spacing: 1px; }
         .footer-desc { line-height: 1.8; margin-bottom: 20px; text-align: left; color: #CBD5E0; }
         .footer-desc p { margin-bottom: 15px; }
-        .footer-desc strong { color: #fff; font-weight: 500; }
         .contact-row { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px; }
         .contact-row i { color: var(--c-accent); margin-top: 5px; width: 25px; text-align: center; flex-shrink: 0; }
         .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #333; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
@@ -167,20 +169,51 @@
         .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
         .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
 
+        /* Button */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 32px; border-radius: var(--radius-full); font-weight: 500; cursor: pointer; border: none; font-size: 1rem; width: 100%; transition: 0.3s; }
+        .btn-line { background-color: var(--c-line); color: white; box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); }
+        .btn-line:hover { background-color: #05b64d; transform: translateY(-2px); }
+
+        /* RWD */
         @media (max-width: 960px) {
             .calendars-area.dual-view { grid-template-columns: 1fr; } 
             .form-grid { grid-template-columns: 1fr; }
             .inquiry-box { margin-top: -40px; padding: 30px 20px; width: 95%; }
             
             .menu-toggle { display: block; }
-            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: var(--theme-dark-bg); width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: #1A202C; width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
             .nav-menu.active { left: 0; }
+            
             .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
             .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
             .nav-link::after { display: none; }
-            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background-color: rgba(0,0,0,0.2); box-shadow: none; border-top: none; display: none; }
+            
+            /* [修正] 手機版下拉選單樣式 - 解決字看不見與跑版問題 */
+            .dropdown-menu { 
+                position: static; 
+                opacity: 1; 
+                visibility: visible; 
+                transform: none; 
+                width: 100%; 
+                background-color: rgba(0,0,0,0.3); /* 深色背景加深 */
+                box-shadow: none; 
+                border-top: none; 
+                display: none; 
+                padding: 0; /* 移除 padding */
+            }
             .dropdown.active .dropdown-menu { display: block; }
-            .dropdown-link { color: #ddd; padding: 15px; justify-content: center; white-space: normal; }
+            
+            /* [修正] 下拉連結樣式 */
+            .dropdown-link { 
+                color: #ddd; /* 改為淺色字，避免在深色背景看不見 */
+                padding: 15px; 
+                justify-content: center; /* 置中對齊 */
+                white-space: normal; 
+            }
+            .dropdown-link:hover { 
+                background-color: transparent; 
+                color: #fff; 
+            }
         }
         @media (max-width: 768px) {
             .footer-grid { grid-template-columns: 1fr; gap: 40px; }
@@ -325,8 +358,7 @@
                 <div>
                     <h3>關於 你好哇寓所</h3>
                     <div class="footer-desc">
-                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘，<strong>大港橋</strong>亦近在咫尺。</p>
-                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。</p>
+                        <p>「你好哇・寓所」與「溝頂民宿」位於高雄鹽埕區，專注於提供 6~38人 的彈性大空間包棟住宿。</p>
                     </div>
                 </div>
                 <div>
