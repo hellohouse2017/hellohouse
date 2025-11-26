@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>即時房況查詢 | 你好哇寓所 & 溝頂民宿</title>
+    <meta name="robots" content="index, follow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
+
+    <style>
+        /* =========================================
+           Design System (全站統一)
+           ========================================= */
+        :root {
+            --c-primary: #1A202C;       
+            --c-accent: #C5A065;        
+            --c-accent-hover: #A68550;
+            --c-bg-body: #F9F9F7;       
+            --c-bg-white: #FFFFFF;
+            --c-bg-light: #EDF2F7;
+            --c-text-gray: #555555; 
+            --c-line: #06C755;
+            --c-error: #e53e3e; 
+            --c-success: #38a169;
+            --theme-dark-bg: #1A202C;
+
+            --font-serif: 'Noto Serif TC', serif; 
+            --font-sans: 'Noto Sans TC', sans-serif; 
+
+            --shadow-card: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            --radius-md: 12px;
+            --radius-full: 9999px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; font-family: var(--font-sans); background-color: var(--c-bg-body); color: var(--c-primary); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; padding: 0; margin: 0; }
+        img { max-width: 100%; display: block; }
+
+        /* =========================================
+           Navbar (標準版)
+           ========================================= */
+        .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
+        .nav-menu { display: flex; align-items: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
+        .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--c-accent); }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 5px; left: 0; background-color: var(--c-accent); transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+        
+        /* 查詢空房按鈕 */
+        .nav-link.nav-btn-booking::after { display: none; }
+        .nav-btn-booking { background-color: var(--c-accent); color: white !important; padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent); }
+        .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
+
+        .dropdown { position: relative; }
+        .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #fff; width: 200px; list-style: none; padding: 10px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; transition: all 0.3s ease; border-top: 3px solid var(--c-accent); margin: 0; }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown-link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--c-primary); font-size: 0.9rem; transition: 0.2s; }
+        .dropdown-link i { color: var(--c-accent); width: 20px; text-align: center; }
+        .dropdown-link:hover { background-color: var(--c-bg-light); color: var(--c-accent); padding-left: 25px; }
+        
+        .menu-toggle { display: none; cursor: pointer; }
+        .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--c-accent); transition: 0.3s; }
+        .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
+        .nav-item:hover .arrow-icon { transform: rotate(180deg); }
+
+        /* =========================================
+           Hero (首頁風格)
+           ========================================= */
+        .hero { 
+            position: relative; height: 60vh; /* 比首頁稍矮一點點，讓表單露出來 */
+            min-height: 450px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
+            color: white; background-color: var(--c-primary); overflow: hidden; 
+        }
+        .hero-bg { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background-image: url('images/cover.jpg'); 
+            background-size: cover; background-position: center; opacity: 0.6; z-index: 1; 
+            transform: scale(1.1); animation: zoomSlow 20s infinite alternate; /* 加入動畫 */
+        }
+        @keyframes zoomSlow { from { transform: scale(1); } to { transform: scale(1.1); } }
+        
+        .hero-content { position: relative; z-index: 2; padding: 0 20px; }
+        .hero h1 { 
+            font-family: var(--font-serif); 
+            font-size: clamp(2.2rem, 5vw, 3.5rem); /* 響應式字體 */
+            margin-bottom: 1rem; 
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3); 
+            font-weight: 700;
+        }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; font-weight: 300; opacity: 0.9; letter-spacing: 1px; }
+
+        /* Main Container */
+        .container { width: 90%; max-width: 1000px; margin: 0 auto; flex: 1;}
+        
+        /* Inquiry Box */
+        .inquiry-box { background: #fff; border-radius: var(--radius-md); padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); margin: -60px auto 0; position: relative; z-index: 10; border: 1px solid #eee; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr 1.5fr auto; gap: 15px; margin-top: 20px; align-items: end; }
+        .form-group label { display: block; font-size: 0.85rem; color: var(--c-text-gray); margin-bottom: 5px; font-weight: bold; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; background: #F8F9FA; transition: 0.3s; }
+        .form-control:focus { outline: none; border-color: var(--c-accent); background: #fff; }
+        
+        /* Buttons */
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 30px; border-radius: 50px; font-weight: 500; cursor: pointer; border: none; font-size: 1rem; width: 100%; transition: 0.3s; }
+        .btn-line { background-color: var(--c-line); color: white; box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); }
+        .btn-line:hover { background-color: #05b64d; transform: translateY(-2px); }
+
+        /* Steps Sections */
+        .step-section { margin-top: 30px; border-top: 2px dashed #eee; padding-top: 30px; display: none; animation: fadeIn 0.5s ease; text-align: left; }
+        .step-section.active { display: block; }
+        .step-title { font-size: 1.2rem; font-weight: bold; margin-bottom: 20px; color: var(--c-primary); border-left: 4px solid var(--c-accent); padding-left: 10px; }
+
+        /* Plan Cards */
+        .plan-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .plan-card { border: 2px solid #eee; border-radius: 10px; padding: 20px; cursor: pointer; transition: 0.2s; position: relative; background: #fff; }
+        .plan-card:hover { border-color: #ddd; background: #fcfcfc; transform: translateY(-2px); }
+        .plan-card.selected { border-color: var(--c-accent); background-color: #FFFbf0; box-shadow: 0 4px 12px rgba(197, 160, 101, 0.15); }
+        .plan-card h4 { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--c-primary); }
+        .plan-price { font-size: 1rem; color: var(--c-accent); font-weight: bold; margin-bottom: 8px; font-family: var(--font-sans); }
+        .plan-desc { font-size: 0.85rem; color: #666; margin: 0; line-height: 1.5; border-top: 1px solid #eee; padding-top: 8px; margin-top: 8px; }
+        .plan-capacity { position: absolute; top: 15px; right: 15px; background: #eee; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; color: #555; }
+        .plan-card.selected .plan-capacity { background: var(--c-accent); color: white; }
+        .select-hint { text-align: center; color: var(--c-accent); font-size: 0.8rem; margin-top: 10px; font-weight: bold; opacity: 0; transition: 0.3s; }
+        .plan-card:hover .select-hint { opacity: 1; }
+        .plan-card.selected .select-hint { opacity: 1; content: '已選擇'; }
+
+        /* Contact Form */
+        .contact-form { max-width: 600px; margin: 0 auto; background: #f9f9f9; padding: 30px; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 5px 20px rgba(0,0,0,0.05); }
+        .input-error { border-color: #e53e3e !important; background-color: #fff5f5 !important; }
+        .error-msg { color: #e53e3e; font-size: 0.8rem; display: none; margin-top: 5px; }
+
+        /* Status Messages */
+        .status-message { margin-top: 30px; padding: 25px; border-radius: 12px; font-size: 1rem; display: none; text-align: left; animation: fadeIn 0.5s ease; }
+        .status-success { background-color: #F0FFF4; border: 1px solid #9AE6B4; }
+        .status-error { background-color: #FFF5F5; border: 1px solid #FEB2B2; }
+        .status-loading { background-color: #EBF8FF; border: 1px solid #90CDF4; color: #2B6CB0; text-align: center; }
+
+        /* Recommendation List */
+        .recommendation-area { margin-top: 15px; border-top: 1px solid #f0f0f0; padding-top: 15px; }
+        .rec-title { color: #d9534f; font-weight: bold; margin-bottom: 10px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+        .suggestion-list { list-style: none; padding: 0; margin: 0; }
+        .suggestion-item { 
+            display: flex; justify-content: space-between; align-items: center; 
+            background: #fff; border: 1px solid #e2e2e2; padding: 12px 15px; 
+            margin-bottom: 8px; border-radius: 8px; cursor: pointer; transition: 0.2s; 
+        }
+        .suggestion-item:hover { border-color: var(--c-accent); background-color: #fffbf0; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .sugg-tag { font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; margin-right: 10px; display: inline-block; min-width: 90px; text-align: center; }
+        .tag-hot { background: #ffeeba; color: #856404; border: 1px solid #ffeeba; } 
+        .tag-week { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; } 
+        .tag-part { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .sugg-date { font-weight: bold; color: #333; }
+        .sugg-action { color: var(--c-accent); font-size: 0.9rem; display: flex; align-items: center; gap: 5px; }
+
+        /* Calendar Area */
+        .calendar-toggle-btn { display: block; margin: 40px auto 20px; background: transparent; border: 1px solid #ddd; padding: 10px 20px; border-radius: 50px; cursor: pointer; color: #666; font-size: 0.9rem; transition: 0.3s; }
+        .calendar-toggle-btn:hover { border-color: var(--c-accent); color: var(--c-accent); }
+        .calendars-area { display: none; grid-template-columns: 1fr; gap: 30px; transition: all 0.5s ease; }
+        .calendars-area.show { display: grid; animation: fadeIn 0.5s ease; }
+        .calendars-area.dual-view { grid-template-columns: 1fr 1fr; }
+        .calendar-card { background: #fff; padding: 20px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); border-top: 4px solid var(--c-accent); }
+        .calendar-container { position: relative; padding-bottom: 75%; height: 0; overflow: hidden; border-radius: 8px; background: #f9f9f9; }
+        .calendar-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .hidden { display: none !important; }
+
+        /* =========================================
+           Footer (標準版 - 左對齊)
+           ========================================= */
+        .footer { 
+            background-color: #1A202C; /* 深岩灰 */
+            color: #aaa; 
+            padding: 80px 0 40px; 
+            border-top: 3px solid var(--c-accent); 
+            width: 100%; 
+            margin-top: auto; 
+        }
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr 1fr; 
+            gap: 50px; 
+            margin-bottom: 50px; 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+        .footer h3 { 
+            color: white; 
+            font-size: 1.1rem; 
+            margin-bottom: 25px; 
+            font-family: var(--font-serif); 
+        }
+        .footer-desc { 
+            line-height: 1.8; 
+            margin-bottom: 20px; 
+            text-align: justify; 
+            color: #CBD5E0; 
+        }
+        .footer-desc strong { color: #fff; }
+        .contact-row { 
+            margin-bottom: 15px; 
+            display: flex; 
+            gap: 10px; 
+        }
+        .contact-row i { 
+            color: var(--c-accent); 
+            margin-top: 5px; 
+        }
+        .seo-tags span { 
+            display: inline-block; 
+            font-size: 12px; 
+            border: 1px solid #333; 
+            padding: 4px 10px; 
+            border-radius: 4px; 
+            margin: 0 5px 8px 0; 
+            cursor: default; 
+        }
+        .copyright { 
+            text-align: center; 
+            padding-top: 30px; 
+            border-top: 1px solid #222; 
+            font-size: 0.85rem; 
+        }
+
+        /* Floating Button */
+        .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
+        .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
+
+        @media (max-width: 960px) {
+            .calendars-area.dual-view { grid-template-columns: 1fr; } 
+            .form-grid { grid-template-columns: 1fr; }
+            .inquiry-box { margin-top: -40px; padding: 30px 20px; width: 95%; }
+            
+            .menu-toggle { display: block; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: #1A202C; width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
+            .nav-menu.active { left: 0; }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
+            .nav-link::after { display: none; }
+            
+            /* 手機版下拉選單修正 */
+            .dropdown-menu { 
+                position: static; 
+                opacity: 1; 
+                visibility: visible; 
+                transform: none; 
+                width: 100%; 
+                background-color: rgba(0,0,0,0.3); 
+                box-shadow: none; 
+                border-top: none; 
+                display: none; 
+                padding: 0;
+            }
+            .dropdown.active .dropdown-menu { display: block; }
+            .dropdown-link { 
+                color: #ddd; 
+                padding: 15px; 
+                justify-content: center; 
+                white-space: normal; 
+            }
+            .dropdown-link:hover { background-color: transparent; color: #fff; }
+        }
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">你好哇寓所</a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link dropdown-toggle"><i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a></li>
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle"><i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="travel.html" class="dropdown-link"><i class="fa-solid fa-location-arrow"></i> 周邊景點推薦</a></li>
+                        <li><a href="travel.html" class="dropdown-link"><i class="fa-solid fa-utensils"></i> 鹽埕美食地圖</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="packages.html" class="nav-link dropdown-toggle"><i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟方案</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="check.html" class="nav-link nav-btn-booking"><i class="fa-solid fa-calendar-check"></i> 查詢空房</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房"><i class="fa-brands fa-line"></i></a>
+
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content fade-in">
+            <h1>智慧房況查詢</h1>
+            <p>即時系統連線・你好哇寓所 & 溝頂民宿</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="inquiry-box fade-in">
+            
+            <div id="step-1-query">
+                <h2 style="font-size:1.4rem; margin-bottom:20px; color:var(--c-primary); display:flex; align-items:center; gap:10px;">
+                    <i class="fa-solid fa-calendar-days" style="color:var(--c-accent)"></i> 1. 查詢檔期
+                </h2>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>1. 預計人數</label>
+                        <select id="guest-range" class="form-control" onchange="updateVenueOptions()">
+                            <option value="small">6-12 人 (小包棟)</option>
+                            <option value="medium">13-26 人 (中包棟)</option>
+                            <option value="large">27-38 人 (大團體)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>2. 入住 - 退房日期</label>
+                        <input type="text" id="date-range" class="form-control" placeholder="選擇日期">
+                    </div>
+                    <div class="form-group">
+                        <label>3. 民宿方案</label>
+                        <select id="venue-select" class="form-control" onchange="handleVenueChange()">
+                            </select>
+                    </div>
+                    <button class="btn btn-line" onclick="startQuery()">
+                        <i class="fa-solid fa-magnifying-glass"></i> 查詢
+                    </button>
+                </div>
+                <div id="status-box" class="status-message"></div>
+            </div>
+
+            <div id="step-2-plan" class="step-section">
+                <div class="step-title">2. 請選擇您的包棟房型配置 (點擊選擇)</div>
+                <div id="plan-container" class="plan-options">
+                    </div>
+            </div>
+
+            <div id="step-3-contact" class="step-section">
+                <div class="step-title">3. 填寫聯絡資料，即刻取得優惠！</div>
+                <div class="contact-form">
+                    <div class="form-group" style="margin-bottom:15px;">
+                        <label>聯絡人姓名</label>
+                        <input type="text" id="user-name" class="form-control" placeholder="請輸入您的稱呼">
+                    </div>
+                    <div class="form-group" style="margin-bottom:20px;">
+                        <label>手機號碼</label>
+                        <input type="tel" id="user-phone" class="form-control" placeholder="09xxxxxxxx" maxlength="10">
+                        <div id="phone-error" class="error-msg">請輸入正確的 10 碼手機號碼 (09開頭)</div>
+                    </div>
+                    
+                    <button id="btn-submit" class="btn btn-line" style="width:100%; padding:15px; font-size:1.1rem;" onclick="sendToLine()">
+                        <i class="fa-brands fa-line"></i> 找管家詢問優惠價
+                    </button>
+                    <p style="text-align:center; font-size:0.8rem; color:#888; margin-top:10px;">點擊後系統將自動複製資料並跳轉 LINE</p>
+                </div>
+            </div>
+
+        </div>
+
+        <button class="calendar-toggle-btn" onclick="toggleCalendarVisibility()">
+            <i class="fa-solid fa-eye"></i> 顯示/隱藏 詳細日曆
+        </button>
+
+        <div id="calendars-wrapper" class="calendars-area fade-in">
+            <div class="calendar-card" id="cal-hello">
+                <h3>你好哇寓所 <span style="font-size:0.8rem; background:#eee; padding:2px 8px; border-radius:4px; margin-left:10px; color:#555;">主館</span></h3>
+                <div class="calendar-container">
+                    <iframe src="https://calendar.google.com/calendar/embed?src=a77a451f0a645261b0202f6faf810082df31f92d20fe20c19cbb10945d9714f4%40group.calendar.google.com&ctz=Asia%2FTaipei" scrolling="no"></iframe>
+                </div>
+            </div>
+            <div class="calendar-card hidden" id="cal-gouding">
+                <h3>溝頂民宿 <span style="font-size:0.8rem; background:#795548; padding:2px 8px; border-radius:4px; color:#fff;">二館</span></h3>
+                <div class="calendar-container">
+                    <iframe src="https://calendar.google.com/calendar/embed?src=56feb65c62285b41fe4c97af783991d9710832f223bf2a85919bb60c04be3603%40group.calendar.google.com&ctz=Asia%2FTaipei&color=%23795548" scrolling="no"></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div style="height: 100px;"></div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>關於 你好哇寓所</h3>
+                    <div class="footer-desc">
+                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。</p>
+                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>聯絡資訊</h3>
+                    <div class="contact-row"><i class="fa-solid fa-location-dot"></i> <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號</a></div>
+                    <div class="contact-row"><i class="fa-solid fa-phone"></i> <a href="tel:0932828922">0932-828-922</a></div>
+                    <div class="contact-row"><i class="fa-brands fa-line"></i> <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a></div>
+                </div>
+                <div>
+                    <h3>熱門關鍵字</h3>
+                    <div class="seo-tags">
+                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span><span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span><span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">© 2025 你好哇寓所 Hello House. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://npmcdn.com/flatpickr/dist/l10n/zh-tw.js"></script>
+    
+    <script>
+        // ⚠️ 請確認此 GAS 網址已更新到最新版
+        const GAS_APP_URL = "https://script.google.com/macros/s/AKfycbxsFEJ9ubWMY9Y6xqBZ-3-KgSrYQnC9D3zwuKUL66HvKJdN5S1HTNeahhWlV6hcixbx0A/exec";
+        const LINE_ADD_FRIEND_URL = "https://lin.ee/atCiMQw";
+
+        let selectedStart = null;
+        let selectedEnd = null;
+        let currentSelectedPlan = null;
+
+        // 房型資料
+        const ROOM_PLANS = {
+            'hello': [
+                { title: "3房包棟 (8人)", price: "平日 $16,000 起", capacity: "8人", detail: "配置：3房 (2/2/4)" },
+                { title: "4房包棟 (14人)", price: "平日 $20,000 起", capacity: "14人", detail: "配置：4房 (2/2/4/6)" },
+                { title: "5房包棟 (16人)", price: "平日 $22,000 起", capacity: "16人", detail: "配置：5房 (2/2/2/4/6)" },
+                { title: "5+1房包棟 (22人)", price: "平日 $26,000 起", capacity: "22人", detail: "配置：5+1房 (2/2/2/4/6/6)" },
+                { title: "5+1房+加床 (26人)", price: "平日 $30,000 起", capacity: "26人", detail: "配置：2/2/2/4/6+2/6+2 (全開)" }
+            ],
+            'gouding': [
+                { title: "3房包棟 (10人)", price: "平日 $10,000 起", capacity: "10人", detail: "配置：3房 (2/4/4)" },
+                { title: "4房包棟 (12人)", price: "平日 $12,000 起", capacity: "12人", detail: "配置：4房 (2/4/4/2)" }
+            ],
+            'double': [
+                { title: "雙館連通大包棟 (27-38人)", price: "平日 $42,000 起", capacity: "27-38人", detail: "包含：你好哇(26人) + 溝頂(12人)" }
+            ]
+        };
+
+        const fp = flatpickr("#date-range", {
+            mode: "range", locale: "zh_tw", dateFormat: "Y-m-d", minDate: "today",
+            onClose: function(dates) { if (dates.length === 2) { selectedStart = dates[0]; selectedEnd = dates[1]; } }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => { 
+            updateVenueOptions(); 
+            
+            // Navbar Logic
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.querySelector('.nav-menu');
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-active');
+                navMenu.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                if(toggle) {
+                    toggle.addEventListener('click', (e) => {
+                        if (window.innerWidth <= 960) {
+                            const href = toggle.getAttribute('href');
+                            if (href && href !== '#' && href !== 'javascript:void(0)') { return; }
+                            e.preventDefault();
+                            dropdown.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        function updateVenueOptions() {
+            const range = document.getElementById('guest-range').value;
+            const select = document.getElementById('venue-select');
+            select.innerHTML = '';
+            if (range === 'small') {
+                select.add(new Option('你好哇寓所 (6-26人)', 'hello'));
+                select.add(new Option('溝頂民宿 (6-12人)', 'gouding'));
+            } else if (range === 'medium') {
+                select.add(new Option('你好哇寓所 (6-26人)', 'hello'));
+            } else if (range === 'large') {
+                select.add(new Option('雙包棟 (你好哇+溝頂)', 'double'));
+            }
+            handleVenueChange();
+        }
+
+        function handleVenueChange() {
+            const venue = document.getElementById('venue-select').value;
+            const wrapper = document.getElementById('calendars-wrapper');
+            const calHello = document.getElementById('cal-hello');
+            const calGouding = document.getElementById('cal-gouding');
+
+            calHello.classList.add('hidden');
+            calGouding.classList.add('hidden');
+            wrapper.classList.remove('dual-view');
+
+            if (venue === 'hello') calHello.classList.remove('hidden');
+            else if (venue === 'gouding') calGouding.classList.remove('hidden');
+            else if (venue === 'double') {
+                calHello.classList.remove('hidden');
+                calGouding.classList.remove('hidden');
+                wrapper.classList.add('dual-view');
+            }
+        }
+
+        function showStatus(type, htmlContent) {
+            const box = document.getElementById('status-box');
+            box.style.display = 'block';
+            box.className = `status-message status-${type}`;
+            box.innerHTML = htmlContent;
+        }
+
+        function startQuery() {
+            document.getElementById('step-2-plan').classList.remove('active');
+            document.getElementById('step-3-contact').classList.remove('active');
+            currentSelectedPlan = null;
+
+            if (!selectedStart || !selectedEnd) { alert("請先選擇入住與退房日期"); fp.open(); return; }
+
+            const venueVal = document.getElementById('venue-select').value;
+            const venueText = document.getElementById('venue-select').options[document.getElementById('venue-select').selectedIndex].text;
+
+            showStatus('loading', '<i class="fa-solid fa-spinner fa-spin"></i> 正在連線確認即時檔期...');
+
+            const url = `${GAS_APP_URL}?start=${formatDate(selectedStart)}&end=${formatDate(selectedEnd)}&venue=${venueVal}`;
+
+            fetch(url).then(r => r.json()).then(data => {
+                if (data.available) {
+                    let html = `<h3 style="color:#2F855A; margin:0;"><i class="fa-solid fa-circle-check"></i> 有空房</h3>`;
+                    html += `<p style="margin:5px 0 0 0;">${venueText} 此時段可預訂，請繼續選擇方案。</p>`;
+                    showStatus('success', html);
+                    renderRoomOptions(venueVal);
+                } else {
+                    let html = `<h3 style="color:#C53030; margin:0;"><i class="fa-solid fa-circle-xmark"></i> 沒有空房</h3>`;
+                    html += `<p style="margin:5px 0;">很抱歉，<strong>${venueText}</strong> 在您選擇的期間內已有預訂。</p>`;
+
+                    if (data.daily_status && data.daily_status.length > 0) {
+                        html += `<div style="background:#fff; border:1px solid #eee; border-radius:8px; padding:10px; margin-top:10px; font-size:0.85rem;">`;
+                        html += `<div style="font-weight:bold; margin-bottom:5px; color:#555;">期間房況明細：</div>`;
+                        html += `<div style="display:flex; flex-wrap:wrap; gap:5px; justify-content:center;">`;
+                        data.daily_status.forEach(day => {
+                            const statusColor = day.free ? '#28a745' : '#dc3545';
+                            const statusIcon = day.free ? '⭕' : '❌';
+                            html += `<span style="border:1px solid ${statusColor}; color:${statusColor}; padding:2px 6px; border-radius:4px;">${day.date.slice(5)} ${statusIcon}</span>`;
+                        });
+                        html += `</div></div>`;
+                    }
+
+                    if (data.suggestions && data.suggestions.length > 0) {
+                        html += `<div class="recommendation-area">`;
+                        html += `<div class="rec-title"><i class="fa-solid fa-calendar-check"></i> 為您推薦跟你選擇日期相近可預訂檔期參考：</div>`;
+                        html += `<ul class="suggestion-list">`;
+                        
+                        data.suggestions.forEach(s => {
+                            let tagClass = 'tag-hot'; 
+                            let icon = 'fa-calendar-day';
+                            if (s.tag === 'part') { tagClass = 'tag-part'; icon = 'fa-scissors'; }
+                            else if (s.tag === 'week') { tagClass = 'tag-week'; }
+                            
+                            html += `<li class="suggestion-item" onclick="applyDate('${s.start}', '${s.end}')">`;
+                            html += `<div style="display:flex; align-items:center;">`;
+                            html += `<span class="sugg-tag ${tagClass}"><i class="fa-solid ${icon}"></i> ${s.label}</span>`;
+                            html += `<span class="sugg-date">${s.start} ~ ${s.end}</span>`;
+                            html += `</div>`;
+                            html += `<span class="sugg-action">選擇 <i class="fa-solid fa-angle-right"></i></span></li>`;
+                        });
+                        html += `</ul></div>`;
+                    }
+                    showStatus('error', html);
+                }
+            }).catch(e => {
+                console.error(e);
+                showStatus('error', '連線失敗，請稍後再試。');
+            });
+        }
+
+        function renderRoomOptions(venue) {
+            const container = document.getElementById('plan-container');
+            container.innerHTML = '';
+            const plans = ROOM_PLANS[venue] || [];
+            plans.forEach((plan) => {
+                const div = document.createElement('div');
+                div.className = 'plan-card';
+                div.innerHTML = `
+                    <span class="plan-capacity">${plan.capacity}</span>
+                    <h4>${plan.title}</h4>
+                    <div class="plan-price">${plan.price}</div>
+                    <p class="plan-desc">${plan.detail}</p>
+                    <div class="select-hint">點擊選擇此方案</div>
+                `;
+                div.onclick = () => selectPlan(div, plan.title);
+                container.appendChild(div);
+            });
+            const section = document.getElementById('step-2-plan');
+            section.classList.add('active');
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function selectPlan(cardDiv, planName) {
+            document.querySelectorAll('.plan-card').forEach(el => el.classList.remove('selected'));
+            cardDiv.classList.add('selected');
+            currentSelectedPlan = planName;
+            const step3 = document.getElementById('step-3-contact');
+            if (!step3.classList.contains('active')) {
+                step3.classList.add('active');
+                setTimeout(() => step3.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
+            }
+        }
+
+        function sendToLine() {
+            const nameInput = document.getElementById('user-name');
+            const phoneInput = document.getElementById('user-phone');
+            const errorMsg = document.getElementById('phone-error');
+            const name = nameInput.value.trim();
+            const phone = phoneInput.value.trim();
+            const phoneRegex = /^09\d{8}$/;
+
+            phoneInput.classList.remove('input-error');
+            errorMsg.style.display = 'none';
+
+            if (!name) { alert("請輸入聯絡人姓名"); nameInput.focus(); return; }
+            if (!phoneRegex.test(phone)) {
+                phoneInput.classList.add('input-error');
+                errorMsg.style.display = 'block';
+                phoneInput.focus();
+                return;
+            }
+
+            const venueText = document.getElementById('venue-select').options[document.getElementById('venue-select').selectedIndex].text;
+            const message = `你好！我想預約訂房 🏠\n--------------------------\n📅 入住：${formatDate(selectedStart)}\n📅 退房：${formatDate(selectedEnd)}\n🏨 館別：${venueText}\n🛏️ 方案：${currentSelectedPlan}\n--------------------------\n👤 姓名：${name}\n📱 電話：${phone}\n--------------------------\n請問是否可以預訂？謝謝！`;
+
+            if (confirm("即將跳轉至 LINE 官方帳號。\n\n⚠️ 系統已自動複製訂房資訊，請在 LINE 對話框「長按貼上」即可！")) {
+                navigator.clipboard.writeText(message).then(() => {
+                    window.open(LINE_ADD_FRIEND_URL, "_blank");
+                }).catch(() => {
+                    alert("瀏覽器阻擋自動複製，請手動複製：\n\n" + message);
+                    window.open(LINE_ADD_FRIEND_URL, "_blank");
+                });
+            }
+        }
+
+        function formatDate(d) {
+            return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+        }
+        function applyDate(s, e) {
+            fp.setDate([s, e]);
+            selectedStart = new Date(s);
+            selectedEnd = new Date(e);
+            startQuery(); 
+        }
+        function toggleCalendarVisibility() {
+            const wrapper = document.getElementById('calendars-wrapper');
+            wrapper.classList.toggle('show');
+            if(wrapper.classList.contains('show')) wrapper.scrollIntoView({behavior: "smooth", block: "start"});
+        }
+    </script>
+</body>
+</html>
