@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Menu Final Config | 測試頁面</title>
+    <title>Mobile Menu Split-Click Fix | 測試頁面</title>
     <meta name="robots" content="noindex, nofollow">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +65,7 @@
         .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
 
         /* =========================================
-           🔥 Mobile Menu Fix (Final) 🔥
+           🔥 Mobile Menu Fix (分流點擊版) 🔥
            ========================================= */
         @media (max-width: 960px) {
             .menu-toggle { display: block; }
@@ -84,20 +84,39 @@
             
             .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
             
-            /* 主選單連結：靠左對齊 */
+            /* 主選單連結：文字靠左 */
             .nav-link { 
                 display: flex;
                 align-items: center;
                 justify-content: flex-start; 
-                padding: 20px 30px; 
+                padding: 0; /* 清除 padding，改由內部元素控制 */
                 font-size: 1.1rem; 
                 color: #ffffff !important; 
                 width: 100%;
-                gap: 12px;
             }
             
-            /* 箭頭推到最右邊 */
-            .arrow-icon { margin-left: auto; }
+            /* 文字區域：佔據大部分空間，可點擊跳轉 */
+            .nav-link span {
+                flex-grow: 1;
+                padding: 20px 30px; /* 文字的點擊範圍 */
+                text-align: left;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            /* 箭頭區域：獨立點擊區，負責開關 */
+            .arrow-icon { 
+                margin-left: 0; 
+                width: 60px; /* 加寬點擊區 */
+                height: 65px; /* 與選單等高 */
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-left: 1px solid rgba(255,255,255,0.1); /* 分隔線 */
+                background: rgba(0,0,0,0.1);
+                cursor: pointer;
+            }
             
             /* 下拉選單容器 */
             .dropdown-menu { 
@@ -117,7 +136,7 @@
             /* 子選單連結 */
             .dropdown-link { 
                 color: #e2e8f0 !important; 
-                padding: 18px 30px 18px 50px !important; /* 縮排 */
+                padding: 18px 30px 18px 50px !important; 
                 justify-content: flex-start !important; 
                 width: 100%;
                 border-bottom: 1px solid rgba(255,255,255,0.03);
@@ -139,20 +158,31 @@
             </div>
             
             <ul class="nav-menu">
-                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
-                <li class="nav-item"><a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span><i class="fa-solid fa-house"></i> 首頁</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="rooms.html" class="nav-link">
+                        <span><i class="fa-solid fa-bed"></i> 房型介紹</span>
+                    </a>
+                </li>
                 
                 <li class="nav-item dropdown">
                     <a href="agreement.html" class="nav-link dropdown-toggle">
                         <span><i class="fa-solid fa-file-signature"></i> 入住契約</span>
-                        <i class="fa-solid fa-angle-down arrow-icon"></i>
-                    </a>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i> </a>
                     <ul class="dropdown-menu">
                         <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
                     </ul>
                 </li>
 
-                <li class="nav-item"><a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a></li>
+                <li class="nav-item">
+                    <a href="traffic.html" class="nav-link">
+                        <span><i class="fa-solid fa-car"></i> 交通停車</span>
+                    </a>
+                </li>
                 
                 <li class="nav-item dropdown">
                     <a href="travel.html" class="nav-link dropdown-toggle">
@@ -187,8 +217,12 @@
 
     <div style="height: 60vh; display: flex; justify-content: center; align-items: center; background: #f0f0f0;">
         <div style="text-align: center; padding: 20px;">
-            <h2 style="color:#333;">連結 & 選單測試頁</h2>
-            <p style="color:#666;">請檢查：<br>1. 下拉選單連結是否正確跳轉<br>2. 入住契約是否只剩下「線上簽約」</p>
+            <h2 style="color:#333;">最終手機選單修正</h2>
+            <p style="color:#666; line-height:2;">
+                1. 點擊「文字部分」：直接跳轉頁面。<br>
+                2. 點擊「右側箭頭」：展開/收合子選單。<br>
+                （箭頭有加分隔線，更容易區分）
+            </p>
         </div>
     </div>
 
@@ -203,9 +237,9 @@
                 </div>
                 <div>
                     <h3>聯絡資訊</h3>
-                    <div class="contact-row"><i class="fa-solid fa-location-dot"></i> <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號</a></div>
-                    <div class="contact-row"><i class="fa-solid fa-phone"></i> <a href="tel:0932828922">0932-828-922</a></div>
-                    <div class="contact-row"><i class="fa-brands fa-line"></i> <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a></div>
+                    <div class="contact-row"><i class="fa-solid fa-location-dot"></i> <a href="#">高雄市鹽埕區大公路70巷8號</a></div>
+                    <div class="contact-row"><i class="fa-solid fa-phone"></i> <a href="#">0932-828-922</a></div>
+                    <div class="contact-row"><i class="fa-brands fa-line"></i> <a href="#">LINE ID: 0932828922</a></div>
                 </div>
                 <div>
                     <h3>熱門關鍵字</h3>
@@ -227,33 +261,30 @@
                 navMenu.classList.toggle('active');
             });
 
+            // 關鍵修正：區分點擊目標
             allDropdowns.forEach(dropdown => {
-                const toggle = dropdown.querySelector('.dropdown-toggle');
+                const link = dropdown.querySelector('.dropdown-toggle');
+                const arrow = link.querySelector('.arrow-icon'); // 抓取箭頭元素
                 
-                if(toggle) {
-                    toggle.addEventListener('click', (e) => {
+                if(link && arrow) {
+                    // 1. 點擊「箭頭」：切換選單
+                    arrow.addEventListener('click', (e) => {
                         if (window.innerWidth <= 960) {
-                            // 如果是 href="#" 或 javascript:void(0)，阻止跳轉
-                            // 如果是真實連結 (如 packages.html)，我們允許跳轉，但同時也切換選單 (視需求而定)
-                            // 這裡為了 UX，如果是真實頁面連結，建議讓使用者點擊箭頭展開，點擊文字跳轉
-                            // 但目前結構是整條都是連結。通常做法：點擊即展開，不跳轉（除非沒有子選單）
-                            
-                            const href = toggle.getAttribute('href');
-                            if (href && href !== '#' && href !== 'javascript:void(0)') {
-                                // 如果想要「點擊即展開，不跳轉」，請保留 preventDefault
-                                e.preventDefault(); 
-                            } else {
-                                e.preventDefault();
-                            }
-
+                            e.preventDefault(); 
                             e.stopPropagation(); 
+                            
                             const isAlreadyOpen = dropdown.classList.contains('active');
+                            // 關閉其他
                             allDropdowns.forEach(d => d.classList.remove('active'));
+                            // 切換自己
                             if (!isAlreadyOpen) {
                                 dropdown.classList.add('active');
                             }
                         }
                     });
+
+                    // 2. 點擊「文字連結」：不攔截，讓它正常跳轉
+                    // 不需要寫額外 JS，瀏覽器會自動處理 href 跳轉
                 }
             });
 
