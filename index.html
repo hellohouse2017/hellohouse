@@ -7,7 +7,6 @@
     <title>高雄包棟民宿推薦 | 你好哇寓所 | 6-38人鹽埕駁二包棟首選</title>
     
     <meta name="description" content="尋找高雄包棟民宿？推薦鹽埕區「你好哇寓所」。合法民宿執照，近駁二與捷運站。提供豪華中島廚房、電動麻將桌，6-38人彈性包棟方案，是家庭旅遊、員工旅遊的高雄住宿首選。">
-    
     <meta name="keywords" content="高雄包棟民宿, 高雄包棟, 鹽埕區包棟, 駁二住宿, 高雄麻將民宿, 你好哇寓所, 高雄親子民宿, 員工旅遊包棟, 合法民宿, 企業包棟, 迎娶包棟">
     <meta name="author" content="你好哇寓所 Hello House">
     <meta name="robots" content="index, follow">
@@ -70,14 +69,13 @@
             --c-primary: #1A202C;       
             --c-accent: #C5A065;        
             --c-accent-hover: #A68550;
-            --c-bg-body: #F9F9F7;       
-            --c-bg-white: #FFFFFF;
-            --c-bg-light: #EDF2F7;
+            --c-bg-body: #FFFFFF;
+            --c-bg-light: #F8F9FA;
             --c-text-gray: #555555; 
             
             --c-line: #06C755;
             --c-youtube: #CC0000;
-            --theme-dark-bg: #1A202C;
+            --theme-dark-bg: #1A202C; /* 確保 Navbar 與 Footer 同色 */
 
             --font-serif: 'Noto Serif TC', serif; 
             --font-sans: 'Noto Sans TC', sans-serif; 
@@ -113,10 +111,10 @@
         img { display: block; max-width: 100%; height: auto; }
 
         /* =========================================
-           Navbar
+           Navbar (導覽列)
            ========================================= */
         .navbar {
-            background: rgba(26, 32, 44, 0.95); 
+            background: rgba(26, 32, 44, 0.95); /* #1A202C */
             backdrop-filter: blur(10px);        
             height: 70px;
             width: 100%;
@@ -155,6 +153,21 @@
         .nav-link:hover::after { width: 100%; }
         .nav-link:hover, .nav-link.active { color: var(--c-accent); }
 
+        /* [新增] 查詢空房按鈕樣式 */
+        .nav-btn-booking {
+            background-color: var(--c-accent);
+            color: white !important;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            border: 1px solid var(--c-accent);
+        }
+        .nav-btn-booking:hover {
+            background-color: var(--c-accent-hover);
+            transform: translateY(-2px);
+        }
+        .nav-btn-booking::after { display: none; } /* 移除底線特效 */
+
         .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
         .nav-item:hover .arrow-icon { transform: rotate(180deg); }
 
@@ -187,8 +200,6 @@
            ========================================= */
         .container { width: 90%; max-width: 1100px; margin: 0 auto; }
         .section-padding { padding: 100px 0; background-color: transparent; }
-        
-        /* 只有 reviews 區塊有背景 */
         .reviews-section { background-color: var(--c-bg-light); }
 
         .btn {
@@ -206,7 +217,6 @@
         }
         .btn-youtube:hover { background-color: var(--c-youtube); color: white; }
 
-        /* Read More Button */
         .btn-read-more {
             display: inline-block; margin-top: 30px;
             border: 1px solid var(--c-primary); color: var(--c-primary);
@@ -221,9 +231,7 @@
 
         /* A. Hero */
         .hero { 
-            position: relative; 
-            height: 70vh; 
-            min-height: 500px;
+            position: relative; height: 70vh; min-height: 500px;
             display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; 
         }
         .hero-bg {
@@ -242,13 +250,8 @@
 
         /* B. Story & Gallery */
         .story-section { margin-top: -60px; border-radius: 30px 30px 0 0; position: relative; z-index: 3; padding-top: 80px; padding-bottom: 80px; background: #fff; }
-        
-        .intro-text-box { 
-            max-width: 750px; margin: 0 auto 60px; 
-            text-align: center; font-size: 1.15rem; color: var(--c-text-gray); line-height: 2.2; 
-        }
+        .intro-text-box { max-width: 750px; margin: 0 auto 60px; text-align: center; font-size: 1.15rem; color: var(--c-text-gray); line-height: 2.2; }
         .intro-text-box strong { color: var(--c-primary); font-weight: 700; }
-
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
         .gallery-img { border-radius: var(--radius-md); overflow: hidden; aspect-ratio: 4/3; box-shadow: var(--shadow-card); background-color: #eee;}
         .gallery-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
@@ -269,14 +272,8 @@
         .feature-item p { font-size: 0.95rem; color: var(--c-text-gray); }
 
         /* E. Reviews */
-        .reviews-section { 
-            background-color: var(--c-bg-light);
-            clip-path: polygon(0 50px, 100% 0, 100% 100%, 0 100%); 
-            padding-top: 150px; padding-bottom: 100px; 
-        }
-        .review-grid-full {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom: 30px;
-        }
+        .reviews-section { background-color: var(--c-bg-light); clip-path: polygon(0 50px, 100% 0, 100% 100%, 0 100%); padding-top: 150px; padding-bottom: 100px; }
+        .review-grid-full { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom: 30px; }
         .review-card { background: #fff; border: 1px solid #eee; padding: 25px; border-radius: var(--radius-md); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
         .review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
         .review-stars { color: #FFD700; font-size: 0.8rem; white-space: nowrap; }
@@ -284,15 +281,8 @@
         .review-tag { display: inline-block; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; background: var(--c-accent); color: white; align-self: flex-start; white-space: nowrap; }
         .tag-human { background: var(--c-accent); }
         .tag-seo { background: #E2E8F0; color: #4A5568; }
-        
         #hidden-reviews { display: none; } 
-
-        .cta-box { 
-            background: transparent; color: var(--c-primary); 
-            text-align: center; padding: 60px 40px; border-radius: 12px; 
-            box-shadow: none; border: 2px solid var(--c-accent); 
-            margin-top: 60px; 
-        }
+        .cta-box { background: transparent; color: var(--c-primary); text-align: center; padding: 60px 40px; border-radius: 12px; box-shadow: none; border: 2px solid var(--c-accent); margin-top: 60px; }
 
         /* F. FAQ */
         .faq-item { background: #fff; border-radius: var(--radius-md); margin-bottom: 15px; box-shadow: var(--shadow-card); overflow: hidden; transition: 0.3s; }
@@ -301,9 +291,9 @@
         .faq-q i { color: var(--c-accent); flex-shrink: 0; }
         .faq-a { padding: 0 25px 25px 55px; color: var(--c-text-gray); font-size: 0.95rem; }
 
-        /* G. Footer */
+        /* G. Footer (確保深色背景) */
         .footer { 
-            background-color: rgb(26, 32, 44); /* 固定為深岩灰 */
+            background-color: #1A202C; /* 深岩灰 */
             color: #aaa; 
             padding: 80px 0 40px; 
             border-top: 3px solid var(--c-accent); 
@@ -318,6 +308,8 @@
         .contact-row i { color: var(--c-accent); margin-top: 5px; }
         .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #333; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
         .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
+
+        /* H. Floating Button */
         .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
         .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
 
@@ -331,7 +323,7 @@
             .nav-menu {
                 position: fixed; left: -100%; top: 70px;
                 flex-direction: column; 
-                background-color: rgb(26, 32, 44);
+                background-color: #1A202C; /* Mobile menu bg */
                 width: 100%; height: calc(100vh - 70px);
                 text-align: center; transition: 0.3s; padding-top: 20px;
                 overflow-y: auto; gap: 0;
@@ -340,14 +332,21 @@
             .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
             .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
             .nav-link::after { display: none; }
+            
+            /* [修正] 手機版下拉選單樣式 */
             .dropdown-menu {
                 position: static; opacity: 1; visibility: visible; transform: none;
-                width: 100%; background-color: rgba(0,0,0,0.2);
+                width: 100%; background-color: rgba(0,0,0,0.2); /* 比背景更深一點 */
                 box-shadow: none; border-top: none; display: none;
             }
             .dropdown.active .dropdown-menu { display: block; }
-            .dropdown-link { color: #ccc; padding: 15px; justify-content: center;}
-            .dropdown-link:hover { padding-left: 15px; background: transparent; color: #fff;}
+            .dropdown-link { 
+                color: #ddd; /* 淺灰文字 */
+                padding: 15px 20px; 
+                justify-content: center; /* 文字置中 */
+                white-space: normal; /* 允許換行 */
+            }
+            .dropdown-link:hover { padding-left: 0; background: transparent; color: #fff;}
         }
 
         @media (max-width: 768px) {
@@ -413,6 +412,12 @@
                         <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
                         <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
                     </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
                 </li>
             </ul>
         </div>
@@ -543,41 +548,6 @@
             
             <div class="review-grid-full fade-in">
                 <div class="review-card">
-                    <div class="review-header"><span class="review-tag tag-human">包棟聚會首選</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
-                    <p class="review-text">跟一群大學死黨來高雄包棟，這裡的中島大廚房真的太讚了！大家一起去市場買海鮮回來煮火鍋，晚上一邊吃一邊在客廳聊天。</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header"><span class="review-tag tag-human">親子友善推薦</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
-                    <p class="review-text">帶兩個小孩來玩，房間寬敞又一塵不染！離駁二特區和大港橋走路只要 15 分鐘，推嬰兒車過去散步很方便。</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header"><span class="review-tag tag-human">位置與便利性</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
-                    <p class="review-text">隱身在鹽埕區巷弄內的寶藏民宿！雖然在巷子裡但非常安靜，走出來就有超多鹽埕美食。老闆非常親切。</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header"><span class="review-tag tag-human">高 CP 值體驗</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
-                    <p class="review-text">很難得找到高雄市區有執照的合法民宿，住起來很有保障。平日包棟的價格分攤下來，CP 值超級高！</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header"><span class="review-tag tag-seo">交通與周邊</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
-                    <p class="review-text">這次選擇住這裡是因為交通考量，離捷運站不遠，要去棧二庫看夕陽或搭輕軌都很順路。對於沒有開車的自由行旅客來說很方便。</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header"><span class="review-tag tag-seo">設施與商務</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
-                    <p class="review-text">WiFi 速度快，在公共區域用電腦工作很順暢。電子鎖自助入住的設計對晚歸的我很方便。推薦給需要靈感的工作者。</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header"><span class="review-tag tag-seo">設計與風格</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
-                    <p class="review-text">身為老屋控，真的被這裡的設計細節驚艷到。保留了磨石子地板和舊窗花，但衛浴設備卻非常現代化且水壓充足。</p>
-                </div>
-                <div class="review-card">
-                    <div class="review-header"><span class="review-tag tag-seo">服務與信任</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
-                    <p class="review-text">老闆的回覆速度非常快。身為高雄合法民宿，消防設施和逃生標示都很清楚，這點對於帶長輩出門的家庭來說非常加分。</p>
-                </div>
-            </div>
-
-            <div id="hidden-reviews" class="review-grid-full">
-                <div class="review-card">
                     <div class="review-header"><span class="review-tag tag-human">廚房設備超讚</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
                     <p class="review-text">跟一群朋友來包棟，一樓的中島廚房真的太棒了！鍋碗瓢盆都很齊全，大家聚在一起煮火鍋喝酒，氣氛滿分。</p>
                 </div>
@@ -592,6 +562,25 @@
                 <div class="review-card">
                     <div class="review-header"><span class="review-tag tag-seo">設施豐富</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
                     <p class="review-text">客廳有電動麻將桌太加分了！還有大電視可以看 Netflix。每間都有獨立衛浴，不用搶廁所這點對團體旅遊來說很重要。</p>
+                </div>
+            </div>
+
+            <div id="hidden-reviews" class="review-grid-full">
+                <div class="review-card">
+                    <div class="review-header"><span class="review-tag tag-human">寵物友善與規範</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
+                    <p class="review-text">雖然要加收清潔費，但民宿對寵物規定講得很清楚，讓我們帶毛小孩出門也很安心。地板很乾淨，狗狗跑得很開心！</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header"><span class="review-tag tag-seo">高鐵轉乘方便</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
+                    <p class="review-text">從左營高鐵搭捷運過來真的很方便，出站走幾分鐘就到。不用租車也能在鹽埕區玩得很盡興，周邊美食多到吃不完。</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header"><span class="review-tag tag-human">包棟聚會首選</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
+                    <p class="review-text">空間超大，我們30個人住起來也不會覺得擁擠。房間分佈在不同樓層，想休息的人可以先睡，想玩的人在客廳也不會吵到。</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header"><span class="review-tag tag-seo">設計與風格</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
+                    <p class="review-text">保留了磨石子地板和舊窗花，但衛浴設備卻非常現代化且水壓充足。這不僅僅是住宿，更像是一場沉浸式的復古體驗。</p>
                 </div>
             </div>
 
@@ -686,6 +675,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Animation
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -693,18 +683,25 @@
             }, { threshold: 0.1 });
             document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
+            // Navbar Logic
             const mobileMenu = document.getElementById('mobile-menu');
             const navMenu = document.querySelector('.nav-menu');
+
             mobileMenu.addEventListener('click', () => {
                 mobileMenu.classList.toggle('is-active');
                 navMenu.classList.toggle('active');
             });
 
+            // Mobile Link Fix
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 const toggle = dropdown.querySelector('.dropdown-toggle');
                 if(toggle) {
                     toggle.addEventListener('click', (e) => {
                         if (window.innerWidth <= 960) {
+                            const href = toggle.getAttribute('href');
+                            if (href && href !== '#' && href !== 'javascript:void(0)') {
+                                return; 
+                            }
                             e.preventDefault();
                             dropdown.classList.toggle('active');
                         }
