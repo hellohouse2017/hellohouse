@@ -213,23 +213,27 @@
         }
 
         /* =========================================
-           Hero Header
+           🔥 Hero Header (修正版：與其他頁面一致) 🔥
            ========================================= */
         .hero { 
-            position: relative; height: 70vh; min-height: 500px;
+            position: relative; height: 40vh; min-height: 300px; /* 修正高度 */
             display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
-            color: white; background-color: var(--c-primary); overflow: hidden; 
+            color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px;
         }
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('images/cover.jpg'); 
-            background-size: cover; background-position: center; opacity: 0.6; z-index: 1;
+            background-size: cover; background-position: center 30%; /* 優化聚焦位置 */
+            opacity: 0.6; z-index: 1;
             transform: scale(1.1); animation: zoomSlow 20s infinite alternate;
         }
         @keyframes zoomSlow { from { transform: scale(1); } to { transform: scale(1.1); } }
         .hero-content { position: relative; z-index: 2; padding: 0 20px; }
-        .hero h1 { font-size: clamp(2.2rem, 5vw, 4rem); margin-bottom: 1rem; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
-        .hero p { font-size: 1.2rem; margin-bottom: 2.5rem; font-weight: 300; opacity: 0.9; }
+        
+        /* 修正標題大小 */
+        .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1rem; margin-bottom: 1rem; font-weight: 300; opacity: 0.9; letter-spacing: 1px; }
+        
         .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 32px; border-radius: var(--radius-full); font-weight: 500; font-size: 16px; transition: all 0.3s ease; cursor: pointer; }
         .btn-line { background-color: var(--c-line); color: white; box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); }
         .btn-line:hover { background-color: #05b64d; transform: translateY(-2px); }
@@ -443,10 +447,7 @@
         <div class="hero-content fade-in">
             <h1>房型與空間介紹</h1>
             <p>Comfort & Luxury Spaces</p>
-            <a href="https://lin.ee/atCiMQw" target="_blank" class="btn btn-line">
-                <i class="fa-brands fa-line"></i> 查看房價與空房
-            </a>
-        </div>
+            </div>
     </header>
 
     <section class="section-padding">

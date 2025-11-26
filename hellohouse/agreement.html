@@ -15,7 +15,7 @@
 
     <style>
         /* =========================================
-           1. 基礎變數與重置
+           Design System
            ========================================= */
         :root {
             --c-primary: #1A202C;       
@@ -31,32 +31,21 @@
             --font-serif: 'Noto Serif TC', serif; 
             --font-sans: 'Noto Sans TC', sans-serif; 
             --shadow-card: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            --radius-md: 12px;
+            --radius-full: 9999px;
         }
 
         *, *::before, *::after { box-sizing: border-box; }
-        
-        body {
-            margin: 0;
-            font-family: var(--font-sans);
-            background-color: var(--c-bg-body);
-            color: var(--c-primary);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
+        body { margin: 0; font-family: var(--font-sans); background-color: var(--c-bg-body); color: var(--c-primary); line-height: 1.8; letter-spacing: 0.02em; display: flex; flex-direction: column; min-height: 100vh; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
-        img { max-width: 100%; display: block; }
-        
+        ul { list-style: none; padding: 0; margin: 0; }
+        p { margin: 0 0 15px 0; }
+        img { display: block; max-width: 100%; height: auto; }
+
         /* =========================================
-           2. 導覽列 (Navbar) - 恢復標準版
+           Navbar (標準版)
            ========================================= */
-        .navbar {
-            background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px);
-            height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999;
-            border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-        }
+        .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
         
@@ -66,12 +55,8 @@
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 5px; left: 0; background-color: var(--c-accent); transition: width 0.3s; }
         .nav-link:hover::after { width: 100%; }
         
-        /* 查詢空房按鈕 */
         .nav-link.nav-btn-booking::after { display: none; }
-        .nav-btn-booking {
-            background-color: var(--c-accent); color: white !important;
-            padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent);
-        }
+        .nav-btn-booking { background-color: var(--c-accent); color: white !important; padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent); }
         .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
 
         /* Dropdown */
@@ -81,140 +66,117 @@
         .dropdown-link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--c-primary); font-size: 0.9rem; transition: 0.2s; }
         .dropdown-link i { color: var(--c-accent); width: 20px; text-align: center; }
         .dropdown-link:hover { background-color: var(--c-bg-light); color: var(--c-accent); padding-left: 25px; }
-
+        
         .menu-toggle { display: none; cursor: pointer; }
         .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--c-accent); transition: 0.3s; }
         .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
         .nav-item:hover .arrow-icon { transform: rotate(180deg); }
 
         /* =========================================
-           3. 頁首 (Header)
+           Mobile Menu
            ========================================= */
-        .page-header {
-            position: relative; height: 40vh; min-height: 300px;
-            display: flex; align-items: center; justify-content: center; text-align: center;
-            color: white; background-color: var(--c-primary); overflow: hidden;
-            margin-top: 70px;
+        @media (max-width: 960px) {
+            .menu-toggle { display: block; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: #1A202C; width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 0; gap: 0; align-items: stretch; overflow-y: auto; }
+            .nav-menu.active { left: 0; }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link::after { display: none; }
+            
+            .nav-link { display: flex; align-items: center; justify-content: flex-start; padding: 0; font-size: 1.1rem; color: #ffffff !important; width: 100%; }
+            .nav-link span { flex-grow: 1; padding: 20px 30px; text-align: left; display: flex; align-items: center; gap: 12px; }
+            .arrow-icon { margin-left: 0; width: 60px; height: 65px; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.1); cursor: pointer; }
+            
+            .dropdown-menu { position: static !important; opacity: 1 !important; visibility: visible !important; transform: none !important; width: 100%; background-color: #0d1117 !important; box-shadow: inset 0 5px 10px rgba(0,0,0,0.5) !important; border-top: none !important; display: none; padding: 0 !important; }
+            .dropdown.active .dropdown-menu { display: block; }
+            .dropdown-link { color: #e2e8f0 !important; padding: 18px 30px 18px 50px !important; justify-content: flex-start !important; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 1rem !important; }
+            
+            .nav-link.nav-btn-booking { justify-content: center; background: var(--c-accent); border: none; margin: 20px auto; width: 80%; text-align: center; padding: 15px; }
+            .nav-link.nav-btn-booking span { justify-content: center; padding: 0; }
         }
-        .page-header-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('images/cover.jpg'); 
-            background-size: cover; background-position: center; opacity: 0.4; z-index: 1;
-        }
+
+        /* =========================================
+           Page Hero
+           ========================================= */
+        .page-header { position: relative; height: 40vh; min-height: 300px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px; }
+        .page-header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('images/cover.jpg'); background-size: cover; background-position: center; opacity: 0.5; z-index: 1; transform: scale(1.1); animation: zoomSlow 20s infinite alternate; }
+        @keyframes zoomSlow { from { transform: scale(1); } to { transform: scale(1.1); } }
         .page-header-content { position: relative; z-index: 2; padding: 0 20px; }
         .page-title { font-family: var(--font-serif); font-size: 2.2rem; margin: 0 0 10px 0; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .page-subtitle { font-size: 1rem; font-weight: 300; letter-spacing: 2px; opacity: 0.9; margin: 0; }
 
         /* =========================================
-           4. 中間合約區塊 (Main Content)
+           Contract Content (獨立的窄容器)
            ========================================= */
-        .main-container {
-            width: 90%; max-width: 900px; margin: 0 auto; padding: 60px 0; flex: 1;
-        }
+        .contract-container { width: 90%; max-width: 900px; margin: 0 auto; padding: 60px 0; flex: 1; }
         
-        .paper-card {
-            background: #fff; padding: 60px; border-radius: 4px;
-            box-shadow: var(--shadow-card); border-top: 5px solid var(--c-accent); 
-            position: relative;
-        }
+        .paper-card { background: #fff; padding: 60px; border-radius: 4px; box-shadow: var(--shadow-card); border-top: 5px solid var(--c-accent); position: relative; }
         
-        /* 獨立設定中間文字，不影響 footer */
-        .contract-body p { margin: 0 0 15px 0; text-align: justify; }
-        .contract-body ul { padding-left: 0; list-style: none; margin: 0; }
-        
-        .contract-section { margin-bottom: 40px; }
-        .contract-title { 
-            font-size: 1.3rem; font-weight: 700; color: var(--c-primary); 
-            border-left: 4px solid var(--c-accent); padding-left: 15px; margin-bottom: 20px; 
-            font-family: var(--font-serif);
-        }
+        .contract-section { margin-bottom: 40px; text-align: justify; }
+        .contract-title { font-size: 1.3rem; font-weight: 700; color: var(--c-primary); border-left: 4px solid var(--c-accent); padding-left: 15px; margin-bottom: 20px; font-family: var(--font-serif); }
 
-        .highlight-box {
-            background: #F7FAFC; border: 1px solid #E2E8F0; padding: 25px; border-radius: 8px; margin-bottom: 20px;
-            font-size: 0.95rem; color: #718096;
-        }
-        .highlight-box.active { background: #FFFCF5; border: 2px solid var(--c-accent); color: var(--c-primary); }
+        .highlight-box { background: #F7FAFC; border: 1px solid #E2E8F0; padding: 25px; border-radius: 8px; margin-bottom: 20px; font-size: 0.95rem; color: #718096; }
+        .highlight-box.disabled { opacity: 0.7; background: #F1F5F9; }
+        .highlight-box.active { background: #FFFCF5; border: 2px solid var(--c-accent); color: var(--c-primary); opacity: 1; }
         
         .tag-status { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 10px; font-weight: bold; }
         .tag-disabled { background: #CBD5E0; color: #fff; }
         .tag-active { background: var(--c-accent); color: #fff; }
 
+        .legal-text { margin-top: 10px; line-height: 1.8; }
+        .legal-indent { display: block; padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 5px; }
+
+        .rules-list { padding-left: 0; list-style: none; margin: 0; }
         .rules-list li { position: relative; padding-left: 25px; margin-bottom: 12px; color: var(--c-text-gray); }
         .rules-list li::before { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; left: 0; top: 4px; color: var(--c-accent); font-size: 0.9rem; }
         
         .price-highlight { color: var(--c-error); font-weight: bold; font-family: monospace; background: rgba(229, 62, 62, 0.05); padding: 0 4px; }
 
-        /* 底部按鈕區 */
         .cta-area { text-align: center; margin-top: 40px; padding-top: 30px; border-top: 1px solid #E2E8F0; }
-        .btn-line {
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-            padding: 12px 32px; border-radius: 50px;
-            font-weight: 500; font-size: 16px; transition: all 0.3s ease; cursor: pointer;
-            background-color: var(--c-line); color: white; box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3);
-        }
+        .btn-line { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 32px; border-radius: 50px; font-weight: 500; font-size: 16px; transition: all 0.3s ease; cursor: pointer; background-color: var(--c-line); color: white; box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); text-decoration: none;}
         .btn-line:hover { background-color: #05b64d; transform: translateY(-2px); }
 
         /* =========================================
-           5. 頁尾 (Footer) - 固定對齊版
+           Footer (獨立的寬容器)
            ========================================= */
-        .site-footer { 
-            background-color: var(--theme-dark-bg); color: #aaa; 
-            padding: 80px 0 40px; border-top: 3px solid var(--c-accent); 
-            width: 100%; margin-top: auto; font-size: 1rem; line-height: 1.8;
-        }
-        .footer-container {
-            max-width: 1100px; margin: 0 auto; padding: 0 20px;
-            display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; 
-        }
-        .footer-col h3 { 
-            color: white; font-size: 1.1rem; margin: 0 0 25px 0; 
-            font-family: var(--font-serif); letter-spacing: 1px; font-weight: 700;
+        .footer { 
+            background-color: var(--theme-dark-bg); 
+            color: #aaa; 
+            padding: 80px 0 40px; 
+            border-top: 3px solid var(--c-accent); 
+            width: 100%; 
+            margin-top: auto; /* Push footer to bottom */
+            text-align: left;
         }
         
-        /* 獨立設定 Footer p，不受中間影響 */
-        .footer-text p { margin: 0 0 15px 0; text-align: left; color: #CBD5E0; }
-        .footer-text strong { color: #fff; font-weight: 500; }
-
-        .contact-list { list-style: none; padding: 0; margin: 0; }
-        .contact-item { display: flex; align-items: flex-start; margin-bottom: 15px; gap: 12px; }
-        .contact-icon { color: var(--c-accent); margin-top: 5px; width: 20px; text-align: center; flex-shrink: 0; }
-        .contact-item a:hover { color: #fff; }
-
-        .seo-box { display: flex; flex-wrap: wrap; gap: 8px; }
-        .seo-tag { 
-            display: inline-block; font-size: 12px; border: 1px solid #444; color: #888;
-            padding: 4px 10px; border-radius: 4px; cursor: default; transition: 0.3s;
+        /* Footer 使用獨立的 grid 設定，不共用上面的 container class */
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr 1fr; 
+            gap: 50px; 
+            max-width: 1100px; /* 這裡比合約的 900px 寬 */
+            margin: 0 auto; 
+            padding: 0 20px; 
         }
-        .seo-tag:hover { border-color: var(--c-accent); color: var(--c-accent); }
-
-        .site-copyright { 
-            text-align: center; padding-top: 30px; margin-top: 50px;
-            border-top: 1px solid #333; font-size: 0.85rem; color: #777;
-        }
-
+        
+        .footer h3 { color: white; font-size: 1.1rem; margin-bottom: 25px; font-family: var(--font-serif); letter-spacing: 1px; }
+        .footer-desc { line-height: 1.8; margin-bottom: 20px; text-align: left; color: #CBD5E0; }
+        .footer-desc p { margin-bottom: 15px; }
+        .footer-desc strong { color: #fff; font-weight: 500; }
+        .contact-row { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px; }
+        .contact-row i { color: var(--c-accent); margin-top: 5px; width: 25px; text-align: center; flex-shrink: 0; }
+        .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #333; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
+        
+        /* Floating Button */
         .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
         .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
-
-        @media (max-width: 960px) {
-            .menu-toggle { display: block; }
-            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: var(--theme-dark-bg); width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
-            .nav-menu.active { left: 0; }
-            
-            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
-            .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
-            .nav-link::after { display: none; }
-            
-            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background-color: rgba(0,0,0,0.2); box-shadow: none; border-top: none; display: none; }
-            .dropdown.active .dropdown-menu { display: block; }
-            .dropdown-link { color: #ddd; padding: 15px; justify-content: center; white-space: normal; }
-            
-            .paper-card { padding: 30px 20px; }
-            .page-header { margin-top: 0; }
-        }
-        @media (max-width: 768px) {
-            .footer-container { grid-template-columns: 1fr; gap: 40px; }
-        }
         
+        /* RWD for Footer & Contract */
+        @media (max-width: 960px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .paper-card { padding: 30px 20px; }
+        }
+
         .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
     </style>
@@ -229,38 +191,37 @@
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a>
+                    <a href="index.html" class="nav-link"><span><i class="fa-solid fa-house"></i> 首頁</span></a>
                 </li>
                 <li class="nav-item">
-                    <a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a>
+                    <a href="rooms.html" class="nav-link"><span><i class="fa-solid fa-bed"></i> 房型介紹</span></a>
                 </li>
-                
                 <li class="nav-item dropdown">
                     <a href="agreement.html" class="nav-link active dropdown-toggle">
-                        <i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                        <span><i class="fa-solid fa-file-signature"></i> 入住契約</span>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-file-contract"></i> 契約內容</a></li>
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
                     </ul>
                 </li>
-
                 <li class="nav-item">
-                    <a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a>
+                    <a href="traffic.html" class="nav-link"><span><i class="fa-solid fa-car"></i> 交通停車</span></a>
                 </li>
-                
                 <li class="nav-item dropdown">
                     <a href="travel.html" class="nav-link dropdown-toggle">
-                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                        <span><i class="fa-solid fa-map-location-dot"></i> 旅遊行程</span>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-bowl-food"></i> 鹽埕美食地圖</a></li>
+                        <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-utensils"></i> 鹽埕美食地圖</a></li>
                         <li><a href="attractions.html" class="dropdown-link"><i class="fa-solid fa-camera"></i> 周邊景點導覽</a></li>
                     </ul>
                 </li>
-                
                 <li class="nav-item dropdown">
                     <a href="packages.html" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
-                        <i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                        <span><i class="fa-solid fa-bullhorn"></i> 住宿情報</span>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
@@ -269,17 +230,16 @@
                         <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
                     </ul>
                 </li>
-
                 <li class="nav-item">
-                    <a href="check.html" class="nav-link nav-btn-booking">
-                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
-                    </a>
+                    <a href="check.html" class="nav-link nav-btn-booking" style="justify-content: center;"><span><i class="fa-solid fa-calendar-check"></i> 查詢空房</span></a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房"><i class="fa-brands fa-line"></i></a>
+    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房">
+        <i class="fa-brands fa-line"></i>
+    </a>
 
     <header class="page-header">
         <div class="page-header-bg"></div>
@@ -289,28 +249,28 @@
         </div>
     </header>
 
-    <main class="main-container">
-        <div class="paper-card fade-in contract-body">
+    <div class="contract-container">
+        <div class="paper-card fade-in">
             
-            <div class="contract-section" id="terms">
+            <div class="contract-section">
                 <div class="contract-title">行政院旅宿定型化契約條款</div>
                 <p style="color:#666;">旅客訂房一律按「行政院旅宿定型化契約條款」預收約定房價總金額，旅客解除契約時可依下列方式之處理：</p>
                 
                 <div class="highlight-box disabled">
                     <span class="tag-status tag-disabled">本案不適用</span>
                     <strong>□ 比例退還預收約定房價總金額：</strong>
-                    <div style="margin-top:10px; line-height:1.6;">
-                        <span style="display:block; margin-bottom:5px;">(一) 旅客解約通知於預定住宿日前第三日以前到達者，業者應退還預收約定房價總金額百分之百。</span>
-                        <span style="display:block; margin-bottom:5px;">(二) 旅客解約通知於預定住宿日前第一日至第二日到達者，業者應退還預收約定房價總金額百分之五十。</span>
+                    <div class="legal-text">
+                        <span class="legal-indent">(一) 旅客解約通知於預定住宿日前第三日以前到達者，業者應退還預收約定房價總金額百分之百。</span>
+                        <span class="legal-indent">(二) 旅客解約通知於預定住宿日前第一日至第二日到達者，業者應退還預收約定房價總金額百分之五十。</span>
                     </div>
                 </div>
 
                 <div class="highlight-box active">
                     <span class="tag-status tag-active">☑ 雙方合意適用</span>
                     <strong>□ 一年內保留已付金額作為日後消費折抵使用：</strong>
-                    <div style="margin-top:10px; line-height:1.6;">
-                        <span style="display:block; margin-bottom:5px;">(一) 旅客解約通知於預定住宿日當日前到達者，得於一年內保留已付金額作為日後消費折抵使用。</span>
-                        <span style="display:block; margin-bottom:5px;">(二) 旅客解約通知於預定住宿日當日到達或未為解約通知者，業者得不退還預收約定房價總金額。</span>
+                    <div class="legal-text">
+                        <span class="legal-indent">(一) 旅客解約通知於預定住宿日當日前到達者，得於一年內保留已付金額作為日後消費折抵使用。</span>
+                        <span class="legal-indent">(二) 旅客解約通知於預定住宿日當日到達或未為解約通知者，業者得不退還預收約定房價總金額。</span>
                     </div>
                 </div>
             </div>
@@ -322,7 +282,7 @@
                 <ul class="rules-list">
                     <li>請依實際訂房人數入住，超出預定人數入住部分加收每人 <span class="price-highlight">1,800元/日</span>。</li>
                     <li>如需要加人(床)，請於入住前一日告知，並加收超出預定人數每人 <span class="price-highlight">1,000元/日</span>。</li>
-                    <li><strong>押金規定：</strong>為確保雙方權益，辦理入住時需收取押金 <span class="price-highlight">5,000元</span>。</li>
+                    <li><strong>押金規定：</strong>為確保雙方權益，辦理入住時需收取押金 <span class="price-highlight">5,000元</span>。於退房後確認無任何設備損壞，且未違反入住須知（含過於髒亂）後全數匯款退還。</li>
                 </ul>
 
                 <h4 style="color:var(--c-primary); margin-bottom:15px; margin-top:30px; font-weight:bold;"><i class="fa-solid fa-clock"></i> 進退房時間</h4>
@@ -347,62 +307,94 @@
             </div>
 
         </div>
-    </main>
+    </div>
 
-    <footer class="site-footer">
-        <div class="footer-container">
-            <div class="footer-col footer-text">
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
                 <h3>關於 你好哇寓所</h3>
                 <div class="footer-desc">
-                    <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘。</p>
-                    <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>，這裡都是您在高雄港都的最佳選擇。</p>
+                    <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘，<strong>大港橋</strong>亦近在咫尺。</p>
+                    <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
                 </div>
             </div>
-            <div class="footer-col">
+            <div>
                 <h3>聯絡資訊</h3>
-                <ul class="contact-list">
-                    <li class="contact-item">
-                        <i class="fa-solid fa-location-dot contact-icon"></i>
-                        <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
-                    </li>
-                    <li class="contact-item">
-                        <i class="fa-solid fa-phone contact-icon"></i>
-                        <a href="tel:0932828922">0932-828-922</a>
-                    </li>
-                    <li class="contact-item">
-                        <i class="fa-brands fa-line contact-icon"></i>
-                        <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a>
-                    </li>
-                </ul>
+                <div class="contact-row">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
+                </div>
+                <div class="contact-row">
+                    <i class="fa-solid fa-phone"></i>
+                    <a href="tel:0932828922">0932-828-922</a>
+                </div>
+                <div class="contact-row">
+                    <i class="fa-brands fa-line"></i>
+                    <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a>
+                </div>
             </div>
-            <div class="footer-col">
+            <div>
                 <h3>熱門關鍵字</h3>
-                <div class="seo-box">
-                    <span class="seo-tag">高雄包棟推薦</span><span class="seo-tag">鹽埕區民宿</span><span class="seo-tag">駁二住宿</span>
-                    <span class="seo-tag">麻將民宿</span><span class="seo-tag">中島廚房</span><span class="seo-tag">親子住宿</span>
-                    <span class="seo-tag">KTV民宿</span><span class="seo-tag">合法民宿</span><span class="seo-tag">員工旅遊</span>
+                <div class="seo-tags">
+                    <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span>
+                    <span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span>
+                    <span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
                 </div>
             </div>
         </div>
-        <div class="site-copyright">
+        <div class="copyright">
             © 2025 你好哇寓所 Hello House. All Rights Reserved.
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Animation
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
             }, { threshold: 0.1 });
             document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
             const mobileMenu = document.getElementById('mobile-menu');
             const navMenu = document.querySelector('.nav-menu');
-            mobileMenu.addEventListener('click', () => { mobileMenu.classList.toggle('is-active'); navMenu.classList.toggle('active'); });
-            
-            document.querySelectorAll('.dropdown').forEach(dropdown => {
-                const toggle = dropdown.querySelector('.dropdown-toggle');
-                if(toggle) { toggle.addEventListener('click', (e) => { if (window.innerWidth <= 960) { e.preventDefault(); dropdown.classList.toggle('active'); } }); }
+            const allDropdowns = document.querySelectorAll('.dropdown');
+
+            // 1. 漢堡選單開關
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-active');
+                navMenu.classList.toggle('active');
+            });
+
+            // 2. 手機版下拉選單邏輯 (分流點擊)
+            allDropdowns.forEach(dropdown => {
+                const link = dropdown.querySelector('.dropdown-toggle');
+                const arrow = link.querySelector('.arrow-icon'); // 抓取箭頭
+                
+                if(link && arrow) {
+                    // 監聽箭頭點擊：只負責切換選單開合
+                    arrow.addEventListener('click', (e) => {
+                        if (window.innerWidth <= 960) {
+                            e.preventDefault(); 
+                            e.stopPropagation(); 
+                            
+                            const isAlreadyOpen = dropdown.classList.contains('active');
+                            allDropdowns.forEach(d => d.classList.remove('active'));
+                            if (!isAlreadyOpen) {
+                                dropdown.classList.add('active');
+                            }
+                        }
+                    });
+                }
+            });
+
+            // 3. 點擊頁面其他地方關閉選單
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    mobileMenu.classList.remove('is-active');
+                }
             });
         });
     </script>
