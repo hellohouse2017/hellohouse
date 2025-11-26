@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>高雄包棟民宿首選 | 質感旅宿體驗入口 - 你好哇寓所 & 溝頂民宿</title>
+    
+    <meta name="description" content="高雄包棟民宿首選，專為 8人、10人、20人至30人團體設計。「你好哇寓所」與「溝頂民宿」提供質感中島廚房與大空間，無論是家庭旅遊或大型聚會，我們都有最適合您的包棟方案。">
+    
+    <meta name="keywords" content="高雄包棟民宿, 高雄住宿推薦, 質感民宿, 設計旅店, 家庭旅遊, 親子友善, 你好哇寓所, 溝頂民宿">
+
+    <meta property="og:title" content="高雄包棟民宿首選 | 質感旅宿體驗入口">
+    <meta property="og:description" content="尋找高雄包棟民宿？探索「你好哇寓所」與「溝頂民宿」，享受專屬的設計空間與舒適氛圍。">
+    <meta property="og:image" content="cover-bg.jpg"> <meta property="og:url" content="您的網站實際網址">
+    <meta property="og:type" content="website">
+    
+    <linkpreconnect="https://fonts.googleapis.com">
+    <linkpreconnect="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Noto+Sans+TC:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* 全局設定 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: 'Montserrat', 'Noto Sans TC', sans-serif;
+            background-color: #1a1a1a; /* 圖片載入前的深色背景 */
+            overflow: hidden; /* 禁止滾動 */
+        }
+
+        /* 背景圖層區域 */
+        .hero-section {
+            /* 這裡請確認您的圖片檔名正確 */
+            background-image: url('cover-bg.jpg'); 
+            height: 100vh;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        /* 黑色半透明遮罩：讓文字更清晰，增加氛圍感 */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* 透明度 0.5 的黑色 */
+            z-index: 1;
+        }
+
+        /* 內容容器 */
+        .content-container {
+            position: relative;
+            z-index: 2; /* 確保內容在遮罩之上 */
+            color: #ffffff;
+            padding: 20px;
+            max-width: 800px;
+            animation: fadeIn Up 1.5s ease-out; /* 簡單的進場動畫 */
+        }
+
+        /* 主標題設計 H1 */
+        h1.main-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* 副標題設計 */
+        p.sub-title {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            letter-spacing: 1px;
+            opacity: 0.9;
+        }
+
+        /* 按鈕容器 */
+        .button-group {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            flex-wrap: wrap; /* 手機版自動換行 */
+        }
+
+        /* 質感按鈕設計 */
+        .btn-link {
+            display: inline-block;
+            text-decoration: none;
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            letter-spacing: 1.5px;
+            transition: all 0.3s ease;
+            background: rgba(0,0,0,0.2); /* 輕微的背景色增加層次 */
+            backdrop-filter: blur(5px); /* 毛玻璃效果 (支援的瀏覽器才會有) */
+        }
+
+        /* 按鈕 Hover 效果 */
+        .btn-link:hover {
+            background-color: #ffffff;
+            color: #333333;
+            border-color: #ffffff;
+            transform: translateY(-3px); /* 輕微上浮 */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* 手機版響應式調整 */
+        @media screen and (max-width: 768px) {
+            h1.main-title {
+                font-size: 1.8rem;
+            }
+            p.sub-title {
+                font-size: 1rem;
+                margin-bottom: 2.5rem;
+            }
+            .btn-link {
+                width: 100%; /* 手機版按鈕全寬 */
+                max-width: 300px;
+            }
+        }
+
+        /* 進場動畫定義 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+    </style>
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [{
+    "@type": "Question",
+    "name": "高雄有哪些推薦的質感包棟民宿？",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "高雄鹽埕區的「你好哇寓所」與「溝頂民宿」是當地極具特色的包棟首選，結合老屋韻味與現代設計，是網路上熱搜的高質感旅宿。"
+    }
+  }, {
+    "@type": "Question",
+    "name": "請問包棟人數限制？適合8人、20人或30人的團體嗎？",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "非常適合。我們提供彈性的包棟方案，無論是精緻的 8-12 人家庭旅遊，或是 20-30 人的大型親友團體、公司員工旅遊，皆有對應的房型與寬敞公共空間可供選擇。我們專門接待多人團體，不用擔心空間擁擠。"
+    }
+  }, {
+    "@type": "Question",
+    "name": "這兩間民宿有提供廚房或聚會空間嗎？",
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "有的。皆配備高規格的中島廚房與寬敞的公共交誼廳，提供完善的廚具與設備，非常適合多人聚餐、火鍋或小酌，是高雄少數擁有專業級中島廚房的大型包棟民宿。"
+    }
+  }]
+}
+</script>
+
+</head>
+<body>
+
+    <main class="hero-section" role="main" aria-label="高雄包棟民宿入口首頁">
+        <div class="hero-overlay"></div>
+        
+        <div class="content-container">
+            <h1 class="main-title">高雄質感包棟民宿</h1>
+            
+            <p class="sub-title">探索專屬於您的設計旅宿空間，品味獨特的生活風格。</p>
+            
+            <nav class="button-group" aria-label="民宿品牌選擇">
+                <a href="/hellohouse/index.html" class="btn-link" title="前往 你好哇寓所 網站">
+                    你好哇寓所
+                </a>
+                
+                <a href="/godin/index.html" class="btn-link" title="前往 溝頂民宿 網站">
+                    溝頂民宿
+                </a>
+            </nav>
+        </div>
+    </main>
+
+</body>
+</html>
