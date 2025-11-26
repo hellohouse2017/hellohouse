@@ -389,6 +389,7 @@
                         <span><i class="fa-solid fa-house"></i> 首頁</span>
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a href="rooms.html" class="nav-link">
                         <span><i class="fa-solid fa-bed"></i> 房型介紹</span>
@@ -396,24 +397,24 @@
                 </li>
                 
                 <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">
+                    <a href="agreement.html" class="nav-link dropdown-toggle">
                         <span><i class="fa-solid fa-file-signature"></i> 入住契約</span>
-                        <i class="fa-solid fa-angle-down arrow-icon"></i>
-                    </a>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約/條款</a></li>
                     </ul>
                 </li>
 
-                <li class="nav-item"><a href="traffic.html" class="nav-link">
-                    <span><i class="fa-solid fa-car"></i> 交通停車</span>
-                </a></li>
+                <li class="nav-item">
+                    <a href="traffic.html" class="nav-link">
+                        <span><i class="fa-solid fa-car"></i> 交通停車</span>
+                    </a>
+                </li>
                 
                 <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">
+                    <a href="travel.html" class="nav-link dropdown-toggle">
                         <span><i class="fa-solid fa-map-location-dot"></i> 旅遊行程</span>
-                        <i class="fa-solid fa-angle-down arrow-icon"></i>
-                    </a>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i> </a>
                     <ul class="dropdown-menu">
                         <li><a href="attractions.html" class="dropdown-link"><i class="fa-solid fa-location-arrow"></i> 周邊景點</a></li>
                         <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-utensils"></i> 美食地圖</a></li>
@@ -421,20 +422,21 @@
                 </li>
                 
                 <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
+                    <a href="packages.html" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
                         <span><i class="fa-solid fa-bullhorn"></i> 住宿情報</span>
-                        <i class="fa-solid fa-angle-down arrow-icon"></i>
-                    </a>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="packages-business.html" class="dropdown-link">企業包棟</a></li>
-                        <li><a href="packages-wedding.html" class="dropdown-link">迎娶包棟</a></li>
-                        <li><a href="packages-family.html" class="dropdown-link">家族包棟</a></li>
-                        <li><a href="packages-team.html" class="dropdown-link">球隊比賽</a></li>
+                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item">
-                    <a href="check.html" class="nav-link nav-btn-booking" style="justify-content: center;"><i class="fa-solid fa-calendar-check"></i> 查詢空房</a>
+                    <a href="check.html" class="nav-link nav-btn-booking" style="justify-content: center;">
+                        <span><i class="fa-solid fa-calendar-check"></i> 查詢空房</span>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -703,31 +705,41 @@
             const navMenu = document.querySelector('.nav-menu');
             const allDropdowns = document.querySelectorAll('.dropdown');
 
+            // 1. 漢堡選單開關
             mobileMenu.addEventListener('click', () => {
                 mobileMenu.classList.toggle('is-active');
                 navMenu.classList.toggle('active');
             });
 
+            // 2. 手機版下拉選單邏輯 (分流點擊)
             allDropdowns.forEach(dropdown => {
                 const link = dropdown.querySelector('.dropdown-toggle');
-                const arrow = link.querySelector('.arrow-icon');
+                const arrow = link.querySelector('.arrow-icon'); // 抓取箭頭
                 
                 if(link && arrow) {
+                    // 監聽箭頭點擊：只負責切換選單開合
                     arrow.addEventListener('click', (e) => {
                         if (window.innerWidth <= 960) {
                             e.preventDefault(); 
                             e.stopPropagation(); 
                             
                             const isAlreadyOpen = dropdown.classList.contains('active');
+                            
+                            // 關閉其他所有選單 (互斥效果)
                             allDropdowns.forEach(d => d.classList.remove('active'));
+                            
+                            // 如果原本沒開，就打開
                             if (!isAlreadyOpen) {
                                 dropdown.classList.add('active');
                             }
                         }
                     });
+                    
+                    // 備註：文字部分 (span) 不需要 JS，瀏覽器會自動處理 href 跳轉
                 }
             });
 
+            // 3. 點擊頁面其他地方關閉選單
             document.addEventListener('click', (e) => {
                 if (!navMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
                     navMenu.classList.remove('active');
