@@ -50,12 +50,12 @@
           {
             "@type": "Question",
             "name": "高雄包棟民宿推薦哪一間？",
-            "acceptedAnswer": { "@type": "Answer", "text": "推薦位於鹽埕區的「你好哇寓所」，擁有合法執照，提供6-38人彈性包棟，配備中島廚房與麻將設施。" }
+            "acceptedAnswer": { "@type": "Answer", "text": "推薦位於鹽埕區的「你好哇寓所」，擁有合法執照，提供6-38人彈性包棟，配備中島廚房與麻將設施，且鄰近駁二特區。" }
           },
           {
             "@type": "Question",
             "name": "你好哇寓所可以住多少人？",
-            "acceptedAnswer": { "@type": "Answer", "text": "我們提供極具彈性的包棟方案，從6人小包棟到最高38人（需雙包棟）皆可接待。" }
+            "acceptedAnswer": { "@type": "Answer", "text": "我們提供極具彈性的包棟方案，從6人小包棟到最高38人（需雙包棟）皆可接待，非常適合家庭與員工旅遊。" }
           }
         ]
       }
@@ -77,6 +77,7 @@
             
             --c-line: #06C755;
             --c-youtube: #CC0000;
+            --theme-dark-bg: #1A202C;
 
             --font-serif: 'Noto Serif TC', serif; 
             --font-sans: 'Noto Sans TC', sans-serif; 
@@ -96,6 +97,9 @@
             color: var(--c-primary);
             line-height: 1.8;
             letter-spacing: 0.02em;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         h1, h2, h3, h4 {
@@ -109,11 +113,11 @@
         img { display: block; max-width: 100%; height: auto; }
 
         /* =========================================
-           [新增] 精緻導覽列 (Navbar)
+           Navbar
            ========================================= */
         .navbar {
-            background: rgba(26, 32, 44, 0.95); /* 深色半透明背景 */
-            backdrop-filter: blur(10px);        /* 毛玻璃效果 */
+            background: rgba(26, 32, 44, 0.95); 
+            backdrop-filter: blur(10px);        
             height: 70px;
             width: 100%;
             position: fixed;
@@ -182,7 +186,10 @@
            通用排版與元件
            ========================================= */
         .container { width: 90%; max-width: 1100px; margin: 0 auto; }
-        .section-padding { padding: 100px 0; }
+        .section-padding { padding: 100px 0; background-color: transparent; }
+        
+        /* 只有 reviews 區塊有背景 */
+        .reviews-section { background-color: var(--c-bg-light); }
 
         .btn {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -199,17 +206,25 @@
         }
         .btn-youtube:hover { background-color: var(--c-youtube); color: white; }
 
+        /* Read More Button */
+        .btn-read-more {
+            display: inline-block; margin-top: 30px;
+            border: 1px solid var(--c-primary); color: var(--c-primary);
+            background: transparent; padding: 10px 30px; border-radius: 50px;
+            font-weight: bold; cursor: pointer; transition: 0.3s;
+        }
+        .btn-read-more:hover { background: var(--c-primary); color: white; }
+
         .section-title { text-align: center; font-size: 2rem; margin-bottom: 3rem; position: relative; color: var(--c-primary); }
         .section-title::after { content: ''; display: block; width: 40px; height: 2px; background-color: var(--c-accent); margin: 15px auto 0; }
         .section-subtitle { display: block; text-align: center; font-size: 1rem; color: var(--c-accent); margin-bottom: 10px; font-family: var(--font-sans); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; }
 
-        /* A. Hero (高70vh, 避開導覽列) */
+        /* A. Hero */
         .hero { 
             position: relative; 
-            height: 70vh; /* 70% 視窗高度 */
+            height: 70vh; 
             min-height: 500px;
             display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; 
-            /* 因為 navbar fixed，這裡不需要 padding-top，背景會穿過去，很漂亮 */
         }
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -226,7 +241,7 @@
         .hero-tag { background: rgba(255, 255, 255, 0.15); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.3); padding: 8px 20px; border-radius: 30px; font-size: 0.9rem; color: white; }
 
         /* B. Story & Gallery */
-        .story-section { background: var(--c-bg-white); margin-top: -60px; border-radius: 30px 30px 0 0; position: relative; z-index: 3; padding-top: 80px; padding-bottom: 80px; }
+        .story-section { margin-top: -60px; border-radius: 30px 30px 0 0; position: relative; z-index: 3; padding-top: 80px; padding-bottom: 80px; background: #fff; }
         
         .intro-text-box { 
             max-width: 750px; margin: 0 auto 60px; 
@@ -240,55 +255,69 @@
         .gallery-img:hover img { transform: scale(1.05); }
 
         /* C. Stars */
-        .star-section { background-color: var(--c-bg-body); }
         .star-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .star-card { background: var(--c-bg-white); padding: 30px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); border-top: 3px solid var(--c-accent); display: flex; flex-direction: column; justify-content: space-between; }
+        .star-card { background: #fff; padding: 30px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); border-top: 3px solid var(--c-accent); display: flex; flex-direction: column; justify-content: space-between; }
         .program-name { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: var(--c-primary); }
         .cast-names { font-size: 0.9rem; color: var(--c-text-gray); margin-bottom: 20px; line-height: 1.6; }
 
         /* D. Features */
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; }
         .feature-item { text-align: center; }
-        .feature-icon { width: 80px; height: 80px; background: var(--c-bg-white); color: var(--c-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; box-shadow: var(--shadow-card); transition: 0.3s; }
+        .feature-icon { width: 80px; height: 80px; background: #F8F9FA; color: var(--c-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 20px; box-shadow: var(--shadow-card); transition: 0.3s; }
         .feature-item:hover .feature-icon { background: var(--c-accent); color: white; transform: rotateY(180deg); }
         .feature-item h3 { font-size: 1.2rem; margin-bottom: 10px; }
         .feature-item p { font-size: 0.95rem; color: var(--c-text-gray); }
 
-        /* E. Reviews (Desktop 4 cols) */
-        .reviews-section { background-color: var(--c-primary); color: var(--c-bg-white); clip-path: polygon(0 50px, 100% 0, 100% 100%, 0 100%); padding-top: 150px; padding-bottom: 100px; }
-        .reviews-section .section-title { color: white; }
-        .reviews-section .section-subtitle { color: var(--c-accent); }
-        .review-grid-full {
-            display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom: 60px;
+        /* E. Reviews */
+        .reviews-section { 
+            background-color: var(--c-bg-light);
+            clip-path: polygon(0 50px, 100% 0, 100% 100%, 0 100%); 
+            padding-top: 150px; padding-bottom: 100px; 
         }
-        .review-card { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); padding: 25px; border-radius: var(--radius-md); display: flex; flex-direction: column; justify-content: space-between; }
+        .review-grid-full {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom: 30px;
+        }
+        .review-card { background: #fff; border: 1px solid #eee; padding: 25px; border-radius: var(--radius-md); display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
         .review-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; }
         .review-stars { color: #FFD700; font-size: 0.8rem; white-space: nowrap; }
         .review-text { font-style: italic; opacity: 0.9; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6; flex-grow: 1; }
         .review-tag { display: inline-block; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; background: var(--c-accent); color: white; align-self: flex-start; white-space: nowrap; }
         .tag-human { background: var(--c-accent); }
-        .tag-seo { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); }
-        .cta-box { background: var(--c-bg-white); color: var(--c-primary); text-align: center; padding: 60px 40px; border-radius: var(--radius-md); box-shadow: 0 20px 50px rgba(0,0,0,0.2); }
+        .tag-seo { background: #E2E8F0; color: #4A5568; }
+        
+        #hidden-reviews { display: none; } 
+
+        .cta-box { 
+            background: transparent; color: var(--c-primary); 
+            text-align: center; padding: 60px 40px; border-radius: 12px; 
+            box-shadow: none; border: 2px solid var(--c-accent); 
+            margin-top: 60px; 
+        }
 
         /* F. FAQ */
-        .faq-item { background: var(--c-bg-white); border-radius: var(--radius-md); margin-bottom: 15px; box-shadow: var(--shadow-card); overflow: hidden; transition: 0.3s; }
+        .faq-item { background: #fff; border-radius: var(--radius-md); margin-bottom: 15px; box-shadow: var(--shadow-card); overflow: hidden; transition: 0.3s; }
         .faq-item:hover { transform: translateX(5px); border-left: 4px solid var(--c-accent); }
         .faq-q { padding: 20px 25px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 15px; }
         .faq-q i { color: var(--c-accent); flex-shrink: 0; }
         .faq-a { padding: 0 25px 25px 55px; color: var(--c-text-gray); font-size: 0.95rem; }
 
         /* G. Footer */
-        .footer { background-color: #111; color: #aaa; padding: 80px 0 40px; border-top: 3px solid var(--c-accent); }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+        .footer { 
+            background-color: rgb(26, 32, 44); /* 固定為深岩灰 */
+            color: #aaa; 
+            padding: 80px 0 40px; 
+            border-top: 3px solid var(--c-accent); 
+            width: 100%; 
+            margin-top: auto; 
+        }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 50px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .footer h3 { color: white; font-size: 1.1rem; margin-bottom: 25px; font-family: var(--font-serif); }
-        .footer-desc { line-height: 1.8; margin-bottom: 20px; text-align: justify; }
+        .footer-desc { line-height: 1.8; margin-bottom: 20px; text-align: justify; color: #CBD5E0; }
         .footer-desc strong { color: #fff; }
         .contact-row { margin-bottom: 15px; display: flex; gap: 10px; }
         .contact-row i { color: var(--c-accent); margin-top: 5px; }
         .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #333; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
         .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
-
-        /* H. Floating Button */
         .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
         .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
 
@@ -298,11 +327,11 @@
         }
 
         @media (max-width: 960px) {
-            /* Navbar Mobile Styles */
             .menu-toggle { display: block; }
             .nav-menu {
                 position: fixed; left: -100%; top: 70px;
-                flex-direction: column; background-color: var(--c-primary);
+                flex-direction: column; 
+                background-color: rgb(26, 32, 44);
                 width: 100%; height: calc(100vh - 70px);
                 text-align: center; transition: 0.3s; padding-top: 20px;
                 overflow-y: auto; gap: 0;
@@ -311,8 +340,6 @@
             .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
             .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
             .nav-link::after { display: none; }
-            
-            /* Mobile Dropdown */
             .dropdown-menu {
                 position: static; opacity: 1; visibility: visible; transform: none;
                 width: 100%; background-color: rgba(0,0,0,0.2);
@@ -341,47 +368,50 @@
 
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#" class="nav-logo">你好哇寓所</a>
+            <a href="index.html" class="nav-logo">你好哇寓所</a>
             <div class="menu-toggle" id="mobile-menu">
                 <span class="bar"></span><span class="bar"></span><span class="bar"></span>
             </div>
-             <ul class="nav-menu">
+            <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a>
+                    <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i> 首頁</a>
                 </li>
                 <li class="nav-item">
-                    <a href="rooms.html" class="nav-link active"><i class="fa-solid fa-bed"></i> 房型介紹</a>
+                    <a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a>
                 </li>
+                
                 <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">
+                    <a href="agreement.html" class="nav-link dropdown-toggle">
                         <i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
-                        <li><a href="#" class="dropdown-link"><i class="fa-regular fa-file-pdf"></i> 契約條款預覽</a></li>
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
                     </ul>
                 </li>
+
                 <li class="nav-item">
-                    <a href="#traffic" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a>
+                    <a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a>
                 </li>
+                
                 <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">
+                    <a href="travel.html" class="nav-link dropdown-toggle">
                         <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" class="dropdown-link"><i class="fa-solid fa-location-arrow"></i> 周邊景點推薦</a></li>
-                        <li><a href="#" class="dropdown-link"><i class="fa-solid fa-utensils"></i> 鹽埕美食地圖</a></li>
+                        <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-bowl-food"></i> 鹽埕美食地圖</a></li>
+                        <li><a href="attractions.html" class="dropdown-link"><i class="fa-solid fa-camera"></i> 周邊景點導覽</a></li>
                     </ul>
                 </li>
+                
                 <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
+                    <a href="packages.html" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
                         <i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="#" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
-                        <li><a href="#" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟方案</a></li>
-                        <li><a href="#" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
-                        <li><a href="#" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
+                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟方案</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
                     </ul>
                 </li>
             </ul>
@@ -421,18 +451,19 @@
                     只有您與親朋好友在寬敞的中島廚房圍爐、在客廳歡笑的珍貴時刻。
                 </p>
             </div>
+
             <div class="gallery-grid fade-in">
                 <div class="gallery-img">
-                    <img src="images/photo1.jpg" alt="高雄包棟民宿推薦-寬敞客廳" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';this.onerror=null;">
+                    <img src="images/photo1.jpg" alt="你好哇寓所高雄包棟民宿 - 寬敞明亮的客廳聚會空間" onerror="this.src='https://placehold.co/600x400?text=Living+Room';">
                 </div>
                 <div class="gallery-img">
-                    <img src="images/photo2.jpg" alt="高雄中島廚房民宿" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';this.onerror=null;">
+                    <img src="images/photo2.jpg" alt="你好哇寓所設施 - 開放式大中島廚房與圍爐餐桌" onerror="this.src='https://placehold.co/600x400?text=Kitchen';">
                 </div>
                 <div class="gallery-img">
-                    <img src="images/photo3.jpg" alt="鹽埕區舒適住宿臥房" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';this.onerror=null;">
+                    <img src="images/photo3.jpg" alt="你好哇寓所房型 - 舒適溫馨的住宿臥房" onerror="this.src='https://placehold.co/600x400?text=Bedroom';">
                 </div>
                 <div class="gallery-img">
-                    <img src="images/photo4.jpg" alt="高雄麻將民宿設備" onerror="this.src='https://placehold.co/600x400?text=Image+Not+Found';this.onerror=null;">
+                    <img src="images/photo4.jpg" alt="你好哇寓所娛樂 - 專屬電動麻將桌與交誼廳" onerror="this.src='https://placehold.co/600x400?text=Mahjong';">
                 </div>
             </div>
         </div>
@@ -509,6 +540,7 @@
         <div class="container">
             <span class="section-subtitle">TESTIMONIALS</span>
             <h2 class="section-title">住客真實五星好評</h2>
+            
             <div class="review-grid-full fade-in">
                 <div class="review-card">
                     <div class="review-header"><span class="review-tag tag-human">包棟聚會首選</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
@@ -542,6 +574,29 @@
                     <div class="review-header"><span class="review-tag tag-seo">服務與信任</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
                     <p class="review-text">老闆的回覆速度非常快。身為高雄合法民宿，消防設施和逃生標示都很清楚，這點對於帶長輩出門的家庭來說非常加分。</p>
                 </div>
+            </div>
+
+            <div id="hidden-reviews" class="review-grid-full">
+                <div class="review-card">
+                    <div class="review-header"><span class="review-tag tag-human">廚房設備超讚</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
+                    <p class="review-text">跟一群朋友來包棟，一樓的中島廚房真的太棒了！鍋碗瓢盆都很齊全，大家聚在一起煮火鍋喝酒，氣氛滿分。</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header"><span class="review-tag tag-seo">地點絕佳</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
+                    <p class="review-text">離駁二走路只要10分鐘。雖然是老屋但隔音意外的好，晚上睡覺很安靜，床墊支撐性也很夠，一覺到天亮！</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header"><span class="review-tag tag-human">管家親切</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
+                    <p class="review-text">老闆非常熱情親切。這裡是合法的民宿，消防設施都有，讓人住得很安心。電子鎖密碼是當天設定的，進出很方便。</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header"><span class="review-tag tag-seo">設施豐富</span><div class="review-stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div></div>
+                    <p class="review-text">客廳有電動麻將桌太加分了！還有大電視可以看 Netflix。每間都有獨立衛浴，不用搶廁所這點對團體旅遊來說很重要。</p>
+                </div>
+            </div>
+
+            <div style="text-align:center;">
+                <button class="btn-read-more" id="load-more-btn" onclick="toggleReviews()">查看更多好評</button>
             </div>
 
             <div class="cta-box">
@@ -612,6 +667,7 @@
                     <div class="seo-tags">
                         <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span>
                         <span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span>
+                        <span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
                     </div>
                 </div>
             </div>
@@ -622,8 +678,14 @@
     </footer>
 
     <script>
+        function toggleReviews() {
+            const hidden = document.getElementById('hidden-reviews');
+            const btn = document.getElementById('load-more-btn');
+            hidden.style.display = 'grid'; 
+            btn.style.display = 'none';
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            // 捲動特效
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) entry.target.classList.add('visible');
@@ -631,26 +693,13 @@
             }, { threshold: 0.1 });
             document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-            // Navbar Logic
             const mobileMenu = document.getElementById('mobile-menu');
             const navMenu = document.querySelector('.nav-menu');
-
             mobileMenu.addEventListener('click', () => {
                 mobileMenu.classList.toggle('is-active');
                 navMenu.classList.toggle('active');
             });
 
-            // 點擊連結收合選單 (非下拉開關)
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.addEventListener('click', () => {
-                    if(!link.classList.contains('dropdown-toggle')) {
-                        navMenu.classList.remove('active');
-                        mobileMenu.classList.remove('is-active');
-                    }
-                });
-            });
-
-            // 手機版下拉控制
             document.querySelectorAll('.dropdown').forEach(dropdown => {
                 const toggle = dropdown.querySelector('.dropdown-toggle');
                 if(toggle) {
