@@ -39,7 +39,7 @@
         }
 
         *, *::before, *::after { box-sizing: border-box; }
-        body { margin: 0; font-family: var(--font-sans); background-color: var(--c-bg-body); color: var(--c-primary); line-height: 1.8; display: flex; flex-direction: column; min-height: 100vh; }
+        body { margin: 0; font-family: var(--font-sans); background-color: var(--c-bg-body); color: var(--c-primary); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; padding: 0; margin: 0; }
         img { max-width: 100%; display: block; }
@@ -73,15 +73,32 @@
         .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
         .nav-item:hover .arrow-icon { transform: rotate(180deg); }
 
-        /* Hero */
-        .hero { position: relative; height: 40vh; min-height: 350px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; background-color: var(--c-primary); margin-top: 70px; }
+        /* =========================================
+           Hero (首頁風格)
+           ========================================= */
+        .hero { 
+            position: relative; height: 60vh; /* 比首頁稍矮一點點，讓表單露出來 */
+            min-height: 450px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
+            color: white; background-color: var(--c-primary); overflow: hidden; 
+        }
         .hero-bg { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             background-image: url('images/cover.jpg'); 
-            background-size: cover; background-position: center; opacity: 0.5; z-index: 1; 
+            background-size: cover; background-position: center; opacity: 0.6; z-index: 1; 
+            transform: scale(1.1); animation: zoomSlow 20s infinite alternate; /* 加入動畫 */
         }
-        .hero-content { position: relative; z-index: 2; }
-        .hero h1 { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
+        @keyframes zoomSlow { from { transform: scale(1); } to { transform: scale(1.1); } }
+        
+        .hero-content { position: relative; z-index: 2; padding: 0 20px; }
+        .hero h1 { 
+            font-family: var(--font-serif); 
+            font-size: clamp(2.2rem, 5vw, 3.5rem); /* 響應式字體 */
+            margin-bottom: 1rem; 
+            text-shadow: 0 4px 20px rgba(0,0,0,0.3); 
+            font-weight: 700;
+        }
+        .hero p { font-size: 1.2rem; margin-bottom: 2rem; font-weight: 300; opacity: 0.9; letter-spacing: 1px; }
 
         /* Main Container */
         .container { width: 90%; max-width: 1000px; margin: 0 auto; flex: 1;}
@@ -157,7 +174,7 @@
         .hidden { display: none !important; }
 
         /* =========================================
-           Footer (與首頁 Index 一致)
+           Footer (標準版 - 左對齊)
            ========================================= */
         .footer { 
             background-color: #1A202C; /* 深岩灰 */
@@ -224,7 +241,7 @@
             .inquiry-box { margin-top: -40px; padding: 30px 20px; width: 95%; }
             
             .menu-toggle { display: block; }
-            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: #1A202C; width: 100%; height: calc(100vh - 70px); padding-top: 20px; gap: 0; transition: 0.3s; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: #1A202C; width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
             .nav-menu.active { left: 0; }
             .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
             .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
@@ -396,36 +413,23 @@
                     <h3>關於 你好哇寓所</h3>
                     <div class="footer-desc">
                         <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。</p>
-                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
+                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。</p>
                     </div>
                 </div>
                 <div>
                     <h3>聯絡資訊</h3>
-                    <div class="contact-row">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
-                    </div>
-                    <div class="contact-row">
-                        <i class="fa-solid fa-phone"></i>
-                        <a href="tel:0932828922">0932-828-922</a>
-                    </div>
-                    <div class="contact-row">
-                        <i class="fa-brands fa-line"></i>
-                        <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a>
-                    </div>
+                    <div class="contact-row"><i class="fa-solid fa-location-dot"></i> <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號</a></div>
+                    <div class="contact-row"><i class="fa-solid fa-phone"></i> <a href="tel:0932828922">0932-828-922</a></div>
+                    <div class="contact-row"><i class="fa-brands fa-line"></i> <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a></div>
                 </div>
                 <div>
                     <h3>熱門關鍵字</h3>
                     <div class="seo-tags">
-                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span>
-                        <span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span>
-                        <span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
+                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span><span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span><span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
                     </div>
                 </div>
             </div>
-            <div class="copyright">
-                © 2025 你好哇寓所 Hello House. All Rights Reserved.
-            </div>
+            <div class="copyright">© 2025 你好哇寓所 Hello House. All Rights Reserved.</div>
         </div>
     </footer>
 
