@@ -55,7 +55,6 @@
             --c-text-gray: #555555; 
             --c-line: #06C755;
             --theme-dark-bg: #1A202C;
-            --c-pink: #D53F8C; /* 婚禮專用點綴色 */
 
             --font-serif: 'Noto Serif TC', serif; 
             --font-sans: 'Noto Sans TC', sans-serif; 
@@ -70,7 +69,7 @@
         ul { list-style: none; padding: 0; margin: 0; }
         img { max-width: 100%; display: block; }
 
-        /* Navbar (標準版 - 修正手機選單) */
+        /* Navbar (標準版) */
         .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
@@ -98,7 +97,7 @@
         .nav-item:hover .arrow-icon { transform: rotate(180deg); }
 
         /* =========================================
-           🔥 Mobile Menu Fix (分流點擊版) 🔥
+           Mobile Menu Fix
            ========================================= */
         @media (max-width: 960px) {
             .menu-toggle { display: block; }
@@ -118,94 +117,86 @@
             .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
             .nav-link::after { display: none; }
             
-            /* 主選單連結：靠左對齊 */
             .nav-link { 
-                display: flex;
-                align-items: center;
-                justify-content: flex-start; 
-                padding: 0; 
-                font-size: 1.1rem; 
-                color: #ffffff !important; 
-                width: 100%;
+                display: flex; align-items: center; justify-content: flex-start; 
+                padding: 0; font-size: 1.1rem; color: #ffffff !important; width: 100%;
             }
             
-            /* 文字區域：可點擊跳轉 */
-            .nav-link span {
-                flex-grow: 1;
-                padding: 20px 30px; 
-                text-align: left;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-            }
+            .nav-link span { flex-grow: 1; padding: 20px 30px; text-align: left; display: flex; align-items: center; gap: 12px; }
 
-            /* 箭頭區域：獨立點擊開關 */
             .arrow-icon { 
-                margin-left: 0; 
-                width: 60px; 
-                height: 65px; 
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-left: 1px solid rgba(255,255,255,0.1); 
-                background: rgba(0,0,0,0.1);
-                cursor: pointer;
+                margin-left: 0; width: 60px; height: 65px; 
+                display: flex; align-items: center; justify-content: center;
+                border-left: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.1); cursor: pointer;
             }
             
-            /* 下拉選單容器 */
             .dropdown-menu { 
-                position: static !important; 
-                opacity: 1 !important; 
-                visibility: visible !important; 
-                transform: none !important; 
-                width: 100%; 
-                background-color: #0d1117 !important; 
-                box-shadow: inset 0 5px 10px rgba(0,0,0,0.5) !important; 
-                border-top: none !important; 
-                display: none; 
-                padding: 0 !important;
+                position: static !important; opacity: 1 !important; visibility: visible !important; transform: none !important; 
+                width: 100%; background-color: #0d1117 !important; 
+                box-shadow: inset 0 5px 10px rgba(0,0,0,0.5) !important; border-top: none !important; 
+                display: none; padding: 0 !important;
             }
             .dropdown.active .dropdown-menu { display: block; }
             
-            /* 子選單連結 */
             .dropdown-link { 
-                color: #e2e8f0 !important; 
-                padding: 18px 30px 18px 50px !important; /* 縮排 */
-                justify-content: flex-start !important; 
-                width: 100%;
-                border-bottom: 1px solid rgba(255,255,255,0.03);
-                font-size: 1rem !important;
+                color: #e2e8f0 !important; padding: 18px 30px 18px 50px !important; 
+                justify-content: flex-start !important; width: 100%;
+                border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 1rem !important;
             }
             .dropdown-link:hover { background-color: rgba(255,255,255,0.05) !important; color: #ffffff !important; }
 
-            /* 按鈕 */
             .nav-link.nav-btn-booking { 
                 justify-content: center; background: var(--c-accent); border: none; 
                 margin: 20px auto; width: 80%; text-align: center; padding: 15px;
             }
             .nav-link.nav-btn-booking span { justify-content: center; padding: 0; }
 
-            /* Page Specific RWD */
-            .page-header { height: 50vh; }
             .features-grid { grid-template-columns: 1fr; }
             
-            /* Timeline RWD */
             .wedding-flow { grid-template-columns: 1fr; padding-left: 30px; }
             .wedding-flow::before { left: 10px; }
             .flow-left, .flow-right { text-align: left; margin: 0; }
             .flow-dot { left: -28px !important; right: auto !important; }
         }
 
-        /* Page Hero */
-        .page-header { position: relative; height: 60vh; min-height: 450px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px; }
+        /* =========================================
+           Page Hero (已調整高度與字體)
+           ========================================= */
+        .page-header { 
+            position: relative; 
+            height: 40vh; /* 高度縮減 */
+            min-height: 300px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            text-align: center; 
+            color: white; 
+            background-color: var(--c-primary); 
+            overflow: hidden; 
+            margin-top: 70px; 
+        }
         .page-header-bg { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             background-image: url('images/wedding-cover.jpg'); 
-            background-size: cover; background-position: center; opacity: 0.5; z-index: 1; 
+            background-size: cover; 
+            background-position: center 30%; /* 調整定位 */
+            opacity: 0.5; z-index: 1; 
         }
         .page-header-content { position: relative; z-index: 2; padding: 0 20px; max-width: 800px; }
-        .page-title { font-family: var(--font-serif); font-size: 2.8rem; margin-bottom: 20px; font-weight: 700; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .page-desc { font-size: 1.2rem; font-weight: 300; letter-spacing: 1px; opacity: 0.95; line-height: 1.6; }
+        .page-title { 
+            font-family: var(--font-serif); 
+            font-size: 2.2rem; /* 字體縮小 */
+            margin-bottom: 15px; 
+            font-weight: 700; 
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+        }
+        .page-desc { 
+            font-size: 1rem; /* 字體縮小 */
+            font-weight: 300; 
+            letter-spacing: 1px; 
+            opacity: 0.95; 
+            line-height: 1.6; 
+        }
 
         /* Content */
         .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 80px 0; flex: 1; }
@@ -226,7 +217,6 @@
         .heart-bg { position: absolute; top: -20px; right: -20px; font-size: 150px; color: rgba(255,0,0,0.02); transform: rotate(20deg); z-index: 0; }
 
         /* Timeline Section */
-        .timeline-section { background-color: #fff; padding: 60px; border-radius: 20px; box-shadow: var(--shadow-card); margin-bottom: 80px; position: relative; }
         .section-title { font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 40px; color: var(--c-primary); text-align: center; }
         
         .wedding-flow { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; position: relative; }
@@ -256,7 +246,7 @@
         .btn-gold { background-color: var(--c-accent); color: white; padding: 15px 40px; border-radius: 50px; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; font-size: 1.1rem; }
         .btn-gold:hover { background-color: var(--c-accent-hover); transform: translateY(-3px); box-shadow: 0 10px 20px rgba(197, 160, 101, 0.3); }
 
-        /* Footer (標準版) */
+        /* Footer */
         .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 80px 0 40px; border-top: 3px solid var(--c-accent); width: 100%; margin-top: auto; text-align: left; }
         .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 50px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .footer h3 { color: white; font-size: 1.1rem; margin-bottom: 25px; font-family: var(--font-serif); letter-spacing: 1px; }

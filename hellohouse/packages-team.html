@@ -74,7 +74,9 @@
         ul { list-style: none; padding: 0; margin: 0; }
         img { max-width: 100%; display: block; }
 
-        /* Navbar (標準版 - 修正手機選單) */
+        /* =========================================
+           Navbar (標準版 - 修正手機選單)
+           ========================================= */
         .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
@@ -197,16 +199,33 @@
             .coach-box { padding: 30px; }
         }
 
-        /* Page Hero */
-        .page-header { position: relative; height: 60vh; min-height: 450px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px; }
+        /* =========================================
+           Page Hero (標準版 - 統一高度)
+           ========================================= */
+        .page-header { 
+            position: relative; 
+            height: 40vh; /* 統一高度 */
+            min-height: 300px; 
+            display: flex; align-items: center; justify-content: center; text-align: center; 
+            color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px; 
+        }
         .page-header-bg { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
             background-image: url('images/team-cover.jpg'); 
-            background-size: cover; background-position: center; opacity: 0.5; z-index: 1; 
+            background-size: cover; 
+            background-position: center 30%; /* 圖片聚焦調整 */
+            opacity: 0.5; z-index: 1; 
         }
         .page-header-content { position: relative; z-index: 2; padding: 0 20px; max-width: 800px; }
-        .page-title { font-family: var(--font-serif); font-size: 2.8rem; margin-bottom: 20px; font-weight: 700; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
-        .page-desc { font-size: 1.2rem; font-weight: 300; letter-spacing: 1px; opacity: 0.95; line-height: 1.6; }
+        .page-title { 
+            font-family: var(--font-serif); 
+            font-size: 2.2rem; /* 統一標題大小 */
+            margin-bottom: 10px; font-weight: 700; text-shadow: 0 4px 15px rgba(0,0,0,0.5); 
+        }
+        .page-desc { 
+            font-size: 1rem; /* 統一副標題大小 */
+            font-weight: 300; letter-spacing: 1px; opacity: 0.95; line-height: 1.6; 
+        }
 
         /* Content */
         .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 80px 0; flex: 1; }
@@ -362,18 +381,18 @@
         <div class="features-grid fade-in">
             <div class="feature-card">
                 <div class="feature-icon"><i class="fa-solid fa-shirt"></i></div>
-                <div class="feature-title">洗衣設施</div>
-                <div class="feature-desc">附近就有自助洗衣店。球衣當天洗當天乾，不用再帶著充滿汗臭味的裝備移動。</div>
+                <div class="feature-title">免費洗衣設施</div>
+                <div class="feature-desc">提供洗衣機與寬敞曬衣空間。球衣當天洗當天乾，不用再帶著充滿汗臭味的裝備移動。</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fa-solid fa-glass-water"></i></div>
                 <div class="feature-title">補給最方便</div>
-                <div class="feature-desc">RO逆滲透飲水機 。賽前補給沒問題。</div>
+                <div class="feature-desc">RO逆滲透飲水機 + 大型自動製冰機。賽前冰桶補給、賽後冰敷放鬆，通通沒問題。</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
                 <div class="feature-title">戰術研討空間</div>
-                <div class="feature-desc">一樓大空間配備大型聯網電視，可連接手機或電腦播放比賽錄影，進行賽後檢討與戰術分析。</div>
+                <div class="feature-desc">一樓大客廳配備大型聯網電視，可連接手機或電腦播放比賽錄影，進行賽後檢討與戰術分析。</div>
             </div>
             <div class="feature-card">
                 <div class="feature-icon"><i class="fa-solid fa-bed"></i></div>

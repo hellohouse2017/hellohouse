@@ -116,15 +116,49 @@
         }
 
         /* =========================================
-           Hero Section
+           Hero Section (Updated)
            ========================================= */
-        .hero { position: relative; height: 45vh; min-height: 350px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px; }
-        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('images/cover.jpg'); background-size: cover; background-position: center; opacity: 0.6; z-index: 1; }
+        .hero { 
+            position: relative; 
+            height: 40vh;         /* Updated: Height */
+            min-height: 300px;    /* Updated: Min Height */
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            color: white; 
+            background-color: var(--c-primary); 
+            overflow: hidden; 
+            margin-top: 70px; 
+        }
+        .hero-bg { 
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-image: url('images/cover.jpg'); 
+            background-size: cover; 
+            background-position: center 30%; /* Updated: Position */
+            opacity: 0.6; 
+            z-index: 1; 
+        }
         .hero-content { position: relative; z-index: 2; padding: 0 20px; }
-        .hero h1 { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; letter-spacing: 2px; }
-        .hero p { font-size: 1.1rem; margin-bottom: 20px; font-weight: 300; opacity: 0.9; letter-spacing: 1px; }
-        .hero-line-btn { display: inline-flex; align-items: center; gap: 10px; background-color: transparent; border: 1px solid var(--c-accent); color: var(--c-accent); padding: 10px 30px; border-radius: 50px; font-size: 15px; font-weight: bold; letter-spacing: 1px; transition: 0.3s; }
-        .hero-line-btn:hover { background-color: var(--c-accent); color: white; }
+        .hero h1 { 
+            font-family: var(--font-serif); 
+            font-size: 2.2rem;    /* Updated: Font Size */
+            margin-bottom: 10px; 
+            font-weight: 700; 
+            letter-spacing: 2px; 
+        }
+        .hero p { 
+            font-size: 1rem;      /* Updated: Font Size */
+            margin-bottom: 0;     /* Removed extra margin since button is gone */
+            font-weight: 300; 
+            opacity: 0.9; 
+            letter-spacing: 1px; 
+        }
+        /* Button removed from CSS as it's removed from HTML */
 
         /* =========================================
            Form & Contract Container
@@ -302,9 +336,6 @@
         <div class="hero-content fade-in">
             <h1>住宿契約簽署</h1>
             <p>ONLINE SIGNATURE</p>
-            <a href="index.html" class="hero-line-btn">
-                <i class="fa-solid fa-house"></i> 返回首頁
-            </a>
         </div>
     </header>
 
