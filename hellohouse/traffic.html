@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>交通指南與停車資訊 | 你好哇寓所 | 駁二捷運站步行路線</title>
+    <meta name="description" content="你好哇寓所交通方式全攻略。鄰近高雄捷運鹽埕埔站與輕軌文武聖殿站。提供周邊收費停車場資訊、高鐵轉乘教學，讓您輕鬆抵達高雄鹽埕區包棟民宿。">
+    <meta name="keywords" content="你好哇寓所交通, 鹽埕區停車場, 駁二交通, 高雄包棟民宿交通, 鹽埕埔捷運站住宿">
+    <meta name="author" content="你好哇寓所 Hello House">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://你的Vercel網址.vercel.app/traffic.html">
+    <meta property="og:title" content="交通與停車指南 | 你好哇寓所">
+    <meta property="og:description" content="詳細的停車場地圖與大眾運輸路線指引，輕鬆開啟您的港都之旅。">
+    <meta property="og:image" content="images/cover.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LodgingBusiness",
+      "name": "你好哇寓所",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "大公路70巷8號",
+        "addressLocality": "鹽埕區",
+        "addressRegion": "高雄市",
+        "postalCode": "803",
+        "addressCountry": "TW"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 22.624930, 
+        "longitude": 120.283411
+      },
+      "url": "https://你的Vercel網址.vercel.app/traffic.html"
+    }
+    </script>
+
+    <style>
+        /* =========================================
+           Design System (全站統一)
+           ========================================= */
+        :root {
+            --c-primary: #1A202C;       
+            --c-accent: #C5A065;        
+            --c-accent-hover: #A68550;
+            --c-bg-body: #F9F9F7;       
+            --c-bg-white: #FFFFFF;
+            --c-bg-light: #EDF2F7;
+            --c-text-gray: #555555; 
+            --c-line: #06C755;
+            --c-youtube: #CC0000;
+            --c-alert: #C53030; 
+            --theme-dark-bg: #1A202C;
+
+            --font-serif: 'Noto Serif TC', serif; 
+            --font-sans: 'Noto Sans TC', sans-serif; 
+
+            --shadow-card: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            --radius-md: 12px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        body { 
+            margin: 0; 
+            font-family: var(--font-sans); 
+            background-color: var(--c-bg-body); 
+            color: var(--c-primary); 
+            line-height: 1.6; 
+            letter-spacing: 0.02em; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; padding: 0; margin: 0; }
+        img { max-width: 100%; display: block; }
+
+        /* =========================================
+           Navbar (標準版)
+           ========================================= */
+        .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
+        .nav-menu { display: flex; align-items: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
+        .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--c-accent); }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 5px; left: 0; background-color: var(--c-accent); transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+        
+        /* 查詢空房按鈕 */
+        .nav-link.nav-btn-booking::after { display: none; }
+        .nav-btn-booking {
+            background-color: var(--c-accent); color: white !important;
+            padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent);
+        }
+        .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
+
+        .dropdown { position: relative; }
+        .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #fff; width: 200px; list-style: none; padding: 10px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; transition: all 0.3s ease; border-top: 3px solid var(--c-accent); margin: 0; }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown-link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--c-primary); font-size: 0.9rem; transition: 0.2s; }
+        .dropdown-link i { color: var(--c-accent); width: 20px; text-align: center; }
+        .dropdown-link:hover { background-color: var(--c-bg-light); color: var(--c-accent); padding-left: 25px; }
+        
+        .menu-toggle { display: none; cursor: pointer; }
+        .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--c-accent); transition: 0.3s; }
+        .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
+        .nav-item:hover .arrow-icon { transform: rotate(180deg); }
+
+        /* =========================================
+           Page Hero
+           ========================================= */
+        .page-header { position: relative; height: 45vh; min-height: 350px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px; }
+        .page-header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('images/cover.jpg'); background-size: cover; background-position: center; opacity: 0.5; z-index: 1; }
+        .page-header-content { position: relative; z-index: 2; padding: 0 20px; }
+        .page-title { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; }
+        .page-subtitle { font-size: 1.1rem; font-weight: 300; letter-spacing: 2px; opacity: 0.9; }
+
+        /* =========================================
+           Main Content
+           ========================================= */
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 80px 0; flex: 1; }
+
+        /* Map & Address */
+        .map-section { background: #fff; padding: 30px; border-radius: var(--radius-md); box-shadow: var(--shadow-card); margin-bottom: 60px; }
+        
+        .traffic-image {
+            width: 100%; height: auto; object-fit: contain;
+            border-radius: 8px; margin-top: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .address-alert-box {
+            text-align: center; margin-bottom: 20px; padding-bottom: 20px;
+            border-bottom: 1px dashed var(--c-bg-light);
+        }
+        .address-text {
+            font-size: 1.5rem; font-weight: 700; color: var(--c-primary);
+            font-family: var(--font-serif); margin-bottom: 15px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .address-text i { color: var(--c-accent); }
+        
+        .warning-badge {
+            display: inline-block; background-color: #FFF5F5; color: var(--c-alert);
+            border: 1px solid #FEB2B2; padding: 8px 20px; border-radius: 50px;
+            font-size: 1rem; font-weight: bold; line-height: 1.5;
+        }
+        .warning-badge i { margin-right: 6px; }
+
+        /* Button Styles */
+        .btn-line { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background-color: var(--c-line); color: white; padding: 12px 30px; border-radius: 50px; font-weight: bold; box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); transition: 0.3s; }
+        .btn-line:hover { background-color: #05b64d; transform: translateY(-2px); }
+        
+        /* Info Section */
+        .info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+        
+        .info-card {
+            background: #fff; padding: 40px; border-radius: var(--radius-md);
+            box-shadow: var(--shadow-card); border-top: 4px solid var(--c-accent);
+        }
+        .info-title { 
+            font-size: 1.5rem; color: var(--c-primary); margin-bottom: 25px; 
+            display: flex; align-items: center; gap: 12px; font-family: var(--font-serif);
+        }
+        .info-title i { color: var(--c-accent); }
+
+        .step-list { counter-reset: step; }
+        .step-item { position: relative; padding-left: 40px; margin-bottom: 20px; }
+        .step-item::before {
+            counter-increment: step; content: counter(step);
+            position: absolute; left: 0; top: 0; width: 28px; height: 28px;
+            background: var(--c-bg-light); color: var(--c-accent);
+            border-radius: 50%; text-align: center; line-height: 28px;
+            font-weight: bold; font-size: 14px;
+        }
+        .step-title { font-weight: bold; font-size: 1.1rem; color: var(--c-primary); display: block; margin-bottom: 5px; }
+        .step-desc { font-size: 0.95rem; color: var(--c-text-gray); }
+
+        /* Parking Grid */
+        .parking-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        
+        .parking-card {
+            background: var(--c-bg-white); border: 1px solid var(--c-bg-light);
+            padding: 25px; border-radius: 8px; transition: 0.3s;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .parking-card:hover { border-color: var(--c-accent); box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: translateY(-3px); }
+        
+        .parking-title { font-weight: bold; color: var(--c-primary); margin-bottom: 10px; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center;}
+        .parking-tag { font-size: 0.8rem; background: var(--c-bg-light); color: var(--c-text-gray); padding: 2px 8px; border-radius: 4px; }
+        
+        .parking-info { font-size: 0.9rem; color: var(--c-text-gray); margin-bottom: 15px; list-style: none; padding: 0; }
+        .parking-info li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; }
+        .parking-info i { color: var(--c-accent); margin-top: 4px; }
+        
+        .btn-map-sm {
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+            width: 100%; text-align: center; border: 1px solid var(--c-accent);
+            color: var(--c-accent); text-decoration: none; padding: 8px; border-radius: 6px;
+            font-size: 0.9rem; font-weight: bold; transition: 0.3s; margin-top: auto;
+        }
+        .btn-map-sm:hover { background: var(--c-accent); color: white; }
+
+        /* =========================================
+           Footer (完全修正版 - 與 Agreement 頁面一致)
+           ========================================= */
+        .footer { 
+            background-color: var(--theme-dark-bg); 
+            color: #aaa; 
+            padding: 80px 0 40px; 
+            border-top: 3px solid var(--c-accent); 
+            width: 100%; 
+            margin-top: auto; 
+            text-align: left;
+        }
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr 1fr; 
+            gap: 50px; 
+            margin-bottom: 50px; 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+        .footer h3 { 
+            color: white; 
+            font-size: 1.1rem; 
+            margin-bottom: 25px; 
+            font-family: var(--font-serif); 
+            letter-spacing: 1px;
+        }
+        .footer-desc { 
+            line-height: 1.8; 
+            margin-bottom: 20px; 
+            text-align: left; 
+            color: #CBD5E0; 
+        }
+        .footer-desc p { margin-bottom: 15px; }
+        .footer-desc strong { color: #fff; font-weight: 500; }
+        
+        .contact-row { 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 12px; 
+        }
+        .contact-row i { 
+            color: var(--c-accent); 
+            margin-top: 5px; 
+            width: 25px; 
+            text-align: center;
+            flex-shrink: 0; 
+        }
+        .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #444; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #333; font-size: 0.85rem; }
+        
+        .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
+        .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
+
+        @media (max-width: 960px) {
+            .menu-toggle { display: block; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: var(--theme-dark-bg); width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
+            .nav-menu.active { left: 0; }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
+            .nav-link::after { display: none; }
+            
+            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background-color: rgba(0,0,0,0.2); box-shadow: none; border-top: none; display: none; }
+            .dropdown.active .dropdown-menu { display: block; }
+            .dropdown-link { color: #ddd; padding: 15px; justify-content: center; white-space: normal; }
+            
+            .info-grid { grid-template-columns: 1fr; }
+            .address-text { font-size: 1.3rem; flex-direction: column; gap: 5px; }
+            .warning-badge { font-size: 0.9rem; text-align: left; padding: 10px; border-radius: 8px;}
+            .parking-grid { grid-template-columns: 1fr; }
+            .page-header { margin-top: 0; }
+        }
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .container { padding: 50px 0; }
+        }
+        
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">你好哇寓所</a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a>
+                </li>
+                <li class="nav-item">
+                    <a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="traffic.html" class="nav-link active"><i class="fa-solid fa-car"></i> 交通停車</a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-bowl-food"></i> 鹽埕美食地圖</a></li>
+                        <li><a href="attractions.html" class="dropdown-link"><i class="fa-solid fa-camera"></i> 周邊景點導覽</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="packages.html" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
+                        <i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟方案</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房">
+        <i class="fa-brands fa-line"></i>
+    </a>
+
+    <header class="page-header">
+        <div class="page-header-bg"></div>
+        <div class="page-header-content fade-in">
+            <h1 class="page-title">交通指南與停車資訊</h1>
+            <div class="page-subtitle">LOCATION & PARKING</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="map-section fade-in">
+            
+            <div class="address-alert-box">
+                <div class="address-text">
+                    <i class="fa-solid fa-location-dot"></i>
+                    高雄市鹽埕區大公路70巷8號
+                </div>
+                <div class="warning-badge">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    民宿位於靜謐巷弄內，車輛無法直接駛入！<br>
+                    請於巷口下車後步行進來 (約 10 公尺)。
+                </div>
+            </div>
+
+            <img src="images/traffic.jpg" alt="你好哇寓所周邊交通地圖" class="traffic-image" onerror="this.src='https://placehold.co/1000x500/EDF2F7/555?text=Traffic+Map';">
+            
+            <div style="margin-top:20px; text-align:center;">
+                <a href="https://www.google.com/maps/dir/?api=1&destination=你好哇寓所&travelmode=walking" target="_blank" class="btn-line">
+                    <i class="fa-solid fa-person-walking"></i> 開啟 Google Map 步行導航
+                </a>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card fade-in" style="grid-column: span 2;">
+                <h2 class="info-title"><i class="fa-solid fa-square-parking"></i> 停車場資訊 (依距離排序)</h2>
+                
+                <div class="parking-grid">
+                    <div class="parking-card">
+                        <div class="parking-title">路邊停車格 <span class="parking-tag">距離 20-100m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 大公路與七賢三路周邊</li>
+                            <li><i class="fa-solid fa-clock"></i> <strong style="color:#2F855A;">20:00 - 08:00 免費</strong></li>
+                        </ul>
+                        <a href="https://www.google.com/maps/search/?api=1&query=高雄市鹽埕區大公路七賢三路口" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航路口</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">Ping 富野站停車場 <span class="parking-tag">距離 170m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 富野路 78 號</li>
+                            <li><i class="fa-solid fa-dollar-sign"></i> 平日 $30/H，假日 $50/H</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=1856535064860438519&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">嘟嘟房 (高雄富野站) <span class="parking-tag">距離 230m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 富野路 27 號</li>
+                            <li><i class="fa-solid fa-dollar-sign"></i> 平日 $40/H，假日 $50/H</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=18149634423983651854&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">國際會議中心地下 <span class="parking-tag">距離 300m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 中正四路 274 號</li>
+                            <li><i class="fa-solid fa-warehouse"></i> 室內平面車位，免曬太陽</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=2933515461281075928&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">文武聖殿停車場 <span class="parking-tag">距離 350m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 富野路 170 號</li>
+                            <li><i class="fa-solid fa-clock"></i> 06:00 - 22:00 (非24H)</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=14869428468779387843&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">鹽埕立體停車場 <span class="parking-tag">距離 500m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 大仁路 10 號</li>
+                            <li><i class="fa-solid fa-warehouse"></i> 室內多層停車場</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=4456456276069017907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+                </div>
+                <div style="margin-top:15px; font-size:0.85rem; color:#999; text-align:center;">
+                    *以上收費與營業資訊僅供參考，實際請以各停車場現場公告為準。
+                </div>
+            </div>
+
+            <div class="info-card fade-in" style="grid-column: span 2;">
+                <h2 class="info-title"><i class="fa-solid fa-train-subway"></i> 大眾運輸指南</h2>
+                <div class="step-list">
+                    <div class="step-item">
+                        <span class="step-title">搭乘高鐵 (HSR)</span>
+                        <div class="step-desc">
+                            至「左營站」下車，轉乘捷運紅線至「美麗島站」，再轉乘橘線。
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-title">搭乘捷運 (MRT)</span>
+                        <div class="step-desc">
+                            至橘線<strong>「鹽埕埔站 (O2)」</strong>下車，從 2 號出口步行約 5-7 分鐘即可抵達。
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-title">搭乘輕軌 (LRT)</span>
+                        <div class="step-desc">
+                            至<strong>「文武聖殿站 (C16)」</strong>下車，步行約 3-5 分鐘即可抵達。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>關於 你好哇寓所</h3>
+                    <div class="footer-desc">
+                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘，<strong>大港橋</strong>亦近在咫尺。</p>
+                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>聯絡資訊</h3>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:0932828922">0932-828-922</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-brands fa-line"></i>
+                        <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a>
+                    </div>
+                </div>
+                <div>
+                    <h3>熱門關鍵字</h3>
+                    <div class="seo-tags">
+                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span>
+                        <span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span>
+                        <span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2025 你好哇寓所 Hello House. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+            // Navbar Logic
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.querySelector('.nav-menu');
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Mobile Link Fix
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                if(toggle) {
+                    toggle.addEventListener('click', (e) => {
+                        if (window.innerWidth <= 960) {
+                            const href = toggle.getAttribute('href');
+                            if (href && href !== '#' && href !== 'javascript:void(0)') {
+                                return; 
+                            }
+                            e.preventDefault();
+                            dropdown.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

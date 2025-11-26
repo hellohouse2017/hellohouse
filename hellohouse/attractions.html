@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>高雄包棟民宿周邊景點懶人包 | 20+個必遊打卡點 | 你好哇寓所</title>
+    <meta name="description" content="入住高雄鹽埕區包棟民宿「你好哇寓所」，輕鬆暢遊20+個熱門景點。駁二、西子灣、漢神巨蛋、壽山動物園皆在8公里生活圈內。提供最完整的景點距離與導航資訊，是您高雄團體旅遊的最佳住宿基地。">
+    <meta name="keywords" content="高雄包棟民宿, 高雄包棟景點, 鹽埕區民宿, 駁二附近住宿, 高雄親子包棟, 壽山動物園住宿, 漢神巨蛋附近民宿, 西子灣住宿">
+    <meta name="author" content="你好哇寓所 Hello House">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://你的Vercel網址.vercel.app/attractions.html">
+    <meta property="og:title" content="高雄包棟民宿周邊攻略 | 20+個熱門景點推薦">
+    <meta property="og:description" content="住在駁二旁！嚴選20個距離民宿8公里內的必遊景點，百貨、動物園、風景區全收錄。">
+    <meta property="og:image" content="images/cover.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "TouristAttraction",
+      "name": "你好哇寓所周邊景點",
+      "description": "高雄鹽埕區周邊熱門觀光景點列表，包含駁二、西子灣等。",
+      "provider": {
+        "@type": "LodgingBusiness",
+        "name": "你好哇寓所"
+      },
+      "itemListElement": [
+        { "@type": "TouristAttraction", "name": "駁二藝術特區" },
+        { "@type": "TouristAttraction", "name": "大港橋" },
+        { "@type": "TouristAttraction", "name": "棧貳庫 KW2" }
+      ]
+    }
+    </script>
+
+    <style>
+        /* =========================================
+           Design System (與 Index 完全一致)
+           ========================================= */
+        :root {
+            --c-primary: #1A202C;       
+            --c-accent: #C5A065;        
+            --c-accent-hover: #A68550;
+            --c-bg-body: #FFFFFF;       
+            --c-bg-light: #F8F9FA;
+            --c-text-gray: #555555; 
+            
+            --c-line: #06C755;
+            --c-youtube: #CC0000;
+            --theme-dark-bg: #1A202C;
+
+            --font-serif: 'Noto Serif TC', serif; 
+            --font-sans: 'Noto Sans TC', sans-serif; 
+
+            --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+            --radius-md: 12px;
+            --radius-full: 9999px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: var(--font-sans);
+            background-color: var(--c-bg-body);
+            color: var(--c-primary);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        img { display: block; max-width: 100%; height: auto; }
+
+        /* =========================================
+           Navbar (Standardized)
+           ========================================= */
+        .navbar {
+            background: rgba(26, 32, 44, 0.95);
+            backdrop-filter: blur(10px);        
+            height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999;
+            border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
+        .nav-menu { display: flex; align-items: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
+        
+        .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--c-accent); }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 5px; left: 0; background-color: var(--c-accent); transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.nav-btn-booking::after { display: none; } /* 移除按鈕底線 */
+
+        /* 查詢空房按鈕 */
+        .nav-btn-booking {
+            background-color: var(--c-accent); color: white !important;
+            padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent);
+        }
+        .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
+
+        .dropdown { position: relative; }
+        .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #fff; width: 200px; list-style: none; padding: 10px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; transition: all 0.3s ease; border-top: 3px solid var(--c-accent); }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown-link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--c-primary); font-size: 0.9rem; transition: 0.2s; }
+        .dropdown-link i { color: var(--c-accent); width: 20px; text-align: center; }
+        .dropdown-link:hover { background-color: var(--c-bg-light); color: var(--c-accent); padding-left: 25px; }
+        
+        .menu-toggle { display: none; cursor: pointer; }
+        .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--c-accent); transition: 0.3s; }
+        .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
+        .nav-item:hover .arrow-icon { transform: rotate(180deg); }
+
+        /* =========================================
+           Page Hero (Sub-page Style)
+           ========================================= */
+        .page-header {
+            position: relative; height: 50vh; min-height: 400px;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+            color: white; background-color: var(--c-primary); overflow: hidden;
+            margin-top: 70px; /* Offset for fixed navbar */
+        }
+        .page-header-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('images/cover.jpg'); 
+            background-size: cover; background-position: center; opacity: 0.5; z-index: 1;
+        }
+        .page-header-content { position: relative; z-index: 2; padding: 0 20px; }
+        .page-title { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 15px; font-weight: 700; text-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .page-subtitle { font-size: 1.1rem; font-weight: 500; letter-spacing: 3px; color: var(--c-accent); text-transform: uppercase; background: rgba(0,0,0,0.6); padding: 5px 15px; border-radius: 4px; display: inline-block;}
+
+        /* =========================================
+           Content: Attractions
+           ========================================= */
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 80px 0; flex: 1; }
+
+        /* Intro Box */
+        .intro-box {
+            background: #fff; padding: 40px; border-radius: 12px;
+            border-left: 5px solid var(--c-accent);
+            box-shadow: var(--shadow-card); margin-bottom: 80px;
+            line-height: 2;
+        }
+        .intro-box h2 { font-size: 1.6rem; margin-bottom: 20px; color: var(--c-primary); font-family: var(--font-serif); display: flex; align-items: center; gap: 10px; }
+        .intro-box p { margin: 0; color: var(--c-text-gray); font-size: 1.05rem; }
+        .intro-box strong { color: var(--c-primary); font-weight: 700; border-bottom: 2px solid rgba(197, 160, 101, 0.3); }
+
+        /* Category */
+        .category-header {
+            display: flex; align-items: center; gap: 15px; margin: 60px 0 30px;
+            padding-bottom: 15px; border-bottom: 1px solid #E2E8F0;
+        }
+        .category-icon { font-size: 1.8rem; color: var(--c-accent); background: var(--c-bg-light); width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .category-title { font-size: 1.8rem; font-weight: 700; font-family: var(--font-serif); color: var(--c-primary); margin: 0; }
+
+        /* Grid */
+        .attraction-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;
+        }
+
+        /* Card */
+        .card {
+            background: #fff; border-radius: var(--radius-md); overflow: hidden;
+            box-shadow: var(--shadow-card); border: 1px solid #f0f0f0;
+            transition: all 0.3s ease; display: flex; flex-direction: column;
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: var(--c-accent); }
+
+        .card-img {
+            position: relative; width: 100%; aspect-ratio: 4/3; overflow: hidden; background-color: #eee;
+        }
+        .card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .card:hover .card-img img { transform: scale(1.1); }
+
+        .card-distance {
+            position: absolute; bottom: 10px; right: 10px;
+            background: rgba(0, 0, 0, 0.7); color: #fff;
+            padding: 4px 12px; border-radius: 20px;
+            font-size: 0.8rem; font-weight: bold; backdrop-filter: blur(4px);
+            display: flex; align-items: center; gap: 5px;
+        }
+
+        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 10px; color: var(--c-primary); font-family: var(--font-serif); }
+        .card-desc { font-size: 0.95rem; color: #666; margin-bottom: 25px; line-height: 1.6; flex-grow: 1; }
+
+        .btn-nav-sm {
+            display: inline-flex; align-items: center; justify-content: center; width: 100%;
+            background: white; color: var(--c-accent);
+            border: 1px solid var(--c-accent);
+            padding: 10px; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 600; transition: 0.3s;
+        }
+        .btn-nav-sm:hover { background: var(--c-accent); color: white; transform: translateY(-2px); }
+        .btn-nav-sm i { margin-right: 8px; }
+
+        /* =========================================
+           Footer (Standardized)
+           ========================================= */
+        .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 80px 0 40px; border-top: 3px solid var(--c-accent); width: 100%; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 50px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .footer h3 { color: white; font-size: 1.1rem; margin-bottom: 25px; font-family: var(--font-serif); }
+        .footer-desc { line-height: 1.8; margin-bottom: 20px; text-align: justify; color: #CBD5E0; }
+        .footer-desc strong { color: #fff; }
+        .contact-row { margin-bottom: 15px; display: flex; gap: 10px; }
+        .contact-row i { color: var(--c-accent); margin-top: 5px; }
+        .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #333; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
+        
+        .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
+        .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
+
+        /* RWD 調整 */
+        @media (max-width: 960px) {
+            .menu-toggle { display: block; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: var(--theme-dark-bg); width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
+            .nav-menu.active { left: 0; }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
+            .nav-link::after { display: none; }
+            
+            /* Mobile Dropdown Fix */
+            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background-color: rgba(0,0,0,0.2); box-shadow: none; border-top: none; display: none; }
+            .dropdown.active .dropdown-menu { display: block; }
+            .dropdown-link { color: #ddd; padding: 15px; justify-content: center; white-space: normal; }
+            .dropdown-link:hover { padding-left: 0; background: transparent; color: #fff; }
+
+            .attraction-grid { grid-template-columns: 1fr; }
+            .page-header { margin-top: 0; } /* 手機版通常 Header 會蓋過 content */
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .container { padding: 50px 20px; }
+            .page-title { font-size: 2rem; }
+        }
+        
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">你好哇寓所</a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a>
+                </li>
+                <li class="nav-item">
+                    <a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle active">
+                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-bowl-food"></i> 鹽埕美食地圖</a></li>
+                        <li><a href="attractions.html" class="dropdown-link"><i class="fa-solid fa-camera"></i> 周邊景點導覽</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="packages.html" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
+                        <i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟方案</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房">
+        <i class="fa-brands fa-line"></i>
+    </a>
+
+    <header class="page-header">
+        <div class="page-header-bg"></div>
+        <div class="page-header-content fade-in">
+            <h1 class="page-title">周邊景點導覽</h1>
+            <div class="page-subtitle">EXPLORE KAOHSIUNG</div>
+        </div>
+    </header>
+
+    <div class="container">
+
+        <div class="intro-box fade-in">
+            <h2><i class="fa-solid fa-location-crosshairs"></i> 高雄包棟旅遊的最佳基地</h2>
+            <p>
+                <strong>「你好哇寓所」</strong>擁有絕佳的地理優勢，不只是<strong>鹽埕區美食</strong>的中心點，更是前往高雄各大熱門景點的樞紐。
+                駁二藝術特區、西子灣、壽山動物園皆近在咫尺；搭乘捷運紅線更能直達<strong>漢神巨蛋</strong>與<strong>SKM Park Outlets</strong>。
+                以下為您精選 <strong>8公里內</strong> 的必遊景點，讓您的包棟行程更加豐富精彩。
+            </p>
+        </div>
+
+        <div class="category-header fade-in">
+            <div class="category-icon"><i class="fa-solid fa-landmark"></i></div>
+            <h2 class="category-title">鹽埕 / 駁二 必遊地標</h2>
+        </div>
+        <div class="attraction-grid fade-in">
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-1.jpg" alt="你好哇寓所周邊景點 - 駁二藝術特區 (步行5分即達)" onerror="this.src='https://placehold.co/600x400?text=Pier-2'"><span class="card-distance"><i class="fa-solid fa-person-walking"></i> 步行5分</span></div>
+                <div class="card-body"><div class="card-title">駁二藝術特區</div><div class="card-desc">高雄最受歡迎的文創園區，充滿前衛藝術裝置與展覽。</div><a href="https://goo.gl/maps/Pier2" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-2.jpg" alt="住你好哇寓所看大港橋開合秀 - 全台首座旋轉橋" onerror="this.src='https://placehold.co/600x400?text=Bridge'"><span class="card-distance"><i class="fa-solid fa-person-walking"></i> 步行6分</span></div>
+                <div class="card-body"><div class="card-title">大港橋</div><div class="card-desc">全台首座水平旋轉橋，每日下午3點有開合秀，網美必拍。</div><a href="https://goo.gl/maps/Bridge" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-3.jpg" alt="高雄鹽埕包棟住宿推薦 - 近高雄流行音樂中心" onerror="this.src='https://placehold.co/600x400?text=Music+Center'"><span class="card-distance"><i class="fa-solid fa-person-walking"></i> 步行10分</span></div>
+                <div class="card-body"><div class="card-title">高雄流行音樂中心</div><div class="card-desc">蜂巢造型前衛建築，夜晚漫步真愛碼頭欣賞燈光秀。</div><a href="https://goo.gl/maps/KMC" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-4.jpg" alt="你好哇寓所鄰近景點 - 棧貳庫KW2白色旋轉木馬" onerror="this.src='https://placehold.co/600x400?text=KW2'"><span class="card-distance"><i class="fa-solid fa-person-walking"></i> 步行8分</span></div>
+                <div class="card-body"><div class="card-title">棧貳庫 KW2</div><div class="card-desc">百年倉庫活化，擁有純白旋轉木馬與無敵海景餐廳。</div><a href="https://goo.gl/maps/KW2" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-5.jpg" alt="高雄親子包棟民宿首選 - 步行至哈瑪星鐵道文化園區放風箏" onerror="this.src='https://placehold.co/600x400?text=Railway+Park'"><span class="card-distance"><i class="fa-solid fa-person-walking"></i> 步行12分</span></div>
+                <div class="card-body"><div class="card-title">哈瑪星鐵道文化園區</div><div class="card-desc">擁有廣大草皮與舊鐵道火車展示，適合親子放風箏。</div><a href="https://goo.gl/maps/Hamasen" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-6.jpg" alt="你好哇寓所搭輕軌直達 - 高雄港旅運中心海景步道" onerror="this.src='https://placehold.co/600x400?text=Port+Terminal'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 輕軌直達</span></div>
+                <div class="card-body"><div class="card-title">高雄港旅運中心</div><div class="card-desc">最新海景地標，擁有3D流線型外觀與觀海平台。</div><a href="https://goo.gl/maps/Port" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+        </div>
+
+        <div class="category-header fade-in">
+            <div class="category-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+            <h2 class="category-title">購物百貨商圈</h2>
+        </div>
+        <div class="attraction-grid fade-in">
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-7.jpg" alt="高雄包棟旅遊逛街行程 - 夢時代購物中心" onerror="this.src='https://placehold.co/600x400?text=Dream+Mall'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 輕軌直達</span></div>
+                <div class="card-body"><div class="card-title">夢時代購物中心</div><div class="card-desc">南台灣最大購物商場，頂樓有Hello Kitty摩天輪。</div><a href="https://goo.gl/maps/DreamMall" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-8.jpg" alt="住你好哇寓所搭捷運逛街 - 漢神巨蛋購物廣場" onerror="this.src='https://placehold.co/600x400?text=Arena'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 捷運直達</span></div>
+                <div class="card-body"><div class="card-title">漢神巨蛋購物廣場</div><div class="card-desc">北高雄最熱鬧商圈，緊鄰瑞豐夜市，美食餐廳林立。</div><a href="https://goo.gl/maps/Arena" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-9.jpg" alt="高雄親子住宿推薦行程 - SKM Park Outlets 鈴鹿賽道樂園" onerror="this.src='https://placehold.co/600x400?text=SKM+Park'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 捷運直達</span></div>
+                <div class="card-body"><div class="card-title">SKM Park Outlets</div><div class="card-desc">美式Outlet風格，擁有鈴鹿賽道樂園，適合親子同樂。</div><a href="https://goo.gl/maps/SKM" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-10.jpg" alt="高雄學生包棟畢旅景點 - 新堀江商圈" onerror="this.src='https://placehold.co/600x400?text=Shinkuchan'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 捷運直達</span></div>
+                <div class="card-body"><div class="card-title">新堀江商圈</div><div class="card-desc">年輕人的潮流聖地，聚集許多服飾店與流行小物。</div><a href="https://goo.gl/maps/Shinkuchan" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-11.jpg" alt="你好哇寓所周邊購物 - 義享天地與萬豪酒店" onerror="this.src='https://placehold.co/600x400?text=E+Sky'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 捷運+步行</span></div>
+                <div class="card-body"><div class="card-title">義享天地</div><div class="card-desc">結合精品購物與五星級飯店的大型商場，有裸視3D螢幕。</div><a href="https://goo.gl/maps/ESky" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-12.jpg" alt="鹽埕區文青景點推薦 - MLD台鋁生活商場" onerror="this.src='https://placehold.co/600x400?text=MLD'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 輕軌直達</span></div>
+                <div class="card-body"><div class="card-title">MLD 台鋁生活商場</div><div class="card-desc">由舊鋁廠改建，擁有全台最美書店與精緻超市。</div><a href="https://goo.gl/maps/MLD" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+        </div>
+
+        <div class="category-header fade-in">
+            <div class="category-icon"><i class="fa-solid fa-tree"></i></div>
+            <h2 class="category-title">自然生態與風景區</h2>
+        </div>
+        <div class="attraction-grid fade-in">
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-13.jpg" alt="你好哇寓所親子行程 - 壽山動物園 (車程7分)" onerror="this.src='https://placehold.co/600x400?text=Zoo'"><span class="card-distance"><i class="fa-solid fa-car"></i> 車程7分</span></div>
+                <div class="card-body"><div class="card-title">壽山動物園</div><div class="card-desc">全新整修升級，空中廊道設計適合推車，親子必訪。</div><a href="https://goo.gl/maps/Zoo" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-14.jpg" alt="住你好哇寓所看夕陽 - 西子灣風景區" onerror="this.src='https://placehold.co/600x400?text=Sunset'"><span class="card-distance"><i class="fa-solid fa-car"></i> 車程8分</span></div>
+                <div class="card-body"><div class="card-title">西子灣風景區</div><div class="card-desc">高雄最著名的夕陽觀賞點，海岸線浪漫唯美。</div><a href="https://goo.gl/maps/Siziwan" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-15.jpg" alt="高雄包棟玩水行程 - 旗津海水浴場" onerror="this.src='https://placehold.co/600x400?text=Cijin'"><span class="card-distance"><i class="fa-solid fa-ship"></i> 搭渡輪</span></div>
+                <div class="card-body"><div class="card-title">旗津海水浴場</div><div class="card-desc">搭乘渡輪前往，享受海鮮、沙灘踏浪與電動車環島。</div><a href="https://goo.gl/maps/Cijin" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> 導航至渡輪站</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-16.jpg" alt="鹽埕區住宿散步景點 - 愛河風景區" onerror="this.src='https://placehold.co/600x400?text=Love+River'"><span class="card-distance"><i class="fa-solid fa-person-walking"></i> 步行15分</span></div>
+                <div class="card-body"><div class="card-title">愛河風景區</div><div class="card-desc">夜晚散步或搭乘貢多拉船、愛之船都非常浪漫。</div><a href="https://goo.gl/maps/LoveRiver" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-17.jpg" alt="高雄旅遊必訪 - 蓮池潭風景區龍虎塔" onerror="this.src='https://placehold.co/600x400?text=Lotus+Pond'"><span class="card-distance"><i class="fa-solid fa-car"></i> 車程20分</span></div>
+                <div class="card-body"><div class="card-title">蓮池潭風景區</div><div class="card-desc">著名的龍虎塔所在地，充滿東方文化色彩的環潭步道。</div><a href="https://goo.gl/maps/LotusPond" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-18.jpg" alt="高雄捷運景點 - 中央公園站與城市光廊" onerror="this.src='https://placehold.co/600x400?text=Central+Park'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 捷運直達</span></div>
+                <div class="card-body"><div class="card-title">中央公園</div><div class="card-desc">捷運站出口被譽為世界最美之一，擁有廣大綠地。</div><a href="https://goo.gl/maps/CentralPark" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+        </div>
+
+        <div class="category-header fade-in">
+            <div class="category-icon"><i class="fa-solid fa-palette"></i></div>
+            <h2 class="category-title">藝文園區</h2>
+        </div>
+        <div class="attraction-grid fade-in">
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-19.jpg" alt="高雄藝文行程 - 衛武營國家藝術文化中心" onerror="this.src='https://placehold.co/600x400?text=Weiwuying'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 捷運直達</span></div>
+                <div class="card-body"><div class="card-title">衛武營國家藝術文化中心</div><div class="card-desc">全球最大單一屋頂劇院，流線型白色建築非常壯觀。</div><a href="https://goo.gl/maps/Weiwuying" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-20.jpg" alt="高雄網美包棟打卡 - 高雄市立美術館龍貓隧道" onerror="this.src='https://placehold.co/600x400?text=Museum'"><span class="card-distance"><i class="fa-solid fa-train-subway"></i> 輕軌直達</span></div>
+                <div class="card-body"><div class="card-title">高雄市立美術館</div><div class="card-desc">擁有廣大綠地與優質展覽，輕軌「龍貓隧道」位於此區。</div><a href="https://goo.gl/maps/Museum" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-21.jpg" alt="你好哇寓所私房景點 - 金馬賓館當代美術館" onerror="this.src='https://placehold.co/600x400?text=Alien+Art'"><span class="card-distance"><i class="fa-solid fa-car"></i> 車程5分</span></div>
+                <div class="card-body"><div class="card-title">金馬賓館當代美術館</div><div class="card-desc">軍事歷史建築改建的當代藝術館，氛圍靜謐獨特。</div><a href="https://goo.gl/maps/AlienArt" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/attraction-22.jpg" alt="高雄古蹟之旅 - 打狗英國領事館" onerror="this.src='https://placehold.co/600x400?text=Consulate'"><span class="card-distance"><i class="fa-solid fa-car"></i> 車程10分</span></div>
+                <div class="card-body"><div class="card-title">打狗英國領事館</div><div class="card-desc">國定古蹟，紅磚建築充滿英式風情，可眺望高雄港。</div><a href="https://goo.gl/maps/Consulate" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google 導航</a></div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>關於 你好哇寓所</h3>
+                    <div class="footer-desc">
+                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘，<strong>大港橋</strong>亦近在咫尺。</p>
+                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>聯絡資訊</h3>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:0932828922">0932-828-922</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-brands fa-line"></i>
+                        <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a>
+                    </div>
+                </div>
+                <div>
+                    <h3>熱門關鍵字</h3>
+                    <div class="seo-tags">
+                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span>
+                        <span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span>
+                        <span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2025 你好哇寓所 Hello House. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+            // Navbar Logic
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.querySelector('.nav-menu');
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Mobile Link Fix
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                if(toggle) {
+                    toggle.addEventListener('click', (e) => {
+                        if (window.innerWidth <= 960) {
+                            const href = toggle.getAttribute('href');
+                            if (href && href !== '#' && href !== 'javascript:void(0)') {
+                                return; 
+                            }
+                            e.preventDefault();
+                            dropdown.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

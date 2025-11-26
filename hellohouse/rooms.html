@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>房型與空間介紹 | 你好哇寓所 | 舒適雙人房、景觀四人房與團體六人房</title>
+    <meta name="description" content="你好哇寓所房型介紹。提供2-6人多種房型選擇，包含網美吊椅四人房、高樓層景觀房與擁有豪華中島廚房的公共空間。全館使用獨立筒床墊與乾濕分離衛浴。">
+    <meta name="keywords" content="高雄民宿房型, 鹽埕區住宿, 駁二住宿, 高雄雙人房, 高雄四人房, 高雄六人房, 中島廚房民宿, 包棟空間">
+    <meta name="author" content="你好哇寓所 Hello House">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://你的Vercel網址.vercel.app/rooms.html">
+    <meta property="og:title" content="房型與空間介紹 | 你好哇寓所">
+    <meta property="og:description" content="嚴選多種特色房型，從溫馨雙人到寬敞六人房，皆配備頂級衛浴與舒適寢具。">
+    <meta property="og:image" content="images/cover.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Hotel",
+      "name": "你好哇寓所",
+      "description": "高雄鹽埕區合法包棟民宿，提供多樣化房型。",
+      "containsPlace": [
+        { "@type": "HotelRoom", "name": "2F-1201 雙人房", "occupancy": 2 },
+        { "@type": "HotelRoom", "name": "2F-1202 四人房", "occupancy": 4 },
+        { "@type": "HotelRoom", "name": "3F-1302 六人房", "occupancy": 6 },
+        { "@type": "HotelRoom", "name": "4F-1401 雙人房", "occupancy": 2 },
+        { "@type": "HotelRoom", "name": "4F-1402 六人房", "occupancy": 6 }
+      ]
+    }
+    </script>
+
+    <style>
+        /* =========================================
+           Design System (全站統一)
+           ========================================= */
+        :root {
+            --c-primary: #1A202C;       
+            --c-accent: #C5A065;        
+            --c-accent-hover: #A68550;
+            --c-bg-body: #F9F9F7;       
+            --c-bg-white: #FFFFFF;
+            --c-text-gray: #555555; 
+            
+            --c-line: #06C755;
+            --c-youtube: #CC0000;
+            --theme-dark-bg: #1A202C;
+
+            --font-serif: 'Noto Serif TC', serif; 
+            --font-sans: 'Noto Sans TC', sans-serif; 
+
+            --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+            --radius-md: 12px;
+            --radius-full: 9999px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: var(--font-sans);
+            background-color: var(--c-bg-body);
+            color: var(--c-primary);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-serif);
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        img { display: block; max-width: 100%; height: auto; }
+
+        /* =========================================
+           Navbar (標準樣式)
+           ========================================= */
+        .navbar {
+            background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px);
+            height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999;
+            border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
+        .nav-menu { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; gap: 20px; }
+        .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; transition: 0.3s; display: flex; align-items: center; gap: 6px; }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 5px; left: 0; background-color: var(--c-accent); transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link:hover, .nav-link.active { color: var(--c-accent); }
+        
+        /* 查詢空房按鈕 */
+        .nav-link.nav-btn-booking::after { display: none; }
+        .nav-btn-booking {
+            background-color: var(--c-accent); color: white !important;
+            padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent);
+        }
+        .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
+
+        .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
+        .nav-item:hover .arrow-icon { transform: rotate(180deg); }
+        
+        /* Dropdown */
+        .dropdown { position: relative; }
+        .dropdown-menu {
+            position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px);
+            background: #fff; width: 200px; list-style: none; padding: 10px 0;
+            border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+            border-top: 3px solid var(--c-accent);
+        }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown-link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--c-primary); font-size: 0.9rem; transition: 0.2s; }
+        .dropdown-link i { color: var(--c-accent); width: 20px; text-align: center; }
+        .dropdown-link:hover { background-color: #EDF2F7; color: var(--c-accent); padding-left: 25px; }
+        
+        .menu-toggle { display: none; cursor: pointer; }
+        .bar { display: block; width: 25px; height: 3px; margin: 5px auto; transition: 0.3s; background-color: var(--c-accent); }
+
+        /* =========================================
+           Hero Header
+           ========================================= */
+        .hero { 
+            position: relative; height: 70vh; min-height: 500px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
+            color: white; background-color: var(--c-primary); overflow: hidden; 
+        }
+        .hero-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('images/cover.jpg'); 
+            background-size: cover; background-position: center; opacity: 0.6; z-index: 1;
+            transform: scale(1.1); animation: zoomSlow 20s infinite alternate;
+        }
+        @keyframes zoomSlow { from { transform: scale(1); } to { transform: scale(1.1); } }
+        .hero-content { position: relative; z-index: 2; padding: 0 20px; }
+        .hero h1 { font-size: clamp(2.2rem, 5vw, 4rem); margin-bottom: 1rem; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1.2rem; margin-bottom: 2.5rem; font-weight: 300; opacity: 0.9; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 32px; border-radius: var(--radius-full); font-weight: 500; font-size: 16px; transition: all 0.3s ease; cursor: pointer; }
+        .btn-line { background-color: var(--c-line); color: white; box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); }
+        .btn-line:hover { background-color: #05b64d; transform: translateY(-2px); }
+
+        /* =========================================
+           Room Cards
+           ========================================= */
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; }
+        .section-padding { padding: 100px 0; }
+
+        .room-card {
+            display: flex;
+            background: var(--c-bg-white);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.8);
+            margin-bottom: 80px;
+            transition: all 0.4s ease;
+        }
+        .room-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px -10px rgba(0,0,0,0.08); }
+        
+        .room-card:nth-child(even) { flex-direction: row-reverse; }
+
+        .room-img-box {
+            width: 55%; position: relative; overflow: hidden; min-height: 400px;
+        }
+        .room-img-box img {
+            width: 100%; height: 100%; object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .room-card:hover .room-img-box img { transform: scale(1.08); }
+
+        .room-content {
+            width: 45%; padding: 50px;
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        .room-title {
+            font-size: 1.8rem; color: var(--c-primary); margin-bottom: 10px;
+            display: flex; align-items: center; gap: 12px;
+            font-family: var(--font-serif);
+        }
+        .room-title i { color: var(--c-accent); font-size: 1.2rem; }
+        
+        .room-desc {
+            font-size: 1.05rem; color: #888; margin-bottom: 25px; font-weight: 400;
+        }
+
+        .badge-container { margin-bottom: 30px; }
+        .badge {
+            display: inline-block; padding: 6px 16px; border-radius: 30px;
+            font-size: 0.85rem; font-weight: 500; margin-right: 8px; margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .badge-gray { background: #F0F4F8; color: #64748B; }
+        .badge-gold { background: #FFFBF2; color: #B78628; border: 1px solid #FCEDCF; }
+        
+        .amenity-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+            padding-top: 25px; border-top: 1px solid #F1F5F9;
+        }
+        .amenity-item {
+            font-size: 0.9rem; color: var(--c-text-gray); display: flex; align-items: center; gap: 10px;
+        }
+        .amenity-item i { color: var(--c-accent); width: 20px; text-align: center; font-size: 0.9rem;}
+
+        /* =========================================
+           Footer (完全修正版 - 與 Agreement 頁面一致)
+           ========================================= */
+        .footer { 
+            background-color: var(--theme-dark-bg); 
+            color: #aaa; 
+            padding: 80px 0 40px; 
+            border-top: 3px solid var(--c-accent); 
+            width: 100%; 
+            margin-top: auto; 
+            text-align: left;
+        }
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr 1fr; 
+            gap: 50px; 
+            margin-bottom: 50px; 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+        .footer h3 { 
+            color: white; 
+            font-size: 1.1rem; 
+            margin-bottom: 25px; 
+            font-family: var(--font-serif); 
+            letter-spacing: 1px;
+        }
+        .footer-desc { 
+            line-height: 1.8; 
+            margin-bottom: 20px; 
+            text-align: left; 
+            color: #CBD5E0; 
+        }
+        .footer-desc p { margin-bottom: 15px; }
+        .footer-desc strong { color: #fff; font-weight: 500; }
+        
+        /* 聯絡資訊對齊 */
+        .contact-row { 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: flex-start; /* Icon 對齊 */
+            gap: 12px; 
+        }
+        .contact-row i { 
+            color: var(--c-accent); 
+            margin-top: 5px; 
+            width: 25px; /* 固定寬度 */
+            text-align: center;
+            flex-shrink: 0; 
+        }
+        .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #333; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
+
+        /* Floating Button */
+        .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
+        .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
+
+        /* Animation */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* RWD */
+        @media (max-width: 960px) {
+            /* Mobile Nav */
+            .menu-toggle { display: block; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: var(--theme-dark-bg); width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
+            .nav-menu.active { left: 0; }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
+            .nav-link::after { display: none; }
+            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background-color: rgba(0,0,0,0.2); box-shadow: none; border-top: none; display: none; }
+            .dropdown.active .dropdown-menu { display: block; }
+            .dropdown-link { color: #ddd; padding: 15px; justify-content: center; white-space: normal; }
+            
+            /* Mobile Room Cards */
+            .room-card, .room-card:nth-child(even) { flex-direction: column; border-radius: 20px; }
+            .room-img-box { width: 100%; height: 280px; min-height: auto; }
+            .room-content { width: 100%; padding: 30px 20px; }
+            .amenity-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero-tags { display: none; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .section-padding { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">你好哇寓所</a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a>
+                </li>
+                <li class="nav-item">
+                    <a href="rooms.html" class="nav-link active"><i class="fa-solid fa-bed"></i> 房型介紹</a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-bowl-food"></i> 鹽埕美食地圖</a></li>
+                        <li><a href="attractions.html" class="dropdown-link"><i class="fa-solid fa-camera"></i> 周邊景點導覽</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="packages.html" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
+                        <i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟方案</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房">
+        <i class="fa-brands fa-line"></i>
+    </a>
+
+    <header class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-content fade-in">
+            <h1>房型與空間介紹</h1>
+            <p>Comfort & Luxury Spaces</p>
+            <a href="https://lin.ee/atCiMQw" target="_blank" class="btn btn-line">
+                <i class="fa-brands fa-line"></i> 查看房價與空房
+            </a>
+        </div>
+    </header>
+
+    <section class="section-padding">
+        <div class="container">
+            
+            <div class="room-card fade-in">
+                <div class="room-img-box">
+                    <img src="images/1000.jpg" alt="1F公共空間" onerror="this.src='https://placehold.co/800x600/E0D0B8/909090?text=Public+Space';">
+                </div>
+                <div class="room-content">
+                    <h2 class="room-title"><i class="fa-solid fa-mug-hot"></i> 1F 公共空間</h2>
+                    <div class="room-desc">寬敞舒適的交誼核心，大家聚在一起最棒的空間。</div>
+                    <div class="badge-container">
+                        <span class="badge badge-gray">56 m²</span>
+                        <span class="badge badge-gold">豪華中島廚房</span>
+                        <span class="badge badge-gray">獨立衛浴</span>
+                    </div>
+                    <div class="amenity-grid">
+                        <div class="amenity-item"><i class="fa-solid fa-fire-burner"></i> 雙口IH爐/抽油煙機</div>
+                        <div class="amenity-item"><i class="fa-solid fa-glass-water"></i> RO飲水機/雙門冰箱</div>
+                        <div class="amenity-item"><i class="fa-solid fa-bread-slice"></i> 烤箱/微波/烤麵包機</div>
+                        <div class="amenity-item"><i class="fa-solid fa-tv"></i> 聯網電視</div>
+                        <div class="amenity-item"><i class="fa-solid fa-layer-group"></i> 麻將/撲克牌</div>
+                        <div class="amenity-item"><i class="fa-solid fa-wind"></i> 一級冷暖空調</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="room-card fade-in">
+                <div class="room-img-box">
+                    <img src="images/1201.jpg" alt="2F-1201雙人房" onerror="this.src='https://placehold.co/800x600/E0D0B8/909090?text=2F-1201';">
+                </div>
+                <div class="room-content">
+                    <h2 class="room-title">2F-1201 雙人房</h2>
+                    <div class="room-desc">標準舒適空間，溫馨的休憩角落。</div>
+                    <div class="badge-container">
+                        <span class="badge badge-gray">24 m²</span>
+                        <span class="badge badge-gold">對外氣密窗</span>
+                        <span class="badge badge-gray">乾濕分離衛浴</span>
+                    </div>
+                    <div class="amenity-grid">
+                        <div class="amenity-item"><i class="fa-solid fa-bed"></i> 標準雙人床</div>
+                        <div class="amenity-item"><i class="fa-solid fa-laptop"></i> 書桌</div>
+                        <div class="amenity-item"><i class="fa-solid fa-tv"></i> 聯網電視</div>
+                        <div class="amenity-item"><i class="fa-solid fa-wind"></i> 空調/吹風機</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="room-card fade-in">
+                <div class="room-img-box">
+                    <img src="images/1202.jpg" alt="2F-1202四人房" onerror="this.src='https://placehold.co/800x600/E0D0B8/909090?text=2F-1202';">
+                </div>
+                <div class="room-content">
+                    <h2 class="room-title">2F-1202 四人房</h2>
+                    <div class="room-desc">極佳採光與網美設施，拍照打卡首選。</div>
+                    <div class="badge-container">
+                        <span class="badge badge-gray">40 m²</span>
+                        <span class="badge badge-gold">落地玻璃採光</span>
+                        <span class="badge badge-gold">網美吊椅</span>
+                    </div>
+                    <div class="amenity-grid">
+                        <div class="amenity-item"><i class="fa-solid fa-bed"></i> 標準雙人床 x2</div>
+                        <div class="amenity-item"><i class="fa-solid fa-couch"></i> 沙發/茶几/吊椅</div>
+                        <div class="amenity-item"><i class="fa-solid fa-tv"></i> 聯網電視</div>
+                        <div class="amenity-item"><i class="fa-solid fa-bath"></i> 乾濕分離衛浴</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="room-card fade-in">
+                <div class="room-img-box">
+                    <img src="images/1302.jpg" alt="3F-1302六人房" onerror="this.src='https://placehold.co/800x600/E0D0B8/909090?text=3F-1302';">
+                </div>
+                <div class="room-content">
+                    <h2 class="room-title">3F-1302 六人房</h2>
+                    <div class="room-desc">寬敞團體空間，適合家庭或好朋友同住。</div>
+                    <div class="badge-container">
+                        <span class="badge badge-gray">48 m²</span>
+                        <span class="badge badge-gold">落地玻璃採光</span>
+                        <span class="badge badge-gray">乾濕分離衛浴</span>
+                    </div>
+                    <div class="amenity-grid">
+                        <div class="amenity-item"><i class="fa-solid fa-bed"></i> 雙人床(150*200) x3</div>
+                        <div class="amenity-item"><i class="fa-solid fa-laptop"></i> 書桌</div>
+                        <div class="amenity-item"><i class="fa-solid fa-tv"></i> 聯網電視</div>
+                        <div class="amenity-item"><i class="fa-solid fa-wind"></i> 空調/吹風機</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="room-card fade-in">
+                <div class="room-img-box">
+                    <img src="images/1401.jpg" alt="4F-1401雙人房" onerror="this.src='https://placehold.co/800x600/E0D0B8/909090?text=4F-1401';">
+                </div>
+                <div class="room-content">
+                    <h2 class="room-title">4F-1401 雙人房</h2>
+                    <div class="room-desc">雅緻高樓層視野，享受安靜的私人時光。</div>
+                    <div class="badge-container">
+                        <span class="badge badge-gray">24 m²</span>
+                        <span class="badge badge-gold">對外落地窗</span>
+                        <span class="badge badge-gray">乾濕分離衛浴</span>
+                    </div>
+                    <div class="amenity-grid">
+                        <div class="amenity-item"><i class="fa-solid fa-bed"></i> 標準雙人床</div>
+                        <div class="amenity-item"><i class="fa-solid fa-couch"></i> 沙發/茶几</div>
+                        <div class="amenity-item"><i class="fa-solid fa-tv"></i> 聯網電視</div>
+                        <div class="amenity-item"><i class="fa-solid fa-wind"></i> 空調/吹風機</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="room-card fade-in">
+                <div class="room-img-box">
+                    <img src="images/1402.jpg" alt="4F-1402六人房" onerror="this.src='https://placehold.co/800x600/E0D0B8/909090?text=4F-1402';">
+                </div>
+                <div class="room-content">
+                    <h2 class="room-title">4F-1402 六人房</h2>
+                    <div class="room-desc">高樓層大空間，視野開闊，團體入住首選。</div>
+                    <div class="badge-container">
+                        <span class="badge badge-gray">45 m²</span>
+                        <span class="badge badge-gold">落地玻璃採光</span>
+                        <span class="badge badge-gray">乾濕分離衛浴</span>
+                    </div>
+                    <div class="amenity-grid">
+                        <div class="amenity-item"><i class="fa-solid fa-bed"></i> 雙人床(150*200) x3</div>
+                        <div class="amenity-item"><i class="fa-solid fa-laptop"></i> 書桌</div>
+                        <div class="amenity-item"><i class="fa-solid fa-tv"></i> 聯網電視</div>
+                        <div class="amenity-item"><i class="fa-solid fa-wind"></i> 空調/吹風機</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>關於 你好哇寓所</h3>
+                    <div class="footer-desc">
+                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘，<strong>大港橋</strong>亦近在咫尺。</p>
+                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>聯絡資訊</h3>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:0932828922">0932-828-922</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-brands fa-line"></i>
+                        <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a>
+                    </div>
+                </div>
+                <div>
+                    <h3>熱門關鍵字</h3>
+                    <div class="seo-tags">
+                        <span>高雄包棟推薦</span>
+                        <span>鹽埕區民宿</span>
+                        <span>駁二住宿</span>
+                        <span>麻將民宿</span>
+                        <span>中島廚房</span>
+                        <span>親子住宿</span>
+                        <span>棧貳庫周邊</span>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2025 你好哇寓所 Hello House. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll Animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+            // Navbar Logic
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.querySelector('.nav-menu');
+
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-active');
+                navMenu.classList.toggle('active');
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    if(!link.classList.contains('dropdown-toggle')) {
+                        navMenu.classList.remove('active');
+                        mobileMenu.classList.remove('is-active');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                if(toggle) {
+                    toggle.addEventListener('click', (e) => {
+                        if (window.innerWidth <= 960) {
+                            e.preventDefault();
+                            dropdown.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

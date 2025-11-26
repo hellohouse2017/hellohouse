@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>高雄球隊比賽住宿推薦 | 移地訓練 & 學生團體包棟 | 你好哇寓所</title>
+    
+    <meta name="description" content="高雄球隊住宿首選你好哇寓所。提供6-38人包棟，鄰近高雄巨蛋、鳳山體育館。配備免費洗衣機、大型製冰機與RO飲水機，客廳可做賽後檢討。是籃球隊、棒球隊移地訓練與比賽的高CP值住宿選擇。">
+    
+    <meta name="keywords" content="高雄球隊住宿, 移地訓練民宿, 高雄比賽包棟, 學生團體住宿, 高雄巨蛋附近民宿, 便宜包棟, 洗衣機民宿, 製冰機">
+    
+    <meta name="author" content="你好哇寓所 Hello House">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://你的Vercel網址.vercel.app/packages-team.html">
+    <meta property="og:title" content="贏球的最佳後盾 | 你好哇寓所球隊包棟方案">
+    <meta property="og:description" content="充足的休息、便利的洗衣設備、寬敞的戰術討論空間。我們照顧好球員的起居，讓你們專注於場上的勝利。">
+    <meta property="og:image" content="images/team-cover.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Hostel",
+      "name": "你好哇寓所",
+      "image": "https://你的網址/images/team-cover.jpg",
+      "description": "專為運動團隊、學生團體設計的高雄包棟住宿，提供洗衣與會議設施。",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "高雄市鹽埕區"
+      },
+      "amenityFeature": [
+        { "@type": "LocationFeatureSpecification", "name": "免費洗衣機", "value": "True" },
+        { "@type": "LocationFeatureSpecification", "name": "大型製冰機", "value": "True" },
+        { "@type": "LocationFeatureSpecification", "name": "賽後檢討空間", "value": "True" }
+      ],
+      "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "Sports Teams"
+      }
+    }
+    </script>
+
+    <style>
+        /* =========================================
+           Design System
+           ========================================= */
+        :root {
+            --c-primary: #1A202C;       
+            --c-accent: #C5A065;        
+            --c-accent-hover: #A68550;
+            --c-bg-body: #F9F9F7;       
+            --c-bg-white: #FFFFFF;
+            --c-bg-light: #EDF2F7;
+            --c-text-gray: #555555; 
+            --c-line: #06C755;
+            --theme-dark-bg: #1A202C;
+            --c-energy: #3182CE; /* 運動主題藍色 */
+
+            --font-serif: 'Noto Serif TC', serif; 
+            --font-sans: 'Noto Sans TC', sans-serif; 
+
+            --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+            --radius-md: 12px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; font-family: var(--font-sans); background-color: var(--c-bg-body); color: var(--c-primary); line-height: 1.8; letter-spacing: 0.02em; display: flex; flex-direction: column; min-height: 100vh; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; padding: 0; margin: 0; }
+        img { max-width: 100%; display: block; }
+
+        /* Navbar (標準版) */
+        .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
+        .nav-menu { display: flex; align-items: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
+        .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--c-accent); }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 5px; left: 0; background-color: var(--c-accent); transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+        
+        .nav-link.nav-btn-booking::after { display: none; }
+        .nav-btn-booking { background-color: var(--c-accent); color: white !important; padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent); }
+        .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
+
+        .dropdown { position: relative; }
+        .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #fff; width: 200px; list-style: none; padding: 10px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; transition: all 0.3s ease; border-top: 3px solid var(--c-accent); margin: 0; }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown-link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--c-primary); font-size: 0.9rem; transition: 0.2s; }
+        .dropdown-link i { color: var(--c-accent); width: 20px; text-align: center; }
+        .dropdown-link:hover { background-color: var(--c-bg-light); color: var(--c-accent); padding-left: 25px; }
+        
+        .menu-toggle { display: none; cursor: pointer; }
+        .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--c-accent); transition: 0.3s; }
+        .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
+        .nav-item:hover .arrow-icon { transform: rotate(180deg); }
+
+        /* Page Hero */
+        .page-header { position: relative; height: 60vh; min-height: 450px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px; }
+        .page-header-bg { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            background-image: url('images/team-cover.jpg'); /* 使用預設圖片 */
+            background-size: cover; background-position: center; opacity: 0.5; z-index: 1; 
+        }
+        .page-header-content { position: relative; z-index: 2; padding: 0 20px; max-width: 800px; }
+        .page-title { font-family: var(--font-serif); font-size: 2.8rem; margin-bottom: 20px; font-weight: 700; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .page-desc { font-size: 1.2rem; font-weight: 300; letter-spacing: 1px; opacity: 0.95; line-height: 1.6; }
+
+        /* Content */
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 80px 0; flex: 1; }
+
+        /* Intro */
+        .intro-text { text-align: center; max-width: 800px; margin: 0 auto 80px; }
+        .intro-text h2 { font-family: var(--font-serif); font-size: 2rem; margin-bottom: 20px; color: var(--c-primary); }
+        .intro-text p { font-size: 1.1rem; color: #666; line-height: 2; }
+        .highlight-gold { color: var(--c-accent); font-weight: bold; border-bottom: 2px solid rgba(197, 160, 101, 0.3); }
+
+        /* Team Features Grid */
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-bottom: 100px; }
+        .feature-card { background: #fff; padding: 30px; border-radius: 12px; box-shadow: var(--shadow-card); text-align: center; transition: 0.3s; border-top: 4px solid transparent; }
+        .feature-card:hover { transform: translateY(-10px); border-top: 4px solid var(--c-energy); }
+        .feature-icon { font-size: 2.5rem; color: var(--c-energy); margin-bottom: 20px; background: #EBF8FF; width: 80px; height: 80px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+        .feature-title { font-size: 1.3rem; margin-bottom: 15px; font-weight: bold; }
+        .feature-desc { color: #666; font-size: 0.95rem; }
+
+        /* Venue Distances */
+        .venue-section { margin-bottom: 80px; }
+        .section-title { font-family: var(--font-serif); font-size: 1.8rem; margin-bottom: 40px; color: var(--c-primary); text-align: center; display: flex; align-items: center; justify-content: center; gap: 15px; }
+        
+        .venue-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .venue-card { display: flex; align-items: center; background: #fff; padding: 20px; border-radius: 8px; border-left: 5px solid var(--c-accent); box-shadow: var(--shadow-card); }
+        .venue-icon { font-size: 1.5rem; color: var(--c-accent); margin-right: 20px; min-width: 40px; text-align: center; }
+        .venue-info h4 { margin: 0 0 5px 0; font-size: 1.1rem; color: var(--c-primary); }
+        .venue-info p { margin: 0; font-size: 0.9rem; color: #666; }
+        .venue-time { margin-left: auto; font-weight: bold; color: var(--c-energy); font-size: 0.9rem; background: #EBF8FF; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+
+        /* Coach Benefits */
+        .coach-box { background: #2C3E50; color: #fff; padding: 50px; border-radius: 20px; margin-bottom: 60px; position: relative; overflow: hidden; }
+        .coach-box::after { content: '\f0c0'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; right: -20px; bottom: -30px; font-size: 200px; opacity: 0.05; color: #fff; }
+        .coach-title { font-size: 1.5rem; margin-bottom: 30px; font-weight: bold; color: var(--c-accent); }
+        .benefit-list { list-style: none; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; position: relative; z-index: 1; }
+        .benefit-item h4 { font-size: 1.1rem; margin-bottom: 10px; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .benefit-item p { font-size: 0.95rem; opacity: 0.8; margin: 0; line-height: 1.6; }
+
+        /* CTA Box */
+        .cta-box { text-align: center; padding: 40px; }
+        .btn-energy { background-color: var(--c-energy); color: white; padding: 15px 40px; border-radius: 50px; font-weight: bold; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; font-size: 1.1rem; box-shadow: 0 4px 15px rgba(49, 130, 206, 0.4); }
+        .btn-energy:hover { background-color: #2B6CB0; transform: translateY(-3px); }
+
+        /* Footer (標準版) */
+        .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 80px 0 40px; border-top: 3px solid var(--c-accent); width: 100%; margin-top: auto; text-align: left; }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 50px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        .footer h3 { color: white; font-size: 1.1rem; margin-bottom: 25px; font-family: var(--font-serif); letter-spacing: 1px; }
+        .footer-desc { line-height: 1.8; margin-bottom: 20px; text-align: left; color: #CBD5E0; }
+        .footer-desc p { margin-bottom: 15px; }
+        .footer-desc strong { color: #fff; font-weight: 500; }
+        .contact-row { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px; }
+        .contact-row i { color: var(--c-accent); margin-top: 5px; width: 25px; text-align: center; flex-shrink: 0; }
+        .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #333; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
+        .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
+        .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
+
+        /* RWD */
+        @media (max-width: 960px) {
+            .menu-toggle { display: block; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: var(--theme-dark-bg); width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
+            .nav-menu.active { left: 0; }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
+            .nav-link::after { display: none; }
+            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background-color: rgba(0,0,0,0.2); box-shadow: none; border-top: none; display: none; }
+            .dropdown.active .dropdown-menu { display: block; }
+            .dropdown-link { color: #ddd; padding: 15px; justify-content: center; white-space: normal; }
+            
+            .page-header { height: 50vh; }
+            .features-grid { grid-template-columns: 1fr; }
+            .venue-list { grid-template-columns: 1fr; }
+            .benefit-list { grid-template-columns: 1fr; }
+            .coach-box { padding: 30px; }
+        }
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .container { padding: 50px 0; }
+        }
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">你好哇寓所</a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link dropdown-toggle"><i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a></li>
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle"><i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="travel.html" class="dropdown-link"><i class="fa-solid fa-location-arrow"></i> 周邊景點推薦</a></li>
+                        <li><a href="travel.html" class="dropdown-link"><i class="fa-solid fa-utensils"></i> 鹽埕美食地圖</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="packages.html" class="nav-link dropdown-toggle active" style="color:var(--c-accent);"><i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟方案</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a href="check.html" class="nav-link nav-btn-booking"><i class="fa-solid fa-calendar-check"></i> 查詢空房</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="page-header">
+        <div class="page-header-bg"></div>
+        <div class="page-header-content fade-in">
+            <h1 class="page-title">球隊比賽・移地訓練</h1>
+            <div class="page-desc">勝利始於充分的休息。<br>專為運動團隊打造，最完善的後勤補給基地。</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="intro-text fade-in">
+            <h2>為什麼你好哇寓所是球隊首選？</h2>
+            <p>
+                我們深知帶隊教練的辛苦。球衣要洗、水壺要補、晚上要開檢討會、還要擔心球員太晚睡。<br>
+                <span class="highlight-gold">你好哇寓所</span> 擁有獨立且單純的包棟環境，設備一應俱全。<br>
+                讓球員吃好睡好、專注比賽，是我們能給予球隊最大的支持。<br>
+                高 CP 值的價格，更能減輕學生球隊的經費負擔。
+            </p>
+        </div>
+
+        <div class="features-grid fade-in">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-shirt"></i></div>
+                <div class="feature-title">免費洗衣設施</div>
+                <div class="feature-desc">提供洗衣機與寬敞曬衣空間。球衣當天洗當天乾，不用再帶著充滿汗臭味的裝備移動。</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-glass-water"></i></div>
+                <div class="feature-title">補給最方便</div>
+                <div class="feature-desc">RO逆滲透飲水機 + 大型自動製冰機。賽前冰桶補給、賽後冰敷放鬆，通通沒問題。</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
+                <div class="feature-title">戰術研討空間</div>
+                <div class="feature-desc">一樓大客廳配備大型聯網電視，可連接手機或電腦播放比賽錄影，進行賽後檢討與戰術分析。</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fa-solid fa-bed"></i></div>
+                <div class="feature-title">高乘載住宿</div>
+                <div class="feature-desc">全棟最高可容納 38 人（需雙包棟），隊員、教練、隨隊家長都能住在一起，便於管理。</div>
+            </div>
+        </div>
+
+        <div class="venue-section fade-in">
+            <h3 class="section-title"><i class="fa-solid fa-map-location-dot"></i> 鄰近各大賽事場館</h3>
+            <div class="venue-list">
+                <div class="venue-card">
+                    <div class="venue-icon"><i class="fa-solid fa-basketball"></i></div>
+                    <div class="venue-info">
+                        <h4>高雄巨蛋 (Kaohsiung Arena)</h4>
+                        <p>HBL、職業籃球賽事主場</p>
+                    </div>
+                    <span class="venue-time">捷運直達 15分</span>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-icon"><i class="fa-solid fa-baseball-bat-ball"></i></div>
+                    <div class="venue-info">
+                        <h4>立德棒球場</h4>
+                        <p>學生棒球聯賽重要場地</p>
+                    </div>
+                    <span class="venue-time">車程 5分</span>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-icon"><i class="fa-solid fa-volleyball"></i></div>
+                    <div class="venue-info">
+                        <h4>鳳山體育館</h4>
+                        <p>各類室內球類競賽</p>
+                    </div>
+                    <span class="venue-time">捷運轉乘 20分</span>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-icon"><i class="fa-solid fa-person-running"></i></div>
+                    <div class="venue-info">
+                        <h4>高雄國家體育場 (世運主場館)</h4>
+                        <p>田徑、足球賽事</p>
+                    </div>
+                    <span class="venue-time">捷運直達 20分</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="coach-box fade-in">
+            <h3 class="coach-title"><i class="fa-solid fa-clipboard-check"></i> 給教練與領隊的安心承諾</h3>
+            <ul class="benefit-list">
+                <li class="benefit-item">
+                    <h4><i class="fa-solid fa-door-closed"></i> 單一出入口門禁</h4>
+                    <p>包棟獨享空間，設置電子鎖。教練可輕鬆掌握隊員進出狀況，避免球員深夜外出的安全疑慮。</p>
+                </li>
+                <li class="benefit-item">
+                    <h4><i class="fa-solid fa-utensils"></i> 營養補給便利</h4>
+                    <p>廚房可自行烹煮營養早餐或宵夜。巷口即有 7-11 與全聯，補充牛奶、香蕉、雞胸肉都非常方便。</p>
+                </li>
+                <li class="benefit-item">
+                    <h4><i class="fa-solid fa-van-shuttle"></i> 方便上下裝備</h4>
+                    <p>民宿位於靜巷，大型保母車或遊覽車可暫停於巷口（大公路），球員卸下球具裝備只需步行 10 公尺。</p>
+                </li>
+                <li class="benefit-item">
+                    <h4><i class="fa-solid fa-hand-holding-dollar"></i> 團體優惠方案</h4>
+                    <p>針對學生球隊長期配合或平日住宿，我們提供專屬折扣，減輕球隊經費壓力。</p>
+                </li>
+            </ul>
+        </div>
+
+        <div class="cta-box fade-in">
+            <h2>為了下一場勝利，預約最好的休息</h2>
+            <p>歡迎各級學校球隊、職業工會球隊洽詢長期配合。</p>
+            <a href="https://lin.ee/atCiMQw" target="_blank" class="btn-energy">
+                <i class="fa-brands fa-line"></i> 聯繫管家・索取球隊優惠
+            </a>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>關於 你好哇寓所</h3>
+                    <div class="footer-desc">
+                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。</p>
+                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>聯絡資訊</h3>
+                    <div class="contact-row"><i class="fa-solid fa-location-dot"></i> <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號</a></div>
+                    <div class="contact-row"><i class="fa-solid fa-phone"></i> <a href="tel:0932828922">0932-828-922</a></div>
+                    <div class="contact-row"><i class="fa-brands fa-line"></i> <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a></div>
+                </div>
+                <div>
+                    <h3>熱門關鍵字</h3>
+                    <div class="seo-tags">
+                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span><span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span><span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">© 2025 你好哇寓所 Hello House. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn"><i class="fa-brands fa-line"></i></a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+            // Navbar Logic
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.querySelector('.nav-menu');
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Dropdown
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                if(toggle) {
+                    toggle.addEventListener('click', (e) => {
+                        if (window.innerWidth <= 960) {
+                            const href = toggle.getAttribute('href');
+                            if (href && href !== '#' && href !== 'javascript:void(0)') { return; }
+                            e.preventDefault();
+                            dropdown.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

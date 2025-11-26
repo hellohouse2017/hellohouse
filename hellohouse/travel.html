@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>高雄包棟行程推薦 | 2天1夜至4天3夜多主題旅遊規劃 | 你好哇寓所</title>
+    <meta name="description" content="你好哇寓所專屬行程攻略。我們為不同客群（親子家庭、朋友聚會、深度旅遊）規劃了3種不同主題的2天至4天行程。嚴格配合16:00入住與11:00退房時間，讓您玩得順暢又盡興。">
+    <meta name="keywords" content="高雄包棟行程, 鹽埕區旅遊, 高雄親子行程, 網美打卡路線, 高雄美食地圖, 駁二行程規劃, 你好哇寓所周邊">
+    <meta name="author" content="你好哇寓所 Hello House">
+    <meta name="robots" content="index, follow">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://你的Vercel網址.vercel.app/travel.html">
+    <meta property="og:title" content="高雄包棟行程懶人包 | 9套精選主題玩法">
+    <meta property="og:description" content="在地人推薦的2-4天多主題旅遊規劃，吃喝玩樂一次搞定。">
+    <meta property="og:image" content="images/cover.jpg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "高雄兩天一夜親子行程推薦？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "第一天：16:00入住你好哇寓所，傍晚步行至駁二搭乘小火車與哈瑪星鐵道園區放風箏。第二天：11:00退房後，前往壽山動物園參觀全新園區。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "高雄三天兩夜網美打卡行程？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Day1：大港橋旋轉秀與白色旋轉木馬。Day2：搭渡輪至旗津拍攝彩虹教堂與高雄燈塔，晚上至Pier No.1高空酒吧。Day3：體驗高雄輕軌龍貓隧道，享受鹽埕老宅早午餐。"
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        /* =========================================
+           Design System (全站統一)
+           ========================================= */
+        :root {
+            --c-primary: #1A202C;       
+            --c-accent: #C5A065;        
+            --c-accent-hover: #A68550;
+            --c-bg-body: #F9F9F7;       
+            --c-bg-white: #FFFFFF;
+            --c-bg-light: #EDF2F7;
+            --c-text-gray: #555555; 
+            --c-line: #06C755;
+            --c-youtube: #CC0000;
+            --theme-dark-bg: #1A202C;
+
+            --font-serif: 'Noto Serif TC', serif; 
+            --font-sans: 'Noto Sans TC', sans-serif; 
+
+            --shadow-card: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            --radius-md: 12px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        body { 
+            margin: 0; 
+            font-family: var(--font-sans); 
+            background-color: var(--c-bg-body); 
+            color: var(--c-primary); 
+            line-height: 1.6; 
+            letter-spacing: 0.02em; 
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; padding: 0; margin: 0; }
+        img { max-width: 100%; display: block; }
+
+        /* =========================================
+           Navbar (標準版)
+           ========================================= */
+        .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
+        .nav-menu { display: flex; align-items: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
+        .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: var(--c-accent); }
+        .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 5px; left: 0; background-color: var(--c-accent); transition: width 0.3s; }
+        .nav-link:hover::after { width: 100%; }
+        
+        /* 查詢空房按鈕 */
+        .nav-link.nav-btn-booking::after { display: none; }
+        .nav-btn-booking {
+            background-color: var(--c-accent); color: white !important;
+            padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent);
+        }
+        .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
+
+        .dropdown { position: relative; }
+        .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #fff; width: 200px; list-style: none; padding: 10px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; transition: all 0.3s ease; border-top: 3px solid var(--c-accent); margin: 0; }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dropdown-link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--c-primary); font-size: 0.9rem; transition: 0.2s; }
+        .dropdown-link i { color: var(--c-accent); width: 20px; text-align: center; }
+        .dropdown-link:hover { background-color: var(--c-bg-light); color: var(--c-accent); padding-left: 25px; }
+        
+        .menu-toggle { display: none; cursor: pointer; }
+        .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--c-accent); transition: 0.3s; }
+        .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
+        .nav-item:hover .arrow-icon { transform: rotate(180deg); }
+
+        /* =========================================
+           Page Hero
+           ========================================= */
+        .page-header { position: relative; height: 45vh; min-height: 350px; display: flex; align-items: center; justify-content: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px; }
+        .page-header-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('images/cover.jpg'); background-size: cover; background-position: center; opacity: 0.5; z-index: 1; }
+        .page-header-content { position: relative; z-index: 2; padding: 0 20px; }
+        .page-title { font-family: var(--font-serif); font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; }
+        .page-subtitle { font-size: 1.1rem; font-weight: 300; letter-spacing: 2px; opacity: 0.9; }
+
+        /* =========================================
+           Main Content: Itinerary
+           ========================================= */
+        .container { width: 90%; max-width: 1100px; margin: 0 auto; padding: 80px 0; flex: 1; }
+
+        /* Tab Navigation */
+        .itinerary-nav {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap;
+        }
+        .itinerary-btn {
+            padding: 12px 30px; border: 1px solid var(--c-accent); color: var(--c-accent);
+            border-radius: 50px; font-weight: bold; transition: 0.3s; cursor: pointer; background: transparent;
+            font-size: 1.1rem;
+        }
+        .itinerary-btn.active, .itinerary-btn:hover {
+            background: var(--c-accent); color: white; box-shadow: 0 5px 15px rgba(183, 149, 91, 0.3);
+        }
+
+        /* Plan Wrapper */
+        .plan-wrapper { display: none; }
+        .plan-wrapper.active { display: block; animation: fadeIn 0.5s ease; }
+
+        /* Theme Accordion */
+        .theme-card {
+            background: #fff; border-radius: 12px; overflow: hidden;
+            box-shadow: var(--shadow-card); margin-bottom: 20px; border: 1px solid #eee;
+        }
+        .theme-header {
+            padding: 20px 30px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            background: #fff; transition: 0.3s; border-bottom: 1px solid transparent;
+        }
+        .theme-header:hover { background-color: #FFFCF5; }
+        .theme-header h3 { font-size: 1.3rem; margin: 0; color: var(--c-primary); display: flex; align-items: center; gap: 10px; }
+        .theme-header i { color: var(--c-accent); }
+        .toggle-icon { font-size: 1.2rem; color: #ccc; transition: 0.3s; }
+        
+        /* Accordion Active State */
+        .theme-card.open .theme-header { border-bottom: 1px solid var(--c-accent); background-color: #FFFBF2; }
+        .theme-card.open .toggle-icon { transform: rotate(180deg); color: var(--c-accent); }
+        .theme-content { display: none; padding: 30px; background-color: #fff; }
+        .theme-card.open .theme-content { display: block; animation: slideDown 0.3s ease; }
+
+        /* Timeline Styles */
+        .day-block { margin-bottom: 25px; position: relative; padding-left: 20px; border-left: 2px solid #eee; }
+        .day-block:last-child { border-left: none; margin-bottom: 0; }
+        
+        .day-label {
+            font-size: 0.95rem; color: #fff; background: var(--c-accent); 
+            padding: 2px 12px; border-radius: 4px; display: inline-block; margin-bottom: 15px;
+            position: relative; left: -27px;
+        }
+        
+        .schedule-item { display: flex; gap: 15px; margin-bottom: 15px; align-items: flex-start; }
+        .time-badge {
+            background: #EDF2F7; color: #4A5568; font-size: 0.85rem; font-weight: bold;
+            padding: 4px 10px; border-radius: 6px; min-width: 70px; text-align: center;
+        }
+        .activity-content h4 { font-size: 1.05rem; margin: 0 0 5px 0; color: var(--c-primary); }
+        .activity-content p { font-size: 0.95rem; color: #666; margin: 0; line-height: 1.5; }
+        
+        .highlight-red { color: #C53030; font-weight: bold; font-size: 0.85rem; margin-left: 5px; }
+
+        /* =========================================
+           Footer (完全修正版 - 與 Agreement 頁面一致)
+           ========================================= */
+        .footer { 
+            background-color: var(--theme-dark-bg); 
+            color: #aaa; 
+            padding: 80px 0 40px; 
+            border-top: 3px solid var(--c-accent); 
+            width: 100%; 
+            margin-top: auto; 
+            text-align: left;
+        }
+        .footer-grid { 
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr 1fr; 
+            gap: 50px; 
+            margin-bottom: 50px; 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            padding: 0 20px; 
+        }
+        .footer h3 { 
+            color: white; 
+            font-size: 1.1rem; 
+            margin-bottom: 25px; 
+            font-family: var(--font-serif); 
+            letter-spacing: 1px;
+        }
+        .footer-desc { 
+            line-height: 1.8; 
+            margin-bottom: 20px; 
+            text-align: left; 
+            color: #CBD5E0; 
+        }
+        .footer-desc p { margin-bottom: 15px; }
+        .footer-desc strong { color: #fff; font-weight: 500; }
+        
+        .contact-row { 
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: flex-start; 
+            gap: 12px; 
+        }
+        .contact-row i { 
+            color: var(--c-accent); 
+            margin-top: 5px; 
+            width: 25px; 
+            text-align: center;
+            flex-shrink: 0; 
+        }
+        .seo-tags span { display: inline-block; font-size: 12px; border: 1px solid #333; padding: 4px 10px; border-radius: 4px; margin: 0 5px 8px 0; cursor: default; }
+        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
+        
+        .sticky-btn { position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background-color: var(--c-line); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 30px; box-shadow: 0 5px 20px rgba(6,199,85,0.4); z-index: 999; transition: 0.3s; }
+        .sticky-btn:hover { transform: scale(1.1); background-color: #05b64d; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 960px) {
+            .menu-toggle { display: block; }
+            .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: var(--theme-dark-bg); width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 20px; overflow-y: auto; gap: 0; }
+            .nav-menu.active { left: 0; }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link { padding: 20px; justify-content: center; font-size: 1.1rem; }
+            .nav-link::after { display: none; }
+            .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; width: 100%; background-color: rgba(0,0,0,0.2); box-shadow: none; border-top: none; display: none; }
+            .dropdown.active .dropdown-menu { display: block; }
+            .dropdown-link { color: #ddd; padding: 15px; justify-content: center; white-space: normal; }
+            
+            .theme-header { padding: 15px; }
+            .theme-header h3 { font-size: 1.1rem; }
+            .theme-content { padding: 20px 15px; }
+            .page-header { margin-top: 0; }
+        }
+        @media (max-width: 768px) {
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .container { padding: 50px 0; }
+        }
+        
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">你好哇寓所</a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item"><a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle active">
+                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="travel.html" class="dropdown-link"><i class="fa-solid fa-location-arrow"></i> 周邊景點推薦</a></li>
+                        <li><a href="travel.html" class="dropdown-link"><i class="fa-solid fa-utensils"></i> 鹽埕美食地圖</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item dropdown">
+                    <a href="packages.html" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
+                        <i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟方案</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟方案</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟方案</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽方案</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房">
+        <i class="fa-brands fa-line"></i>
+    </a>
+
+    <header class="page-header">
+        <div class="page-header-bg"></div>
+        <div class="page-header-content fade-in">
+            <h1 class="page-title">高雄包棟行程推薦</h1>
+            <div class="page-subtitle">TRAVEL ITINERARY</div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="itinerary-nav fade-in">
+            <button class="itinerary-btn active" onclick="showTab('plan2', event)">2天1夜 輕旅行</button>
+            <button class="itinerary-btn" onclick="showTab('plan3', event)">3天2夜 深度遊</button>
+            <button class="itinerary-btn" onclick="showTab('plan4', event)">4天3夜 慢活行</button>
+        </div>
+
+        <div id="plan2" class="plan-wrapper active">
+            
+            <div class="theme-card open">
+                <div class="theme-header" onclick="toggleCard(this)">
+                    <h3><i class="fa-solid fa-child-reaching"></i> 方案 A：親子放電・駁二小火車之旅</h3>
+                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="theme-content">
+                    <div class="day-block">
+                        <span class="day-label">Day 1</span>
+                        <div class="schedule-item">
+                            <span class="time-badge">16:00</span>
+                            <div class="activity-content">
+                                <h4>入住你好哇寓所</h4>
+                                <p>辦理入住手續，將行李安置妥當，讓孩子在寬敞客廳稍作休息。</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time-badge">16:30</span>
+                            <div class="activity-content">
+                                <h4>駁二小火車 & 哈瑪星鐵道園區</h4>
+                                <p>步行約15分。搭乘哈瑪星小火車，在大草皮上放風箏、吹泡泡。</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time-badge">18:30</span>
+                            <div class="activity-content">
+                                <h4>晚餐：港園牛肉麵</h4>
+                                <p>鹽埕區不辣且適合孩子的美味老店，牛肉軟嫩易入口。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 2</span>
+                        <div class="schedule-item">
+                            <span class="time-badge">09:00</span>
+                            <div class="activity-content">
+                                <h4>早餐：大摳胖碳烤三明治</h4>
+                                <p>步行5分鐘。外帶回民宿享用，不用排隊人擠人。</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time-badge">11:00</span>
+                            <div class="activity-content">
+                                <h4>準時退房 <span class="highlight-red">Check-out</span></h4>
+                                <p>前往壽山動物園（開車/計程車約10分），參觀全新整修園區。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-header" onclick="toggleCard(this)">
+                    <h3><i class="fa-solid fa-camera"></i> 方案 B：網美打卡・港邊夕陽與酒吧</h3>
+                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="theme-content">
+                    <div class="day-block">
+                        <span class="day-label">Day 1</span>
+                        <div class="schedule-item">
+                            <span class="time-badge">16:00</span>
+                            <div class="activity-content">
+                                <h4>入住放行李・大港橋旋轉秀</h4>
+                                <p>15:00-16:00間可先至大港橋拍旋轉秀，再辦理入住。</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time-badge">19:00</span>
+                            <div class="activity-content">
+                                <h4>晚餐：Pier No.1 高空酒吧</h4>
+                                <p>位於英迪格酒店頂樓，俯瞰高雄港夜景，享受微醺時光。</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time-badge">21:30</span>
+                            <div class="activity-content">
+                                <h4>民宿 KTV/麻將派對</h4>
+                                <p>回到你好哇寓所，在私人空間盡情歡唱或摸兩圈。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 2</span>
+                        <div class="schedule-item">
+                            <span class="time-badge">11:00</span>
+                            <div class="activity-content">
+                                <h4>退房・棧貳庫白色旋轉木馬</h4>
+                                <p>前往棧貳庫拍攝夢幻白色旋轉木馬，順便享用午餐。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-header" onclick="toggleCard(this)">
+                    <h3><i class="fa-solid fa-utensils"></i> 方案 C：吃貨攻略・鹽埕老店全制霸</h3>
+                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="theme-content">
+                    <div class="day-block">
+                        <span class="day-label">Day 1</span>
+                        <div class="schedule-item">
+                            <span class="time-badge">16:00</span>
+                            <div class="activity-content">
+                                <h4>入住・奶茶一條街</h4>
+                                <p>新樂街買樺達奶茶、雙妃奶茶，買回民宿 PK 哪家好喝。</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time-badge">18:00</span>
+                            <div class="activity-content">
+                                <h4>晚餐：鴨肉珍 / 鴨肉本</h4>
+                                <p>鹽埕區最經典的鴨肉飯，建議避開尖峰時段或外帶。</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time-badge">20:00</span>
+                            <div class="activity-content">
+                                <h4>宵夜：阿囉哈滷味</h4>
+                                <p>大溝頂知名滷味，配啤酒在民宿客廳享用最對味。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 2</span>
+                        <div class="schedule-item">
+                            <span class="time-badge">09:00</span>
+                            <div class="activity-content">
+                                <h4>早餐：大溝頂虱目魚</h4>
+                                <p>體驗高雄人的霸氣早餐，現撈魚肚漿湯。</p>
+                            </div>
+                        </div>
+                        <div class="schedule-item">
+                            <span class="time-badge">11:00</span>
+                            <div class="activity-content">
+                                <h4>退房 <span class="highlight-red">Check-out</span></h4>
+                                <p>順路買「阿綿麻糬」或「巴堂蜂蜜蛋糕」當伴手禮。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="plan3" class="plan-wrapper">
+            
+            <div class="theme-card open">
+                <div class="theme-header" onclick="toggleCard(this)">
+                    <h3><i class="fa-solid fa-landmark"></i> 方案 A：文化慢旅・穿梭時光隧道</h3>
+                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="theme-content">
+                    <div class="day-block">
+                        <span class="day-label">Day 1</span>
+                        <div class="schedule-item"><span class="time-badge">16:00</span> <div><h4>入住放行李</h4><p>漫步鹽埕老街，欣賞昭和時期建築。</p></div></div>
+                        <div class="schedule-item"><span class="time-badge">19:00</span> <div><h4>愛河貢多拉船</h4><p>搭乘充滿異國風情的貢多拉船，聆聽船夫歌唱。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 2</span>
+                        <div class="schedule-item"><span class="time-badge">10:00</span> <div><h4>打狗英國領事館</h4><p>爬上階梯，在紅磚迴廊眺望西子灣海景。</p></div></div>
+                        <div class="schedule-item"><span class="time-badge">14:00</span> <div><h4>金馬賓館當代美術館</h4><p>充滿軍事歷史與現代藝術的獨特空間。</p></div></div>
+                        <div class="schedule-item"><span class="time-badge">18:00</span> <div><h4>中島廚房聚餐</h4><p>在市場買食材回民宿開火，享受包棟樂趣。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 3</span>
+                        <div class="schedule-item"><span class="time-badge">11:00</span> <div><h4>退房・歷史博物館</h4><p>參觀由舊市役所改建的高雄市立歷史博物館。</p></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-header" onclick="toggleCard(this)">
+                    <h3><i class="fa-solid fa-ship"></i> 方案 B：海港風情・旗津渡輪輕旅行</h3>
+                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="theme-content">
+                    <div class="day-block">
+                        <span class="day-label">Day 1</span>
+                        <div class="schedule-item"><span class="time-badge">16:00</span> <div><h4>入住・駁二倉庫群</h4><p>探索大義倉庫群的手作小店。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 2</span>
+                        <div class="schedule-item"><span class="time-badge">10:30</span> <div><h4>鼓山渡輪站 → 旗津</h4><p>搭船前往旗津，租電動四輪車遊島。</p></div></div>
+                        <div class="schedule-item"><span class="time-badge">12:00</span> <div><h4>旗津老街午餐</h4><p>享用海鮮熱炒與烤魷魚。</p></div></div>
+                        <div class="schedule-item"><span class="time-badge">15:00</span> <div><h4>高雄燈塔 (旗後燈塔)</h4><p>純白燈塔配上咖啡廳，是絕佳海景視野點。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 3</span>
+                        <div class="schedule-item"><span class="time-badge">11:00</span> <div><h4>退房・高雄流行音樂中心</h4><p>沿著港灣散步，拍攝充滿科技感的建築。</p></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-header" onclick="toggleCard(this)">
+                    <h3><i class="fa-solid fa-mug-hot"></i> 方案 C：輕鬆休閒・睡飽吃好吃滿</h3>
+                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="theme-content">
+                    <div class="day-block">
+                        <span class="day-label">Day 1</span>
+                        <div class="schedule-item"><span class="time-badge">16:00</span> <div><h4>入住・民宿下午茶</h4><p>外帶甜點回民宿，在舒適的餐廳享用。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 2</span>
+                        <div class="schedule-item"><span class="time-badge">11:00</span> <div><h4>早午餐：Kyomo Pasta</h4><p>鹽埕區超人氣的日式義大利麵 (需預約/排隊)。</p></div></div>
+                        <div class="schedule-item"><span class="time-badge">15:00</span> <div><h4>新濱・駅前</h4><p>在百年銀行金庫裡喝咖啡，感受復古奢華。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 3</span>
+                        <div class="schedule-item"><span class="time-badge">11:00</span> <div><h4>退房</h4><p>帶著滿足的胃與心情賦歸。</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="plan4" class="plan-wrapper">
+            
+            <div class="theme-card open">
+                <div class="theme-header" onclick="toggleCard(this)">
+                    <h3><i class="fa-solid fa-map"></i> 方案 A：港都全覽・山海河港一次滿足</h3>
+                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="theme-content">
+                    <div class="day-block">
+                        <span class="day-label">Day 1</span>
+                        <div class="schedule-item"><span class="time-badge">16:00</span> <div><h4>入住・愛河夜景</h4><p>晚餐後沿著愛河散步。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 2</span>
+                        <div class="schedule-item"><span class="time-badge">整天</span> <div><h4>旗津 + 西子灣一日遊</h4><p>渡輪、燈塔、彩虹教堂、西子灣夕陽。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 3</span>
+                        <div class="schedule-item"><span class="time-badge">AM</span> <div><h4>輕軌龍貓隧道</h4><p>搭乘輕軌至美術館站拍攝。</p></div></div>
+                        <div class="schedule-item"><span class="time-badge">PM</span> <div><h4>瑞豐夜市</h4><p>搭乘捷運紅線前往北高雄最熱鬧夜市。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 4</span>
+                        <div class="schedule-item"><span class="time-badge">11:00</span> <div><h4>退房・駁二最後巡禮</h4></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-header" onclick="toggleCard(this)">
+                    <h3><i class="fa-solid fa-palette"></i> 方案 B：藝文特區・美術館與衛武營</h3>
+                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="theme-content">
+                    <div class="day-block">
+                        <span class="day-label">Day 1</span>
+                        <div class="schedule-item"><span class="time-badge">16:00</span> <div><h4>入住・駁二VR體驗</h4></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 2</span>
+                        <div class="schedule-item"><span class="time-badge">PM</span> <div><h4>衛武營國家藝術文化中心</h4><p>搭捷運橘線直達，參觀壯觀建築與公園。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 3</span>
+                        <div class="schedule-item"><span class="time-badge">PM</span> <div><h4>高雄市立美術館</h4><p>內惟藝術中心看展、喝咖啡。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 4</span>
+                        <div class="schedule-item"><span class="time-badge">11:00</span> <div><h4>退房</h4></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-card">
+                <div class="theme-header" onclick="toggleCard(this)">
+                    <h3><i class="fa-solid fa-bag-shopping"></i> 方案 C：購物血拼・商圈Outlet逛起來</h3>
+                    <i class="fa-solid fa-chevron-down toggle-icon"></i>
+                </div>
+                <div class="theme-content">
+                    <div class="day-block">
+                        <span class="day-label">Day 1</span>
+                        <div class="schedule-item"><span class="time-badge">16:00</span> <div><h4>入住・新崛江商圈</h4></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 2</span>
+                        <div class="schedule-item"><span class="time-badge">PM</span> <div><h4>SKM Park Outlets</h4><p>搭捷運至草衙站，美式Outlet與鈴鹿賽道樂園。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 3</span>
+                        <div class="schedule-item"><span class="time-badge">PM</span> <div><h4>漢神巨蛋 / 義享天地</h4><p>北高雄百貨戰區，晚餐可吃海港自助餐。</p></div></div>
+                    </div>
+                    <div class="day-block">
+                        <span class="day-label">Day 4</span>
+                        <div class="schedule-item"><span class="time-badge">11:00</span> <div><h4>退房</h4></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>關於 你好哇寓所</h3>
+                    <div class="footer-desc">
+                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘，<strong>大港橋</strong>亦近在咫尺。</p>
+                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
+                    </div>
+                </div>
+                <div>
+                    <h3>聯絡資訊</h3>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:0932828922">0932-828-922</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-brands fa-line"></i>
+                        <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a>
+                    </div>
+                </div>
+                <div>
+                    <h3>熱門關鍵字</h3>
+                    <div class="seo-tags">
+                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span>
+                        <span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span>
+                        <span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                © 2025 你好哇寓所 Hello House. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn"><i class="fa-brands fa-line"></i></a>
+
+    <script>
+        // Tab Switching
+        function showTab(planId, event) {
+            document.querySelectorAll('.plan-wrapper').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.itinerary-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(planId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Accordion Toggle
+        function toggleCard(header) {
+            header.parentElement.classList.toggle('open');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animation
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+            // Navbar Logic
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navMenu = document.querySelector('.nav-menu');
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('is-active');
+                navMenu.classList.toggle('active');
+            });
+
+            // Mobile Link Fix
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                const toggle = dropdown.querySelector('.dropdown-toggle');
+                if(toggle) {
+                    toggle.addEventListener('click', (e) => {
+                        if (window.innerWidth <= 960) {
+                            const href = toggle.getAttribute('href');
+                            if (href && href !== '#' && href !== 'javascript:void(0)') {
+                                return;
+                            }
+                            e.preventDefault();
+                            dropdown.classList.toggle('active');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
