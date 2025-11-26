@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Menu Fix Test</title>
+    <title>Mobile Menu Re-architectured</title>
     <meta name="robots" content="noindex, nofollow">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,125 +13,195 @@
 
     <style>
         /* =========================================
-           Design System
+           1. 基礎設定 (Base)
            ========================================= */
         :root {
             --c-primary: #1A202C;       
             --c-accent: #C5A065;        
             --c-bg-body: #F9F9F7;       
-            --c-bg-white: #FFFFFF;
             --c-text-gray: #555555; 
             --theme-dark-bg: #1A202C;
-            --font-serif: 'Noto Serif TC', serif; 
-            --font-sans: 'Noto Sans TC', sans-serif; 
+            --nav-height: 70px;
         }
 
         *, *::before, *::after { box-sizing: border-box; }
-        body { margin: 0; font-family: var(--font-sans); background-color: var(--c-bg-body); color: var(--c-primary); line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; }
+        body { margin: 0; font-family: 'Noto Sans TC', sans-serif; background-color: var(--c-bg-body); line-height: 1.6; padding-top: var(--nav-height); }
         a { text-decoration: none; color: inherit; transition: 0.3s; }
         ul { list-style: none; padding: 0; margin: 0; }
 
         /* =========================================
-           Navbar (Desktop Default)
+           2. 導覽列結構 (Navbar Structure)
            ========================================= */
-        .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); }
-        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
-        .nav-menu { display: flex; align-items: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
-        .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
-        .nav-link:hover, .nav-link.active { color: var(--c-accent); }
-        .nav-link.nav-btn-booking { background-color: var(--c-accent); color: white !important; padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent); }
-
-        /* Dropdown (Desktop) */
-        .dropdown { position: relative; }
-        .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #fff; width: 200px; list-style: none; padding: 10px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; transition: all 0.3s ease; border-top: 3px solid var(--c-accent); margin: 0; }
-        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
-        .dropdown-link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--c-primary); font-size: 0.9rem; transition: 0.2s; }
-        .dropdown-link i { color: var(--c-accent); width: 20px; text-align: center; }
-        .dropdown-link:hover { background-color: var(--c-bg-light); color: var(--c-accent); padding-left: 25px; }
-        
-        .menu-toggle { display: none; cursor: pointer; }
-        .bar { display: block; width: 25px; height: 3px; margin: 5px auto; background-color: var(--c-accent); transition: 0.3s; }
-
-        /* Footer */
-        .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 80px 0 40px; border-top: 3px solid var(--c-accent); width: 100%; margin-top: auto; text-align: left; }
-        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        .footer h3 { color: white; font-size: 1.1rem; margin-bottom: 25px; font-family: var(--font-serif); letter-spacing: 1px; }
-        .footer-desc { line-height: 1.8; margin-bottom: 20px; color: #CBD5E0; }
-        .contact-row { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 12px; }
-        .contact-row i { color: var(--c-accent); margin-top: 5px; width: 25px; text-align: center; }
-        .copyright { text-align: center; padding-top: 30px; border-top: 1px solid #222; font-size: 0.85rem; }
+        .navbar {
+            background: rgba(26, 32, 44, 0.95); 
+            backdrop-filter: blur(10px); 
+            height: var(--nav-height); 
+            width: 100%; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            z-index: 9999; 
+            border-bottom: 1px solid rgba(197, 160, 101, 0.3);
+        }
+        .nav-container {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            height: 100%; 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 0 20px;
+        }
+        .nav-logo { color: var(--c-accent); font-weight: 700; font-size: 1.5rem; letter-spacing: 1px; font-family: 'Noto Serif TC', serif; }
 
         /* =========================================
-           🔥 Mobile Menu Fix (關鍵修正區塊) 🔥
+           3. 電腦版選單樣式 (Desktop Styles)
+           @media (min-width: 961px)
+           ========================================= */
+        @media (min-width: 961px) {
+            .menu-toggle { display: none; } /* 隱藏漢堡 */
+
+            .nav-menu { display: flex; align-items: center; gap: 20px; }
+            
+            .nav-item { position: relative; } /* 作為下拉選單的定位點 */
+
+            .nav-link { 
+                color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; 
+                display: flex; align-items: center; gap: 6px; position: relative;
+            }
+            .nav-link:hover, .nav-link.active { color: var(--c-accent); }
+            .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--c-accent); transition: 0.3s; }
+            .nav-link:hover::after { width: 100%; }
+            
+            /* 查詢按鈕特殊樣式 */
+            .nav-link.nav-btn-booking { border: 1px solid var(--c-accent); padding: 8px 20px; border-radius: 50px; background: var(--c-accent); }
+            .nav-link.nav-btn-booking::after { display: none; }
+            .nav-link.nav-btn-booking:hover { background: #A68550; color: #fff; }
+
+            /* 電腦版下拉選單 (浮動) */
+            .dropdown-menu {
+                position: absolute; 
+                top: 100%; left: 50%; 
+                transform: translateX(-50%) translateY(10px);
+                background: #fff; 
+                min-width: 200px; 
+                padding: 10px 0; 
+                border-radius: 8px; 
+                box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+                border-top: 3px solid var(--c-accent);
+                opacity: 0; visibility: hidden; 
+                transition: all 0.3s ease;
+            }
+            /* Hover 觸發 */
+            .nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+            
+            .dropdown-link { display: block; padding: 10px 20px; color: var(--c-primary); font-size: 0.9rem; }
+            .dropdown-link:hover { background: var(--c-bg-body); color: var(--c-accent); padding-left: 25px; }
+            
+            .arrow-icon { font-size: 12px; transition: 0.3s; }
+            .nav-item:hover .arrow-icon { transform: rotate(180deg); }
+        }
+
+        /* =========================================
+           4. 手機版選單樣式 (Mobile Styles)
+           @media (max-width: 960px)
            ========================================= */
         @media (max-width: 960px) {
-            .menu-toggle { display: block; }
+            /* 漢堡按鈕 */
+            .menu-toggle { display: block; cursor: pointer; width: 30px; height: 25px; position: relative; }
+            .bar { display: block; width: 100%; height: 3px; background-color: var(--c-accent); margin: 5px 0; transition: 0.3s; }
             
-            .nav-menu { 
-                position: fixed; 
-                left: -100%; 
-                top: 70px; 
-                flex-direction: column; 
+            /* 漢堡變叉叉動畫 (Optional) */
+            .menu-toggle.is-active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.is-active .bar:nth-child(2) { opacity: 0; }
+            .menu-toggle.is-active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+            /* 主選單容器：滑出或滿版 */
+            .nav-menu {
+                position: fixed;
+                top: var(--nav-height);
+                left: 0;
+                width: 100%;
+                height: calc(100vh - var(--nav-height)); /* 填滿剩餘高度 */
                 background-color: #1A202C; /* 深色背景 */
-                width: 100%; 
-                height: calc(100vh - 70px); 
-                transition: 0.3s; 
-                padding-top: 0; 
-                gap: 0; 
-                align-items: stretch; /* 讓選項填滿寬度 */
-                overflow-y: auto;
-            }
-            .nav-menu.active { left: 0; }
-            
-            .nav-item { 
-                width: 100%; 
-                border-bottom: 1px solid rgba(255,255,255,0.05); 
+                flex-direction: column;
+                align-items: stretch; /* 寬度拉滿 */
+                overflow-y: auto; /* 內容過長可捲動 */
+                transition: transform 0.3s ease-in-out;
+                transform: translateX(-100%); /* 預設藏在左邊 */
+                display: flex;
+                padding-bottom: 50px; /* 底部留白 */
             }
             
-            /* 主選單：靠左對齊，保留左側空間 */
-            .nav-link { 
-                padding: 20px 30px; /* 上下20, 左右30 */
-                justify-content: flex-start; /* 靠左 */
-                font-size: 1.1rem; 
-                color: #fff; 
+            /* 選單開啟狀態 */
+            .nav-menu.active { transform: translateX(0); }
+
+            /* 選單項目 */
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            
+            /* 主連結樣式 */
+            .nav-link {
+                display: flex;
+                justify-content: space-between; /* 文字靠左，箭頭靠右 */
+                align-items: center;
+                padding: 20px 25px;
+                color: #fff;
+                font-size: 1.1rem;
+                font-weight: 500;
                 width: 100%;
             }
             
-            /* 箭頭推到最右邊 */
-            .arrow-icon {
-                margin-left: auto; 
-            }
+            .nav-link:hover { background-color: rgba(255,255,255,0.05); }
             
-            /* 下拉選單容器 */
-            .dropdown-menu { 
-                position: static; 
-                opacity: 1; 
-                visibility: visible; 
-                transform: none; 
-                width: 100%; 
-                background-color: #131720; /* 比主選單更深的黑色 */
-                box-shadow: inset 0 5px 10px rgba(0,0,0,0.3); /* 內陰影增加層次感 */
-                border-top: none; 
-                display: none; 
-                padding: 0;
-            }
-            .dropdown.active .dropdown-menu { display: block; }
-            
-            /* 子選單連結：縮排更多 */
-            .dropdown-link { 
-                color: #ccc; /* 淺灰字 */
-                padding: 18px 30px 18px 50px; /* 左側縮排 50px */
-                justify-content: flex-start; /* 靠左 */
-                white-space: normal; 
-                border-bottom: 1px solid rgba(255,255,255,0.02);
-            }
-            .dropdown-link:hover { 
-                background-color: rgba(255,255,255,0.05); 
-                color: #fff; 
-                padding-left: 50px; /* 手機版 Hover 不移動，避免跳動 */
-            }
+            /* 箭頭轉向 */
+            .arrow-icon { transition: 0.3s; }
+            .nav-item.open .arrow-icon { transform: rotate(180deg); }
 
+            /* 手機版下拉選單 (Accordion 模式) */
+            .dropdown-menu {
+                display: none; /* 預設隱藏 (不佔位) */
+                background-color: #11151C; /* 比背景更深，凸顯層級 */
+                width: 100%;
+                position: static; /* 關鍵：不再浮動，而是佔據空間 */
+                box-shadow: inset 0 5px 15px rgba(0,0,0,0.5); /* 內陰影 */
+                padding: 10px 0;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                opacity: 1; visibility: visible; /* 重置電腦版隱藏設定 */
+            }
+            
+            /* 展開狀態 */
+            .nav-item.open .dropdown-menu { display: block; animation: slideDown 0.3s ease; }
+            @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+            /* 子連結樣式 */
+            .dropdown-link {
+                display: block;
+                padding: 15px 25px 15px 50px; /* 左側縮排 50px */
+                color: #ccc; /* 淺灰字 */
+                font-size: 1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.03);
+            }
+            .dropdown-link:hover { color: #fff; background-color: rgba(255,255,255,0.05); }
+            
+            /* 按鈕修正 */
+            .nav-link.nav-btn-booking { 
+                justify-content: center; background: var(--c-accent); border: none; 
+                margin: 20px auto; width: 80%; text-align: center;
+            }
+        }
+        
+        /* =========================================
+           5. 測試內容與頁尾
+           ========================================= */
+        .test-content { height: 60vh; display: flex; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        
+        .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 80px 0 40px; border-top: 3px solid var(--c-accent); }
+        .footer-grid { max-width: 1100px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; }
+        .footer h3 { color: white; margin-bottom: 20px; font-family: 'Noto Serif TC', serif; }
+        .footer p { margin-bottom: 10px; }
+        .copyright { text-align: center; margin-top: 50px; border-top: 1px solid #333; padding-top: 30px; font-size: 0.85rem; }
+        
+        @media (max-width: 768px) {
             .footer-grid { grid-template-columns: 1fr; gap: 40px; }
         }
     </style>
@@ -151,7 +221,8 @@
                 
                 <li class="nav-item dropdown">
                     <a href="javascript:void(0)" class="nav-link dropdown-toggle">
-                        <i class="fa-solid fa-file-signature"></i> 入住契約 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                        <span><i class="fa-solid fa-file-signature"></i> 入住契約</span>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="agreement.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約</a></li>
@@ -163,7 +234,8 @@
                 
                 <li class="nav-item dropdown">
                     <a href="javascript:void(0)" class="nav-link dropdown-toggle">
-                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                        <span><i class="fa-solid fa-map-location-dot"></i> 旅遊行程</span>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
                         <li><a href="travel.html" class="dropdown-link"><i class="fa-solid fa-location-arrow"></i> 周邊景點</a></li>
@@ -172,14 +244,15 @@
                 </li>
                 
                 <li class="nav-item dropdown">
-                    <a href="javascript:void(0)" class="nav-link dropdown-toggle">
-                        <i class="fa-solid fa-bullhorn"></i> 住宿情報 <i class="fa-solid fa-angle-down arrow-icon"></i>
+                    <a href="javascript:void(0)" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
+                        <span><i class="fa-solid fa-bullhorn"></i> 住宿情報</span>
+                        <i class="fa-solid fa-angle-down arrow-icon"></i>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟</a></li>
-                        <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟</a></li>
-                        <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟</a></li>
-                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽</a></li>
+                        <li><a href="packages-business.html" class="dropdown-link">企業包棟</a></li>
+                        <li><a href="packages-wedding.html" class="dropdown-link">迎娶包棟</a></li>
+                        <li><a href="packages-family.html" class="dropdown-link">家族包棟</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link">球隊比賽</a></li>
                     </ul>
                 </li>
 
@@ -190,10 +263,11 @@
         </div>
     </nav>
 
-    <div style="height: 60vh; display: flex; justify-content: center; align-items: center; background: #f0f0f0;">
-        <div style="text-align: center; padding: 20px;">
-            <h2 style="color:#333;">手機選單修正測試</h2>
-            <p style="color:#666;">現在選單靠左對齊，且有層次縮排。</p>
+    <div class="test-content">
+        <div>
+            <h2>手機版選單重構測試</h2>
+            <p>請切換至手機模式 (小於 960px) 測試。</p>
+            <p>點擊「入住契約」或「旅遊行程」，確認子選單是否向下展開且文字清晰。</p>
         </div>
     </div>
 
@@ -202,67 +276,62 @@
             <div class="footer-grid">
                 <div>
                     <h3>關於 你好哇寓所</h3>
-                    <div class="footer-desc">
-                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。</p>
-                    </div>
+                    <p style="color:#ccc;">專注於提供優質包棟體驗的高雄合法民宿。</p>
                 </div>
                 <div>
                     <h3>聯絡資訊</h3>
-                    <div class="contact-row"><i class="fa-solid fa-location-dot"></i> <a href="#">高雄市鹽埕區大公路70巷8號</a></div>
-                    <div class="contact-row"><i class="fa-solid fa-phone"></i> <a href="#">0932-828-922</a></div>
-                    <div class="contact-row"><i class="fa-brands fa-line"></i> <a href="#">LINE ID: 0932828922</a></div>
+                    <p>高雄市鹽埕區大公路70巷8號</p>
+                    <p>0932-828-922</p>
                 </div>
                 <div>
-                    <h3>熱門關鍵字</h3>
-                    <div style="color:#777; font-size:0.8rem;">(SEO Tags Placeholder)</div>
+                    <h3>Follow Us</h3>
+                    <p>LINE / Facebook / Instagram</p>
                 </div>
             </div>
-            <div class="copyright">© 2025 你好哇寓所 Hello House. All Rights Reserved.</div>
+            <div class="copyright">© 2025 Hello House.</div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileMenuBtn = document.getElementById('mobile-menu');
             const navMenu = document.querySelector('.nav-menu');
-            const allDropdowns = document.querySelectorAll('.dropdown');
+            const dropdownItems = document.querySelectorAll('.nav-item.dropdown');
 
-            // 1. 漢堡選單開關
-            mobileMenu.addEventListener('click', () => {
-                mobileMenu.classList.toggle('is-active');
+            // 1. 漢堡選單切換
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenuBtn.classList.toggle('is-active');
                 navMenu.classList.toggle('active');
             });
 
-            // 2. 手機版下拉選單邏輯 (修正後)
-            allDropdowns.forEach(dropdown => {
-                const toggle = dropdown.querySelector('.dropdown-toggle');
+            // 2. 手機版手風琴邏輯 (Accordion Logic)
+            dropdownItems.forEach(item => {
+                const link = item.querySelector('.dropdown-toggle');
                 
-                if(toggle) {
-                    toggle.addEventListener('click', (e) => {
-                        if (window.innerWidth <= 960) {
-                            e.preventDefault(); 
-                            e.stopPropagation(); 
+                link.addEventListener('click', (e) => {
+                    // 僅在手機版觸發
+                    if (window.innerWidth <= 960) {
+                        e.preventDefault(); // 阻止連結跳轉
+                        
+                        // 檢查自己是否已經開了
+                        const isOpen = item.classList.contains('open');
 
-                            // 檢查當前是否已開啟
-                            const isAlreadyOpen = dropdown.classList.contains('active');
+                        // 先關閉「所有」其他的選單 (互斥效果)
+                        dropdownItems.forEach(d => d.classList.remove('open'));
 
-                            // 關閉所有其他選單
-                            allDropdowns.forEach(d => d.classList.remove('active'));
-
-                            // 若原本沒開，則打開
-                            if (!isAlreadyOpen) {
-                                dropdown.classList.add('active');
-                            }
+                        // 如果自己原本沒開，就打開
+                        if (!isOpen) {
+                            item.classList.add('open');
                         }
-                    });
-                }
+                    }
+                });
             });
 
-            // 3. 點擊頁面其他地方關閉選單
+            // 3. 點擊外部關閉選單
             document.addEventListener('click', (e) => {
-                if (!navMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                if (!navMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                     navMenu.classList.remove('active');
-                    mobileMenu.classList.remove('is-active');
+                    mobileMenuBtn.classList.remove('is-active');
                 }
             });
         });
