@@ -172,6 +172,28 @@
             .sugg-info-block { flex-direction: column; align-items: flex-start; gap: 2px; }
             .sugg-detail-text { margin-left: 0; }
         }
+
+        /* ====== 修正下拉選單對齊問題 (Fix Dropdown Alignment) ====== */
+        
+        /* 1. 強制讓每個導覽選項 (li) 成為定位基準點 */
+        .nav-item {
+            position: relative !important;
+        }
+
+        /* 2. 修正下拉選單的位置計算 */
+        .dropdown-menu {
+            left: 50% !important; /* 以父按鈕的中心點為基準 */
+            transform: translateX(-50%) translateY(10px) !important; /* 往回修正 50% 寬度以達到正居中 */
+            top: 100% !important; /* 貼齊按鈕底部 */
+            text-align: left; /* 選單內的文字靠左 */
+            min-width: 180px; /* 確保選單不會太窄 */
+        }
+
+        /* 3. 確保箭頭與文字不換行，避免寬度計算跑掉 */
+        .nav-link {
+            white-space: nowrap; 
+        }
+        
     </style>
 </head>
 <body>
@@ -184,8 +206,18 @@
             </div>
             
             <ul class="nav-menu">
-                <li class="nav-item"><a href="index.html" class="nav-link"><span><i class="fa-solid fa-house"></i> 首頁</span></a></li>
-                <li class="nav-item"><a href="rooms.html" class="nav-link"><span><i class="fa-solid fa-bed"></i> 房型介紹</span></a></li>
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <span><i class="fa-solid fa-house"></i> 首頁</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="rooms.html" class="nav-link">
+                        <span><i class="fa-solid fa-bed"></i> 房型介紹</span>
+                    </a>
+                </li>
+                
                 <li class="nav-item dropdown">
                     <a href="agreement.html" class="nav-link dropdown-toggle">
                         <span><i class="fa-solid fa-file-signature"></i> 入住契約</span>
@@ -194,9 +226,15 @@
                         <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽約/條款</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a href="traffic.html" class="nav-link"><span><i class="fa-solid fa-car"></i> 交通停車</span></a></li>
+
+                <li class="nav-item">
+                    <a href="traffic.html" class="nav-link">
+                        <span><i class="fa-solid fa-car"></i> 交通停車</span>
+                    </a>
+                </li>
+                
                 <li class="nav-item dropdown">
-                    <a href="travel.html" class="nav-link dropdown-toggle">
+                    <a href="travel.html" class="nav-link active dropdown-toggle">
                         <span><i class="fa-solid fa-map-location-dot"></i> 旅遊行程</span>
                         <i class="fa-solid fa-angle-down arrow-icon"></i> </a>
                     <ul class="dropdown-menu">
@@ -204,6 +242,7 @@
                         <li><a href="food.html" class="dropdown-link"><i class="fa-solid fa-utensils"></i> 美食地圖</a></li>
                     </ul>
                 </li>
+                
                 <li class="nav-item dropdown">
                     <a href="packages.html" class="nav-link dropdown-toggle" style="color:var(--c-accent);">
                         <span><i class="fa-solid fa-bullhorn"></i> 住宿情報</span>
@@ -212,14 +251,22 @@
                         <li><a href="packages-business.html" class="dropdown-link"><i class="fa-solid fa-building"></i> 企業包棟</a></li>
                         <li><a href="packages-wedding.html" class="dropdown-link"><i class="fa-solid fa-heart"></i> 迎娶包棟</a></li>
                         <li><a href="packages-family.html" class="dropdown-link"><i class="fa-solid fa-users"></i> 家族包棟</a></li>
+                        <li><a href="packages-team.html" class="dropdown-link"><i class="fa-solid fa-basketball"></i> 球隊比賽</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a href="check.html" class="nav-link nav-btn-booking active"><span><i class="fa-solid fa-calendar-check"></i> 查詢空房</span></a></li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking" style="justify-content: center;">
+                        <span><i class="fa-solid fa-calendar-check"></i> 查詢空房</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房"><i class="fa-brands fa-line"></i></a>
+    <a href="javascript:void(0)" onclick="sendToLine()" class="sticky-btn" aria-label="Line 訂房">
+        <i class="fa-brands fa-line"></i>
+    </a>
 
     <header class="hero">
         <div class="hero-bg"></div>
@@ -412,7 +459,6 @@
 
         const fp = flatpickr("#date-range", {
             mode: "range", locale: "zh_tw", dateFormat: "Y-m-d", minDate: "today",
-            // ★ 修改：日曆開啟時 (onOpen) 即觸發 resetSteps()
             onOpen: function() { resetSteps(); },
             onChange: function(dates) { resetSteps(); },
             onClose: function(dates) { 

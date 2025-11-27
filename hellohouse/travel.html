@@ -434,7 +434,7 @@
         </div>
     </nav>
 
-    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房">
+     <a href="javascript:void(0)" onclick="sendToLine()" class="sticky-btn" aria-label="Line 訂房">
         <i class="fa-brands fa-line"></i>
     </a>
 
@@ -774,8 +774,8 @@
                         <a href="tel:0932828922">0932-828-922</a>
                     </div>
                     <div class="contact-row">
-                        <i class="fa-brands fa-line"></i>
-                        <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a>
+                        <i class="fa-solid fa-line"></i> 
+                        <a href="javascript:void(0)" onclick="sendToLine()" class="footer-link">LINE 官方帳號聯繫</a>
                     </div>
                 </div>
                 <div>
@@ -793,9 +793,21 @@
         </div>
     </footer>
 
-    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn"><i class="fa-brands fa-line"></i></a>
-
     <script>
+        const LINE_DEEP_LINK = "line://ti/p/@575tprig";
+
+        function sendToLine() {
+            // 1. 定義想讓客人複製的預設文字
+            const message = "你好！我想詢問溝頂民宿的空房與優惠資訊 🏠";
+
+            // 2. 嘗試背景靜默複製
+            navigator.clipboard.writeText(message).then(() => {
+                window.location.href = LINE_DEEP_LINK;
+            }).catch(() => {
+                window.location.href = LINE_DEEP_LINK;
+            });
+        }
+
         // Tab Switching Logic
         function showTab(planId, event) {
             document.querySelectorAll('.plan-wrapper').forEach(el => el.classList.remove('active'));

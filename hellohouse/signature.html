@@ -3,15 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    
     <title>線上簽署住宿契約 | 你好哇寓所</title>
-    <meta name="description" content="你好哇寓所線上住宿契約簽署頁面。保障雙方權益，請詳細閱讀後簽署。">
+    <meta name="description" content="你好哇寓所線上住宿契約簽署頁面。">
     <meta name="robots" content="noindex, nofollow"> 
-
-    <meta property="og:url" content="https://你的Vercel網址.vercel.app/signature.html">
-    <meta property="og:title" content="線上簽署住宿契約 | 你好哇寓所">
-    <meta property="og:description" content="請填寫入住資訊並完成線上簽署。">
-    <meta property="og:image" content="images/cover.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,10 +33,8 @@
             --c-line: #06C755;
             --c-alert: #C53030;
             --theme-dark-bg: #1A202C;
-
             --font-serif: 'Noto Serif TC', serif; 
             --font-sans: 'Noto Sans TC', sans-serif; 
-
             --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
             --radius-md: 12px;
         }
@@ -55,10 +47,10 @@
             background-color: var(--c-bg-body);
             color: var(--c-primary);
             line-height: 1.8;
-            letter-spacing: 0.02em;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden; /* 防止強制滿版時出現橫向卷軸 */
         }
 
         a { text-decoration: none; color: inherit; transition: 0.3s; }
@@ -66,13 +58,17 @@
         ul { list-style: none; padding: 0; margin: 0; }
 
         /* =========================================
-           Navbar
+           Navbar & Menu Alignment Fix
            ========================================= */
         .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; }
         .nav-menu { display: flex; align-items: center; gap: 20px; margin: 0; padding: 0; list-style: none; }
-        .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; display: flex; align-items: center; gap: 6px; transition: 0.3s; }
+        
+        /* ★ 修正選單對齊：強制相對定位 */
+        .nav-item { position: relative !important; }
+        
+        .nav-link { color: #fff; font-size: 0.95rem; font-weight: 500; padding: 10px 5px; position: relative; display: flex; align-items: center; gap: 6px; transition: 0.3s; white-space: nowrap; }
         .nav-link:hover, .nav-link.active { color: var(--c-accent); }
         .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 5px; left: 0; background-color: var(--c-accent); transition: width 0.3s; }
         .nav-link:hover::after { width: 100%; }
@@ -81,9 +77,26 @@
         .nav-btn-booking { background-color: var(--c-accent); color: white !important; padding: 8px 20px; border-radius: 50px; font-weight: bold; border: 1px solid var(--c-accent); }
         .nav-btn-booking:hover { background-color: var(--c-accent-hover); transform: translateY(-2px); }
 
-        .dropdown { position: relative; }
-        .dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(10px); background: #fff; width: 200px; list-style: none; padding: 10px 0; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); opacity: 0; visibility: hidden; transition: all 0.3s ease; border-top: 3px solid var(--c-accent); margin: 0; }
-        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        /* ★ 修正下拉選單位置 */
+        .dropdown-menu { 
+            position: absolute; 
+            top: 100%; 
+            left: 50% !important; 
+            transform: translateX(-50%) translateY(10px) !important; 
+            background: #fff; 
+            width: 200px; 
+            list-style: none; 
+            padding: 10px 0; 
+            border-radius: 8px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+            opacity: 0; 
+            visibility: hidden; 
+            transition: all 0.3s ease; 
+            border-top: 3px solid var(--c-accent); 
+            margin: 0; 
+            text-align: left;
+        }
+        .dropdown:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0) !important; }
         .dropdown-link { display: flex; align-items: center; gap: 10px; padding: 12px 20px; color: var(--c-primary); font-size: 0.9rem; transition: 0.2s; }
         .dropdown-link i { color: var(--c-accent); width: 20px; text-align: center; }
         .dropdown-link:hover { background-color: var(--c-bg-light); color: var(--c-accent); padding-left: 25px; }
@@ -93,103 +106,51 @@
         .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
         .nav-item:hover .arrow-icon { transform: rotate(180deg); }
 
-        /* =========================================
-           Mobile Menu Fix
-           ========================================= */
+        /* Mobile Menu Fix */
         @media (max-width: 960px) {
             .menu-toggle { display: block; }
             .nav-menu { position: fixed; left: -100%; top: 70px; flex-direction: column; background-color: #1A202C; width: 100%; height: calc(100vh - 70px); text-align: center; transition: 0.3s; padding-top: 0; gap: 0; align-items: stretch; overflow-y: auto; }
             .nav-menu.active { left: 0; }
-            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); position: static !important; /* Mobile doesn't need relative */ }
             .nav-link::after { display: none; }
-            
             .nav-link { display: flex; align-items: center; justify-content: flex-start; padding: 0; font-size: 1.1rem; color: #ffffff !important; width: 100%; }
             .nav-link span { flex-grow: 1; padding: 20px 30px; text-align: left; display: flex; align-items: center; gap: 12px; }
             .arrow-icon { margin-left: 0; width: 60px; height: 65px; display: flex; align-items: center; justify-content: center; border-left: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.1); cursor: pointer; }
-            
             .dropdown-menu { position: static !important; opacity: 1 !important; visibility: visible !important; transform: none !important; width: 100%; background-color: #0d1117 !important; box-shadow: inset 0 5px 10px rgba(0,0,0,0.5) !important; border-top: none !important; display: none; padding: 0 !important; }
             .dropdown.active .dropdown-menu { display: block; }
             .dropdown-link { color: #e2e8f0 !important; padding: 18px 30px 18px 50px !important; justify-content: flex-start !important; width: 100%; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 1rem !important; }
-            
             .nav-link.nav-btn-booking { justify-content: center; background: var(--c-accent); border: none; margin: 20px auto; width: 80%; text-align: center; padding: 15px; }
             .nav-link.nav-btn-booking span { justify-content: center; padding: 0; }
         }
 
         /* =========================================
-           Hero Section (Updated)
+           Hero Section
            ========================================= */
-        .hero { 
-            position: relative; 
-            height: 40vh;         /* Updated: Height */
-            min-height: 300px;    /* Updated: Min Height */
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            text-align: center; 
-            color: white; 
-            background-color: var(--c-primary); 
-            overflow: hidden; 
-            margin-top: 70px; 
-        }
-        .hero-bg { 
-            position: absolute; 
-            top: 0; left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background-image: url('images/cover.jpg'); 
-            background-size: cover; 
-            background-position: center 30%; /* Updated: Position */
-            opacity: 0.6; 
-            z-index: 1; 
-        }
+        .hero { position: relative; height: 40vh; min-height: 300px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px; }
+        .hero-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('images/cover.jpg'); background-size: cover; background-position: center 30%; opacity: 0.6; z-index: 1; }
         .hero-content { position: relative; z-index: 2; padding: 0 20px; }
-        .hero h1 { 
-            font-family: var(--font-serif); 
-            font-size: 2.2rem;    /* Updated: Font Size */
-            margin-bottom: 10px; 
-            font-weight: 700; 
-            letter-spacing: 2px; 
-        }
-        .hero p { 
-            font-size: 1rem;      /* Updated: Font Size */
-            margin-bottom: 0;     /* Removed extra margin since button is gone */
-            font-weight: 300; 
-            opacity: 0.9; 
-            letter-spacing: 1px; 
-        }
-        /* Button removed from CSS as it's removed from HTML */
+        .hero h1 { font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 10px; font-weight: 700; letter-spacing: 2px; }
+        .hero p { font-size: 1rem; margin-bottom: 0; font-weight: 300; opacity: 0.9; letter-spacing: 1px; }
 
         /* =========================================
-           Form & Contract Container
+           Main Container
            ========================================= */
-        .container { width: 90%; max-width: 900px; margin: 0 auto; padding: 80px 0; flex: 1; }
+        .container { width: 90%; max-width: 900px; margin: 0 auto; padding: 80px 0; flex: 1; position: relative; }
 
-        #capture-area {
-            background-color: var(--c-bg-white); padding: 50px;
-            border: 1px solid #E2E8F0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            border-radius: 12px; position: relative;
-            border-top: 5px solid var(--c-accent);
-        }
-
+        /* Form Styles */
+        #capture-area { background-color: var(--c-bg-white); padding: 50px; border: 1px solid #E2E8F0; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-radius: 12px; position: relative; border-top: 5px solid var(--c-accent); }
         .doc-header { text-align: center; border-bottom: 1px solid #E2E8F0; padding-bottom: 20px; margin-bottom: 30px; }
         .doc-header h2 { margin: 0; font-size: 1.8rem; color: var(--c-primary); font-family: var(--font-serif); }
         .doc-header p { margin: 5px 0 0; font-size: 0.9rem; color: var(--c-accent); letter-spacing: 1px; }
-
-        /* Booking Info */
         .booking-info-wrapper { background-color: #FFFBF2; padding: 30px; border-radius: 8px; margin-bottom: 40px; border: 1px dashed var(--c-accent); transition: all 0.3s ease; }
         .date-group { text-align: center; margin-bottom: 25px; }
         .date-label { font-size: 1rem; color: var(--c-accent); margin-bottom: 10px; font-weight: bold; display: block; }
         .date-input { padding: 12px; border: 1px solid #CBD5E0; border-radius: 4px; font-family: var(--font-sans); color: var(--c-primary); font-size: 1rem; background: #fff; width: 100%; max-width: 350px; text-align: center; cursor: pointer; }
-
         .user-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-top: 1px dashed #E0D0B8; padding-top: 20px; }
         .form-group { display: flex; flex-direction: column; text-align: left; }
         .form-label { font-size: 0.9rem; color: var(--c-text-gray); margin-bottom: 8px; font-weight: bold; }
         .form-input { padding: 12px; border: 1px solid #CBD5E0; border-radius: 4px; font-size: 1rem; background: #fff; transition: 0.3s; font-family: var(--font-sans); }
         .form-input:focus { border-color: var(--c-accent); outline: none; box-shadow: 0 0 0 2px rgba(183, 149, 91, 0.2); }
-        
-        /* Validation Error */
         .highlight-error { animation: shake 0.5s ease-in-out; border-color: var(--c-alert) !important; box-shadow: 0 0 10px rgba(197, 48, 48, 0.2); background-color: #FFF5F5; }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
@@ -218,7 +179,6 @@
         canvas { display: block; width: 100%; height: 100%; }
         .sign-hint { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #CBD5E0; font-size: 24px; font-weight: bold; pointer-events: none; }
         .date-stamp { font-family: Consolas, monospace; color: var(--c-primary); font-weight: bold; font-size: 0.9rem; margin-top: 15px; display: block; }
-        
         .btn-clear-inline { background: transparent; border: none; color: #718096; padding: 5px 10px; font-size: 0.9rem; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 5px; margin-top: 10px; }
         .btn-clear-inline:hover { color: var(--c-alert); text-decoration: underline; }
 
@@ -232,8 +192,26 @@
         .btn-download-pdf:hover { transform: translateY(-3px); background-color: #000; }
         .generating .fa-spinner { display: inline-block !important; }
 
-        /* Footer & RWD */
-        .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 80px 0 40px; border-top: 3px solid var(--c-accent); width: 100%; margin-top: auto; text-align: left; }
+        /* =========================================
+           ★ Footer Fix (滿版強制修正)
+           ========================================= */
+        .footer { 
+            background-color: var(--theme-dark-bg); 
+            color: #aaa; 
+            padding: 80px 0 40px; 
+            border-top: 3px solid var(--c-accent); 
+            width: 100%; 
+            margin-top: auto; 
+            text-align: left; 
+            
+            /* 關鍵修正：確保不被壓縮，且強制跳脫父容器限制 */
+            flex-shrink: 0;
+            position: relative;
+            z-index: 10;
+            /* 下面這兩行是「破框」的魔法，確保即使被包在container裡也能全寬 */
+            width: 100vw; 
+            margin-left: calc(-50vw + 50%);
+        }
         .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 50px; margin-bottom: 50px; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         .footer h3 { color: white; font-size: 1.1rem; margin-bottom: 25px; font-family: var(--font-serif); letter-spacing: 1px; }
         .footer-desc { line-height: 1.8; margin-bottom: 20px; text-align: left; color: #CBD5E0; }
@@ -327,7 +305,7 @@
         </div>
     </nav>
 
-    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房">
+    <a href="javascript:void(0)" onclick="sendToLine()" class="sticky-btn" aria-label="Line 訂房">
         <i class="fa-brands fa-line"></i>
     </a>
 
@@ -475,6 +453,7 @@
                 <div id="date-display" class="date-stamp"></div>
             </div>
         </div>
+
         <div class="action-area">
             <p style="margin-bottom:15px; font-weight:bold; color:#2D3748;">請完成簽名後，選擇下載方式：</p>
             <div class="download-btn-group">
@@ -491,47 +470,59 @@
         </div>
 
     </div>
-
     <footer class="footer">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <h3>關於 你好哇寓所</h3>
-                    <div class="footer-desc">
-                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘，<strong>大港橋</strong>亦近在咫尺。</p>
-                        <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
-                    </div>
-                </div>
-                <div>
-                    <h3>聯絡資訊</h3>
-                    <div class="contact-row">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
-                    </div>
-                    <div class="contact-row">
-                        <i class="fa-solid fa-phone"></i>
-                        <a href="tel:0932828922">0932-828-922</a>
-                    </div>
-                    <div class="contact-row">
-                        <i class="fa-brands fa-line"></i>
-                        <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a>
-                    </div>
-                </div>
-                <div>
-                    <h3>熱門關鍵字</h3>
-                    <div class="seo-tags">
-                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span>
-                        <span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span>
-                    </div>
+        <div class="footer-grid">
+            <div>
+                <h3>關於 你好哇寓所</h3>
+                <div class="footer-desc">
+                    <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘，<strong>大港橋</strong>亦近在咫尺。</p>
+                    <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
                 </div>
             </div>
-            <div class="copyright">
-                © 2025 你好哇寓所 Hello House. All Rights Reserved.
+            <div>
+                <h3>聯絡資訊</h3>
+                <div class="contact-row">
+                    <i class="fa-solid fa-location-dot"></i>
+                    <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
+                </div>
+                <div class="contact-row">
+                    <i class="fa-solid fa-phone"></i>
+                    <a href="tel:0932828922">0932-828-922</a>
+                </div>
+                <div class="contact-row">
+                    <i class="fa-brands fa-line"></i>
+                     <a href="javascript:void(0)" onclick="sendToLine()">LINE ID: @575tprig</a>
+                </div>
             </div>
+            <div>
+                <h3>熱門關鍵字</h3>
+                <div class="seo-tags">
+                    <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span>
+                    <span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span>
+                    <span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            © 2025 你好哇寓所 Hello House. All Rights Reserved.
         </div>
     </footer>
 
     <script>
+        const LINE_DEEP_LINK = "line://ti/p/@575tprig";
+
+        function sendToLine() {
+            // 1. 定義想讓客人複製的預設文字
+            const message = "你好！我想詢問溝頂民宿的空房與優惠資訊 🏠";
+
+            // 2. 嘗試背景靜默複製
+            navigator.clipboard.writeText(message).then(() => {
+                window.location.href = LINE_DEEP_LINK;
+            }).catch(() => {
+                window.location.href = LINE_DEEP_LINK;
+            });
+        }
+
         let datePicker;
         const { jsPDF } = window.jspdf; 
 

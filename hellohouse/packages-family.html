@@ -363,6 +363,10 @@
         </div>
     </nav>
 
+    <a href="javascript:void(0)" onclick="sendToLine()" class="sticky-btn" aria-label="Line 訂房">
+        <i class="fa-brands fa-line"></i>
+    </a>
+
     <header class="page-header">
         <div class="page-header-bg"></div>
         <div class="page-header-content fade-in">
@@ -474,7 +478,7 @@
         <div class="cta-box fade-in">
             <h2>給家人一場難忘的旅行</h2>
             <p>寒暑假、連續假期房源緊張，建議盡早規劃。</p>
-            <a href="https://lin.ee/atCiMQw" target="_blank" class="btn-gold">
+            <a href="javascript:void(0)" onclick="sendToLine()" class="btn-gold">
                 <i class="fa-brands fa-line"></i> 詢問家族包棟優惠
             </a>
         </div>
@@ -487,30 +491,55 @@
                 <div>
                     <h3>關於 你好哇寓所</h3>
                     <div class="footer-desc">
-                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。</p>
+                        <p>「你好哇・寓所」位於擁有深厚歷史底蘊的<strong>高雄鹽埕區</strong>，是一間保留了<strong>老屋溫度</strong>且<strong>合法</strong>的精緻獨棟民宿。我們擁有絕佳的地理位置，鄰近<strong>捷運鹽埕埔站</strong>，步行至<strong>駁二藝術特區</strong>僅需10分鐘，<strong>大港橋</strong>亦近在咫尺。</p>
                         <p>我們專注於提供 <strong>6~38人</strong> 的彈性<strong>大空間包棟住宿</strong>。館內配置了<strong>大型中島廚房</strong>、寬敞舒適的大客廳與專屬<strong>麻將設備</strong>。無論是溫馨的<strong>家庭旅遊</strong>、熱鬧的<strong>朋友聚會</strong>或是<strong>員工旅遊</strong>，這裡都是您在高雄港都的最佳選擇。</p>
                     </div>
                 </div>
                 <div>
                     <h3>聯絡資訊</h3>
-                    <div class="contact-row"><i class="fa-solid fa-location-dot"></i> <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號</a></div>
-                    <div class="contact-row"><i class="fa-solid fa-phone"></i> <a href="tel:0932828922">0932-828-922</a></div>
-                    <div class="contact-row"><i class="fa-brands fa-line"></i> <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: 0932828922</a></div>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <a href="https://goo.gl/maps/qxGN4mpNP8qfRCB16" target="_blank">高雄市鹽埕區大公路70巷8號<br>(近捷運鹽埕埔站 O2)</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-phone"></i>
+                        <a href="tel:0932828922">0932-828-922</a>
+                    </div>
+                    <div class="contact-row">
+                        <i class="fa-solid fa-line"></i> 
+                        <a href="javascript:void(0)" onclick="sendToLine()" class="footer-link">LINE 官方帳號聯繫</a>
+                    </div>
                 </div>
                 <div>
                     <h3>熱門關鍵字</h3>
                     <div class="seo-tags">
-                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span><span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span><span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
+                        <span>高雄包棟推薦</span><span>鹽埕區民宿</span><span>駁二住宿</span>
+                        <span>麻將民宿</span><span>中島廚房</span><span>親子住宿</span><span>棧貳庫周邊</span>
+                        <span>KTV民宿</span><span>合法民宿</span><span>員工旅遊</span>
                     </div>
                 </div>
             </div>
-            <div class="copyright">© 2025 你好哇寓所 Hello House. All Rights Reserved.</div>
+            <div class="copyright">
+                © 2025 你好哇寓所 Hello House. All Rights Reserved.
+            </div>
         </div>
     </footer>
 
-    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn"><i class="fa-brands fa-line"></i></a>
-
     <script>
+        const LINE_DEEP_LINK = "line://ti/p/@575tprig";
+
+        function sendToLine() {
+            // 1. 定義想讓客人複製的預設文字
+            const message = "你好！我想詢問溝頂民宿的空房與優惠資訊 🏠";
+
+            // 2. 嘗試背景靜默複製
+            navigator.clipboard.writeText(message).then(() => {
+                window.location.href = LINE_DEEP_LINK;
+            }).catch(() => {
+                window.location.href = LINE_DEEP_LINK;
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });

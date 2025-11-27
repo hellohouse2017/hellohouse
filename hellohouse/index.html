@@ -442,7 +442,7 @@
         </div>
     </nav>
 
-    <a href="https://lin.ee/atCiMQw" target="_blank" class="sticky-btn" aria-label="Line 訂房">
+    <a href="javascript:void(0)" onclick="sendToLine()" class="sticky-btn" aria-label="Line 訂房">
         <i class="fa-brands fa-line"></i>
     </a>
 
@@ -451,10 +451,7 @@
         <div class="hero-content fade-in">
             <h1>高雄包棟民宿・你好哇寓所</h1>
             <p>高雄鹽埕區・包棟首選・港都漫遊</p>
-            <a href="https://lin.ee/atCiMQw" target="_blank" class="btn btn-line">
-                <i class="fa-brands fa-line"></i> 查看房價與空房
-            </a>
-
+            
             <div class="hero-tags">
                 <span class="hero-tag">6-38人彈性包棟</span>
                 <span class="hero-tag">近駁二藝術特區</span>
@@ -666,8 +663,8 @@
                         <a href="tel:0932828922">0932-828-922</a>
                     </div>
                     <div class="contact-row">
-                        <i class="fa-brands fa-line"></i>
-                        <a href="https://lin.ee/atCiMQw" target="_blank">LINE ID: @575tprig</a>
+                        <i class="fa-solid fa-line"></i> 
+                        <a href="javascript:void(0)" onclick="sendToLine()" class="footer-link">LINE 官方帳號聯繫</a>
                     </div>
                 </div>
                 <div>
@@ -686,6 +683,20 @@
     </footer>
 
     <script>
+        const LINE_DEEP_LINK = "line://ti/p/@575tprig";
+
+        function sendToLine() {
+            // 1. 定義想讓客人複製的預設文字
+            const message = "你好！我想詢問溝頂民宿的空房與優惠資訊 🏠";
+
+            // 2. 嘗試背景靜默複製
+            navigator.clipboard.writeText(message).then(() => {
+                window.location.href = LINE_DEEP_LINK;
+            }).catch(() => {
+                window.location.href = LINE_DEEP_LINK;
+            });
+        }
+        
         function toggleReviews() {
             const hidden = document.getElementById('hidden-reviews');
             const btn = document.getElementById('load-more-btn');
