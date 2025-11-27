@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>線上簽署住宿契約 | 溝頂民宿 (Godin B&B)</title>
+<meta name="description" content="溝頂民宿線上住宿契約簽署頁面。請於入住前完成簽署以保障雙方權益。">
+<meta name="robots" content="noindex, nofollow"> 
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh_tw.js"></script>
+
+<style>
+/* ---------------------------------------------------- */
+/* --- 1. 全局變數 & 核心設定 --- */
+/* ---------------------------------------------------- */
+:root {
+    --primary-color: #3A6A8C;   /* 沈穩藍 */
+    --accent-warm: #C69C6D;     /* 大地金 */
+    --cta-bg: #B07D62;          /* 磚紅 */
+    
+    --bg-light: #F9F7F5;        /* 頁面背景 */
+    --bg-white: #FFFFFF;        /* 卡片背景 */
+    --text-main: #2C3E50;       
+    --text-sub: #5D5D5D;
+    
+    --line-green: #06C755;
+    --nav-height: 70px;
+    --footer-bg: #4A3B32;
+    --shadow-card: 0 10px 30px rgba(0,0,0,0.06);
+    --border-radius: 12px;
+    --error-color: #E53E3E;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0; padding: 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.7;
+    padding-top: var(--nav-height);
+    display: flex; flex-direction: column; min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; cursor: pointer; }
+ul { list-style: none; padding: 0; margin: 0; }
+img { max-width: 100%; display: block; }
+
+/* ---------------------------------------------------- */
+/* --- 2. 導覽列 (Navbar) --- */
+/* ---------------------------------------------------- */
+.navbar {
+    position: fixed; top: 0; left: 0; width: 100%;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    display: flex; justify-content: center;
+}
+.nav-container {
+    width: 100%; max-width: 1200px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px;
+}
+.nav-logo {
+    font-size: 22px; font-weight: 700; color: var(--primary-color);
+    letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+}
+.nav-menu { display: flex; gap: 5px; align-items: center; }
+.nav-link {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 15px; font-size: 15px; font-weight: 500;
+    color: var(--text-main); border-radius: 6px;
+}
+.nav-link:hover { color: var(--cta-bg); background-color: #fdf5e6; }
+.nav-link.active { color: var(--cta-bg); font-weight: 700; }
+
+/* Dropdown Menu */
+.nav-item { position: relative; }
+.dropdown-menu {
+    position: absolute; top: 100%; left: 0;
+    background: white; min-width: 180px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-radius: 8px; padding: 10px 0;
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: all 0.3s ease; text-align: left;
+}
+.nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown-link { display: block; padding: 10px 20px; font-size: 14px; color: var(--text-sub); }
+.dropdown-link:hover { background-color: #fdf5e6; color: var(--cta-bg); }
+
+.nav-btn-booking {
+    background-color: var(--primary-color); color: white !important;
+    padding: 8px 20px; border-radius: 50px; margin-left: 10px;
+}
+.nav-btn-booking:hover { background-color: #2c5370; }
+.menu-toggle { display: none; cursor: pointer; }
+.bar { display: block; width: 25px; height: 3px; background: var(--text-main); margin: 5px auto; transition: 0.3s; }
+
+/* ---------------------------------------------------- */
+/* --- 3. Hero Header --- */
+/* ---------------------------------------------------- */
+.hero-header {
+    position: relative;
+    min-height: 400px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; color: white;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                url('images/cover-bg.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed;
+    margin-bottom: 40px;
+}
+.hero-title {
+    font-size: 42px; font-weight: 900; 
+    margin: 0 0 10px 0; letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+.hero-subtitle {
+    font-size: 20px; font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+/* ---------------------------------------------------- */
+/* --- 4. 簽署頁面樣式 --- */
+/* ---------------------------------------------------- */
+.container { max-width: 900px; margin: 0 auto; padding: 20px 20px 80px; flex: 1; }
+
+#capture-area {
+    background-color: var(--bg-white);
+    padding: 50px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    border-top: 5px solid var(--accent-warm);
+    margin-bottom: 30px;
+}
+
+.doc-header { text-align: center; border-bottom: 1px solid #eee; padding-bottom: 20px; margin-bottom: 30px; }
+.doc-header h2 { margin: 0; font-size: 28px; color: var(--primary-color); }
+.doc-header p { margin: 5px 0 0; color: var(--accent-warm); font-size: 14px; letter-spacing: 2px; }
+
+/* 表單區 */
+.booking-info-wrapper {
+    background-color: #F8FAFC; padding: 30px; border-radius: 8px;
+    margin-bottom: 40px; border: 1px dashed #CBD5E0;
+}
+.date-group { text-align: center; margin-bottom: 25px; }
+.date-label { display: block; font-weight: bold; color: var(--primary-color); margin-bottom: 8px; }
+.date-input {
+    padding: 12px; border: 1px solid #CBD5E0; border-radius: 4px;
+    font-family: inherit; font-size: 16px; width: 100%; max-width: 350px; text-align: center;
+}
+.user-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-top: 1px dashed #E0E0E0; padding-top: 20px; }
+.form-group { display: flex; flex-direction: column; }
+.form-label { font-size: 14px; color: var(--text-sub); margin-bottom: 5px; font-weight: bold; }
+.form-input {
+    padding: 12px; border: 1px solid #CBD5E0; border-radius: 4px; font-size: 16px;
+}
+
+/* 合約區塊 */
+.contract-section { margin-bottom: 30px; }
+.section-title {
+    font-size: 18px; font-weight: bold; color: var(--primary-color);
+    margin-bottom: 15px; border-left: 4px solid var(--cta-bg); padding-left: 10px; margin-top: 40px;
+}
+
+/* ★ 修正後的標籤樣式 (實體標籤，非偽元素) ★ */
+.contract-option { padding: 20px; margin-bottom: 15px; border-radius: 6px; font-size: 14px; text-align: justify; border: 1px solid transparent; }
+
+.contract-option.disabled {
+    background: #F1F5F9; color: #A0AEC0; border-color: #E2E8F0;
+}
+.contract-option.selected {
+    background: #FFFCF5; color: var(--text-main); border-color: var(--accent-warm);
+}
+
+/* 實體標籤樣式 */
+.status-badge {
+    display: inline-block; padding: 4px 12px; border-radius: 4px; 
+    font-size: 12px; font-weight: bold; margin-bottom: 10px;
+}
+.badge-gray { background: #CBD5E0; color: white; }
+.badge-gold { background: var(--accent-warm); color: white; }
+
+.legal-text-content { line-height: 1.6; }
+.legal-indent { display: block; margin-left: 1.5em; text-indent: -1.5em; margin-bottom: 5px; }
+
+/* 規則列表 */
+.rule-block { margin-bottom: 25px; }
+.rule-title { font-weight: bold; color: var(--text-main); margin-bottom: 8px; display: flex; gap:8px; align-items: center; font-size: 16px; }
+.rule-title i { color: var(--cta-bg); }
+.rule-content ul { padding-left: 20px; margin: 0; font-size: 14px; color: var(--text-sub); line-height: 1.8; }
+.rule-content li { margin-bottom: 8px; text-align: justify; }
+.price { color: #C53030; font-weight: bold; background: rgba(197, 48, 48, 0.05); padding: 0 4px; border-radius: 2px; }
+
+/* 簽名板 */
+.signature-wrapper {
+    margin: 40px 0 20px 0; padding: 20px;
+    background: #EDF2F7; border-radius: 12px;
+    text-align: center; border: 1px solid #CBD5E0;
+}
+.sign-box {
+    width: 100%; max-width: 500px; height: 250px;
+    background: #fff; border: 2px dashed #A0AEC0;
+    margin: 15px auto; position: relative; touch-action: none; border-radius: 8px;
+}
+canvas { display: block; width: 100%; height: 100%; cursor: crosshair; }
+.sign-hint {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    color: #CBD5E0; font-size: 24px; font-weight: bold; pointer-events: none;
+}
+.btn-clear {
+    background: transparent; border: 1px solid #CBD5E0; color: var(--text-sub);
+    padding: 5px 15px; font-size: 14px; cursor: pointer; border-radius: 4px; margin-top: 10px;
+}
+.date-stamp { font-family: monospace; color: var(--text-main); margin-top: 15px; font-size: 14px; }
+
+/* 按鈕區 */
+.action-area { text-align: center; margin-top: 40px; }
+.download-group { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.btn-download {
+    border: none; padding: 15px 35px; font-size: 16px; font-weight: bold;
+    border-radius: 50px; cursor: pointer; transition: 0.3s;
+    display: inline-flex; align-items: center; gap: 10px; min-width: 220px; justify-content: center;
+}
+.btn-img { background: var(--accent-warm); color: white; }
+.btn-pdf { background: var(--primary-color); color: white; }
+
+/* ---------------------------------------------------- */
+/* --- 5. Footer (完整還原) --- */
+/* ---------------------------------------------------- */
+footer { background-color: var(--footer-bg); color: #d7ccc8; padding: 60px 20px 20px; margin-top: auto;}
+.footer-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;
+}
+.footer-title {
+    color: white; font-size: 19px; font-weight: 600;
+    border-bottom: 2px solid var(--cta-bg); padding-bottom: 10px; margin-bottom: 20px; display: inline-block;
+}
+.footer-link {
+    display: flex; align-items: center; gap: 10px; color: #d7ccc8;
+    margin-bottom: 12px; transition: 0.3s;
+}
+.footer-link:hover { color: var(--cta-bg); transform: translateX(5px); }
+
+.keyword-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.seo-tag {
+    background: rgba(255,255,255,0.1); color: #d7ccc8; font-size: 13px;
+    padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);
+    transition: 0.3s; cursor: default;
+}
+.seo-tag:hover { background: var(--cta-bg); color: white; border-color: var(--cta-bg); }
+
+/* RWD */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-menu {
+        position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
+        background: white; flex-direction: column; padding-top: 80px;
+        transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        align-items: flex-start;
+    }
+    .nav-menu.active { right: 0; }
+    .nav-link { width: 100%; padding: 15px 30px; border-bottom: 1px solid #eee; }
+    .dropdown-menu { position: static; box-shadow: none; display: none; opacity: 1; visibility: visible; transform: none; padding-left: 20px; background: #f9f9f9; }
+    .nav-item.active .dropdown-menu { display: block; }
+    
+    .hero-title { font-size: 32px; }
+    .hero-subtitle { font-size: 16px; letter-spacing: 2px; }
+    
+    #capture-area { padding: 25px 15px; }
+    .user-info-grid { grid-template-columns: 1fr; }
+    .download-group { flex-direction: column; }
+}
+
+.sticky-line {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--line-green); color: white;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; box-shadow: 0 5px 20px rgba(6,199,85,0.4);
+    z-index: 999; animation: float 3s ease-in-out infinite; cursor: pointer;
+}
+@keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fa-solid fa-house-chimney" style="color:var(--cta-bg);"></i>
+                溝頂民宿
+            </div>
+            
+            <div class="menu-toggle" id="mobile-menu-btn">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link active dropdown-toggle">
+                        <i class="fa-solid fa-file-signature"></i> 入住須知 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽署</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item"><a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="attractions.html" class="dropdown-link">周邊景點</a></li>
+                        <li><a href="food.html" class="dropdown-link">鹽埕美食地圖</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <a href="javascript:void(0)" onclick="sendToLine()" class="sticky-line">
+        <i class="fa-brands fa-line"></i>
+    </a>
+
+    <header class="hero-header">
+        <h1 class="hero-title">住宿契約簽署</h1>
+        <div class="hero-subtitle">ONLINE SIGNATURE</div>
+    </header>
+
+    <div class="container">
+        
+        <div id="capture-area">
+            <div class="doc-header">
+                <h2>溝頂民宿 住宿契約與規範</h2>
+                <p>Godin B&B Accommodation Contract</p>
+            </div>
+
+            <div id="booking-info" class="booking-info-wrapper">
+                <div class="date-group">
+                    <label class="date-label"><i class="fa-regular fa-calendar-check"></i> 請選擇入住與退房日期</label>
+                    <input type="text" id="date-range-picker" class="date-input" placeholder="點擊選擇日期範圍..." readonly>
+                </div>
+                
+                <div class="user-info-grid">
+                    <div class="form-group">
+                        <label class="form-label">訂房人姓名 (Name)</label>
+                        <input type="text" id="booker-name" class="form-input" placeholder="請輸入真實姓名">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">聯絡電話 (Phone)</label>
+                        <input type="tel" id="booker-phone" class="form-input" placeholder="09xxxxxxxx (限台灣手機)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="contract-section">
+                <div class="section-title">一、定型化契約條款</div>
+                <p style="font-size:14px; color:#666; margin-bottom:15px;">旅客訂房一律按「行政院旅宿定型化契約條款」預收約定房價總金額，旅客解除契約時可依下列方式之處理：</p>
+
+                <div class="contract-option disabled">
+                    <div class="status-badge badge-gray">本案不適用</div>
+                    <div class="legal-text-content">
+                        <strong>□ 比例退還預收約定房價總金額：</strong><br>
+                        <span class="legal-indent">(一)旅客解約通知於預定住宿日前第三日以前到達者，業者應退還預收約定房價總金額百分之百。</span>
+                        <span class="legal-indent">(二)旅客解約通知於預定住宿日前第一日至第二日到達者，業者應退還預收約定房價總金額百分之五十。</span>
+                        <span class="legal-indent">(三)旅客解約通知於預定住宿日當日到達或未為解約通知者，業者得不退還預收約定房價總金額。</span>
+                    </div>
+                </div>
+
+                <div class="contract-option selected">
+                    <div class="status-badge badge-gold">☑ 雙方合意適用</div>
+                    <div class="legal-text-content">
+                        <strong>□ 一年內保留已付金額作為日後消費折抵使用：</strong><br>
+                        <span class="legal-indent">(一)旅客解約通知於預定住宿日當日前到達者，得於一年內保留已付金額作為日後消費折抵使用。</span>
+                        <span class="legal-indent">(二)旅客解約通知於預定住宿日當日到達或未為解約通知者，業者得不退還預收約定房價總金額。</span>
+                    </div>
+                    <div style="margin-top:10px; border-top:1px dashed #B07D62; padding-top:10px; font-size:13px; color:#888;">
+                        * 特別約定：旅客同意以優惠價格預訂，雙方合意僅依此條款作為解約處理方式。
+                    </div>
+                </div>
+            </div>
+
+            <div class="contract-section">
+                <div class="section-title">二、住宿生活公約</div>
+                
+                <div class="rule-block">
+                    <div class="rule-title"><i class="fa-solid fa-users"></i> 訂房與押金須知</div>
+                    <div class="rule-content">
+                        <ul>
+                            <li>請依實際訂房人數入住，超出預定人數入住部分加收每人 <span class="price">1,800元/日</span>，如需要加人(床)，請於入住前一日告知，並加收超出預定人數每人 <span class="price">1,000元/日</span>（假日或連續假期為每人 <span class="price">1,500元/日</span>）。</li>
+                            <li><strong>押金規定：</strong>為確保雙方權益，辦理入住時需收取押金 <span class="price">5,000元</span>。於退房後確認無任何設備損壞，且未違反入住須知（含過於髒亂）後全數匯款退還。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-block">
+                    <div class="rule-title"><i class="fa-solid fa-clock"></i> 進退房時間</div>
+                    <div class="rule-content">
+                        <ul>
+                            <li>進房時間：入住當日 <strong>16:00PM</strong> 以後。(若情況允許，可經由民宿主人同意後提早入住。入住時請出示身分證或護照辦理住宿登記，並當場繳清餘款。最晚請於入住當日 21:00PM 前完成Check-in入住手續)</li>
+                            <li>退房時間：退房當日 <strong>11:00AM</strong> 以前。</li>
+                            <li>未經民宿主人同意延遲退房，一小時加收 <span class="price">1,500元</span>，超過五小時以一日包棟定價 <span class="price">(34,800)</span> 計算。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-block">
+                    <div class="rule-title" style="color:var(--error-color);"><i class="fa-solid fa-ban"></i> 禁止行為</div>
+                    <div class="rule-content">
+                        <ul>
+                            <li>本民宿全棟禁止「吸菸」、「吸毒」、「賭博」、「嚼檳榔」、「燃放爆竹」及任何違反善良風俗之不法行為。如有抽菸需求請至一樓戶外區。若有違法行為將直接報警處理不另行通知。</li>
+                            <li>本旅宿<strong>非寵物友善旅宿</strong>，切勿攜帶寵物入住，以維護旅客權益（事前詢問且經業主同意*不接受入住當天詢問*攜帶寵物入住者，酌收清潔費 <span class="price">$800元/平日、$1000元/假日</span>，且造成損壞仍需照價賠償）。</li>
+                            <li>除當日入住房客之外，恕不對外開放參觀，且嚴禁非當日入住房客以外人士進入以維持住宿品質及安全，敬請見諒。</li>
+                            <li>包棟開放區域為一樓廚房與所開立之房間外，其餘地方(包含頂樓露台與通往頂樓之樓梯間)為屋主私人空間，未經同意嚴禁人員進入，若經發現將逕行依法(刑法306條)處理。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-block">
+                    <div class="rule-title"><i class="fa-solid fa-sink"></i> 備品與維護</div>
+                    <div class="rule-content">
+                        <ul>
+                            <li>民宿不主動提供更換枕套、床單、浴巾等備品，如需付費更換請主動告知。</li>
+                            <li>連續入住之房客，原則上提供每3日更換一次浴巾之免費服務，為顧及房客隱私，需更換浴巾之房客請將使用過之浴巾統一集中於一樓公共空間，替換之乾淨浴巾也會統一放置於一樓公共空間。</li>
+                            <li>開放式客廳之微波爐、熱水壺、冰箱、電視、餐具、娛樂設施於入住期間免費提供房客使用，惟使用後請恢復原貌及妥善清潔，並請隨手關燈、冷氣及節約用水，未遵守者視情況扣除押金。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="rule-block">
+                    <div class="rule-title"><i class="fa-solid fa-triangle-exclamation"></i> 安全、安寧與賠償</div>
+                    <div class="rule-content">
+                        <ul>
+                            <li><strong>安寧時間：</strong>民宿位於住宅區，為維護社區他人安寧，入住房客請於每日 <span class="price">23:00至隔日08:00</span> 期間降低音量，民宿內外勿大聲喧嘩、咆哮，若經屢勸無效則要求立即退房，恕無退還房費。</li>
+                            <li><strong>財物安全：</strong>包棟期間，民宿主人或管家仍保留公共空間進出與維護管理之權利。房客外出時，請鎖上房門，貴重物品請隨身攜帶小心保管，如有遺失不予理賠。</li>
+                            <li><strong>賠償價目表：</strong><br>
+                                - 寢具用品沾上血漬、嘔吐物、排泄物、紅酒漬等，收取特殊清潔費 <span class="price">500～2,000元</span>。<br>
+                                - 公共空間使用完畢若未妥善復原，收取額外清潔費用 <span class="price">500～5,000元</span>。<br>
+                                - 若發現室內吸煙行為，<strong>直接扣除全額押金 <span class="price">5,000元</span> 作為清潔費。</strong>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div style="background:#F0F4F8; color:#4A5568; padding:15px; font-size:13px; border-radius:4px; margin-top:10px;">
+                    <strong>規範限制聲明：</strong> 在您訂房的同時，將視同了解並接受上述安全規定與限制，若違反上述限制與規定肇生任何意外，不得對民宿與民宿負責人進行任何之究責與索賠行為。
+                </div>
+            </div>
+
+            <div id="signature-wrapper" class="signature-wrapper">
+                <div style="font-weight:bold; margin-bottom:5px; color:#2D3748;">旅客簽名 (Signature)</div>
+                <div style="font-size:14px; color:#666;">本人已詳閱並同意上述所有條款</div>
+                
+                <div class="sign-box" id="sign-box">
+                    <span class="sign-hint" id="sign-hint">請在此簽名</span>
+                    <canvas id="signature-canvas"></canvas>
+                </div>
+                
+                <button class="btn-clear" onclick="clearPad()">
+                    <i class="fa-solid fa-rotate-right"></i> 清除重簽
+                </button>
+                <div id="date-display" class="date-stamp"></div>
+            </div>
+        </div>
+        <div class="action-area">
+            <p style="margin-bottom:15px; font-weight:bold; color:#2D3748;">完成簽名後，請選擇下載方式：</p>
+            <div class="download-group">
+                <button class="btn-download btn-img" onclick="handleGenerate('image')">
+                    <i class="fa-solid fa-image"></i> 存到手機相簿 (JPG)
+                </button>
+                <button class="btn-download btn-pdf" onclick="handleGenerate('pdf')">
+                    <i class="fa-solid fa-file-pdf"></i> 下載合約 (PDF)
+                </button>
+            </div>
+            <p style="font-size:13px; color:#666; margin-top:15px;">※ 檔案生成可能需要幾秒鐘，請稍候</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-title">關於 溝頂民宿</div>
+                <p style="line-height: 1.8; text-align: justify; color: #d7ccc8;">
+                    溝頂民宿 (Godin B&B) 位於高雄市鹽埕區大公路巷弄內，致力於提供像家一樣溫暖的包棟住宿體驗。我們結合了老屋的復古風情與現代化的便利設施，是您探索高雄港灣的最佳落腳處。
+                </p>
+            </div>
+            <div>
+                <div class="footer-title">聯絡我們</div>
+                <a href="https://goo.gl/maps/placeholder" target="_blank" class="footer-link">
+                    <i class="fa-solid fa-location-dot"></i> 高雄市鹽埕區大公路70巷6-2號
+                </a>
+                <a href="tel:0932828922" class="footer-link">
+                    <i class="fa-solid fa-phone"></i> 0932-828-922
+                </a>
+                <a href="javascript:void(0)" onclick="sendToLine()" class="footer-link">
+                    <i class="fa-brands fa-line"></i> LINE 官方帳號聯繫
+                </a>
+                <div style="margin-top: 15px; font-size: 14px; color: #a1887f;">
+                    <i class="fa-solid fa-clock"></i> 客服時間: 09:00 - 21:00
+                </div>
+            </div>
+            
+            <div>
+                <div class="footer-title">熱門關鍵字</div>
+                <div class="keyword-cloud">
+                    <span class="seo-tag">高雄包棟</span>
+                    <span class="seo-tag">高雄包棟民宿</span>
+                    <span class="seo-tag">高雄10人包棟</span>
+                    <span class="seo-tag">鹽埕區民宿</span>
+                    <span class="seo-tag">駁二住宿</span>
+                    <span class="seo-tag">高雄麻將民宿</span>
+                    <span class="seo-tag">親子友善包棟</span>
+                    <span class="seo-tag">捷運站住宿</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 20px; font-size: 13px; color: #a1887f;">
+            © 2025 Godin B&B 溝頂民宿. All Rights Reserved.
+        </div>
+    </footer>
+
+    <div onclick="sendToLine()" class="sticky-line">
+        <i class="fa-brands fa-line"></i>
+    </div>
+
+    <script>
+        const LINE_DEEP_LINK = "line://ti/p/@575tprig";
+        function sendToLine() {
+            const message = "你好！我想詢問訂房事宜 🏠";
+            navigator.clipboard.writeText(message).catch(() => {});
+            window.location.href = LINE_DEEP_LINK;
+        }
+
+        let datePicker;
+        const { jsPDF } = window.jspdf; 
+
+        document.addEventListener('DOMContentLoaded', function() {
+            datePicker = flatpickr("#date-range-picker", {
+                mode: "range",
+                minDate: "today",
+                dateFormat: "Y-m-d",
+                conjunction: " 至 ",
+                locale: "zh_tw"
+            });
+
+            const mobileBtn = document.getElementById('mobile-menu-btn');
+            const navMenu = document.getElementById('nav-menu');
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+            mobileBtn.addEventListener('click', () => {
+                mobileBtn.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        const parent = toggle.parentElement;
+                        parent.classList.toggle('active');
+                    }
+                });
+            });
+        });
+
+        const canvas = document.getElementById('signature-canvas');
+        const ctx = canvas.getContext('2d');
+        const wrapper = document.getElementById('sign-box');
+        const hint = document.getElementById('sign-hint');
+        let isDrawing = false;
+        let hasSigned = false;
+
+        function resize() {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = wrapper.offsetWidth * ratio;
+            canvas.height = wrapper.offsetHeight * ratio;
+            ctx.scale(ratio, ratio);
+            ctx.strokeStyle = "#000"; ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.lineJoin = "round";
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function start(e) { isDrawing = true; hasSigned = true; hint.style.display = 'none'; ctx.beginPath(); draw(e); }
+        function end() { isDrawing = false; ctx.beginPath(); }
+        function draw(e) {
+            if(!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            let x, y;
+            if(e.type.includes('touch')) {
+                x = e.touches[0].clientX - rect.left;
+                y = e.touches[0].clientY - rect.top;
+            } else {
+                x = e.clientX - rect.left;
+                y = e.clientY - rect.top;
+            }
+            ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
+        }
+
+        canvas.addEventListener('mousedown', start);
+        canvas.addEventListener('mouseup', end);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('touchstart', start, {passive: false});
+        canvas.addEventListener('touchend', end);
+        canvas.addEventListener('touchmove', draw, {passive: false});
+
+        function clearPad() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            resize(); hint.style.display = 'block'; hasSigned = false;
+        }
+
+        async function handleGenerate(type) {
+            const nameInput = document.getElementById('booker-name');
+            const phoneInput = document.getElementById('booker-phone');
+            const dateInput = document.getElementById('date-range-picker');
+            const clearBtn = document.querySelector('.btn-clear');
+
+            if (!datePicker || datePicker.selectedDates.length !== 2) {
+                alert("請先選擇「入住與退房日期」！"); scrollToError('booking-info'); return;
+            }
+            if (!nameInput.value.trim() || !phoneInput.value.trim()) {
+                alert("請填寫姓名與聯絡電話！"); scrollToError('booking-info'); return;
+            }
+            if (!hasSigned) {
+                alert("請在下方簽名欄完成簽名！"); scrollToError('signature-wrapper'); return;
+            }
+
+            const now = new Date();
+            document.getElementById('date-display').innerText = `簽署時間：${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} ${now.getHours()}:${now.getMinutes()}`;
+            const fileName = `溝頂民宿合約_${nameInput.value.trim()}`;
+
+            const originalInputs = [];
+            
+            const replaceInput = (inputNode) => {
+                const span = document.createElement('span');
+                span.textContent = inputNode.value;
+                span.className = inputNode.className;
+                span.style.border = 'none';
+                span.style.fontWeight = 'bold';
+                span.style.display = 'inline-block';
+                span.style.padding = '12px 0';
+                inputNode.parentNode.replaceChild(span, inputNode);
+                originalInputs.push({ parent: span.parentNode, newNode: span, oldNode: inputNode });
+            };
+
+            replaceInput(dateInput);
+            replaceInput(nameInput);
+            replaceInput(phoneInput);
+
+            clearBtn.style.display = 'none';
+
+            try {
+                const captureArea = document.getElementById("capture-area");
+                const canvas = await html2canvas(captureArea, { scale: 2, useCORS: true, allowTaint: true, backgroundColor: "#ffffff", logging: false });
+                
+                if (type === 'image') {
+                    const link = document.createElement('a');
+                    link.download = fileName + '.jpg';
+                    link.href = canvas.toDataURL('image/jpeg', 0.9);
+                    link.click();
+                } else {
+                    const imgData = canvas.toDataURL('image/jpeg', 1.0);
+                    const pdf = new jsPDF('p', 'mm', 'a4');
+                    const pdfW = pdf.internal.pageSize.getWidth();
+                    const imgH = (canvas.height * pdfW) / canvas.width;
+                    
+                    if (imgH > 297) { 
+                        const pdfLong = new jsPDF('p', 'mm', [210, (imgH * 210 / pdfW) + 20]);
+                        pdfLong.addImage(imgData, 'JPEG', 0, 0, 210, (imgH * 210 / pdfW));
+                        pdfLong.save(fileName + '.pdf');
+                    } else {
+                        pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, imgH);
+                        pdf.save(fileName + '.pdf');
+                    }
+                }
+                alert("合約已生成！請查收下載資料夾。");
+            } catch (err) {
+                console.error("截圖失敗:", err);
+                alert("生成失敗，請稍後再試。");
+            } finally {
+                originalInputs.forEach(item => {
+                    item.parent.replaceChild(item.oldNode, item.newNode);
+                });
+                clearBtn.style.display = 'block';
+                resize();
+            }
+        }
+
+        function scrollToError(id) {
+            const el = document.getElementById(id);
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.classList.add('highlight-error');
+            setTimeout(() => el.classList.remove('highlight-error'), 1000);
+        }
+    </script>
+
+</body>
+</html>

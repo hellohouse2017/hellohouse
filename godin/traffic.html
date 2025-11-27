@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>交通指南與停車資訊 | 溝頂民宿 (Godin B&B)</title>
+<meta name="description" content="溝頂民宿 (Godin B&B) 交通全攻略。位於高雄鹽埕區大公路巷弄內，鄰近捷運鹽埕埔站(O2)與輕軌。提供周邊停車場地圖與大眾運輸轉乘指引。">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* ---------------------------------------------------- */
+/* --- 1. 全局變數 & 核心設定 (嚴格比照 Godin System) --- */
+/* ---------------------------------------------------- */
+:root {
+    --primary-color: #3A6A8C;   /* 沈穩藍 */
+    --accent-warm: #C69C6D;     /* 大地金/香檳金 */
+    --cta-bg: #B07D62;          /* 磚紅/強調色 */
+    
+    --bg-light: #F9F7F5;        /* 頁面背景 */
+    --bg-white: #FFFFFF;        /* 卡片背景 */
+    --text-main: #2C3E50;       
+    --text-sub: #5D5D5D;
+    
+    --line-green: #06C755;
+    --nav-height: 70px;
+    --footer-bg: #4A3B32;
+    --shadow-card: 0 10px 30px rgba(0,0,0,0.06);
+    --border-radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0; padding: 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.7;
+    padding-top: var(--nav-height);
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; cursor: pointer; }
+ul { list-style: none; padding: 0; margin: 0; }
+img { max-width: 100%; display: block; }
+
+/* ---------------------------------------------------- */
+/* --- 2. 導覽列 (Navbar) - Godin 完整版 --- */
+/* ---------------------------------------------------- */
+.navbar {
+    position: fixed; top: 0; left: 0; width: 100%;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    display: flex; justify-content: center;
+}
+.nav-container {
+    width: 100%; max-width: 1200px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px;
+}
+.nav-logo {
+    font-size: 22px; font-weight: 700; color: var(--primary-color);
+    letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+}
+.nav-menu { display: flex; gap: 5px; align-items: center; }
+.nav-link {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 15px; font-size: 15px; font-weight: 500;
+    color: var(--text-main); border-radius: 6px;
+}
+.nav-link:hover { color: var(--cta-bg); background-color: #fdf5e6; }
+.nav-link.active { color: var(--cta-bg); font-weight: 700; }
+
+/* Dropdown Menu Styles */
+.nav-item { position: relative; }
+.dropdown-menu {
+    position: absolute; top: 100%; left: 0;
+    background: white; min-width: 180px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-radius: 8px; padding: 10px 0;
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+.nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown-link { display: block; padding: 10px 20px; font-size: 14px; color: var(--text-sub); }
+.dropdown-link:hover { background-color: #fdf5e6; color: var(--cta-bg); }
+
+.nav-btn-booking {
+    background-color: var(--primary-color); color: white !important;
+    padding: 8px 20px; border-radius: 50px; margin-left: 10px;
+}
+.nav-btn-booking:hover { background-color: #2c5370; }
+
+.menu-toggle { display: none; cursor: pointer; }
+.bar { display: block; width: 25px; height: 3px; background: var(--text-main); margin: 5px auto; transition: 0.3s; }
+
+/* ---------------------------------------------------- */
+/* --- 3. Hero Header (Godin 樣式) --- */
+/* ---------------------------------------------------- */
+.hero-header {
+    position: relative;
+    min-height: 400px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; color: white;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                url('images/cover-bg.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed;
+    margin-bottom: 40px;
+}
+
+.hero-title {
+    font-size: 42px; font-weight: 900; 
+    margin: 0 0 10px 0; letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 20px; font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+/* ---------------------------------------------------- */
+/* --- 4. 交通頁面專用樣式 (整合舊版排版邏輯) --- */
+/* ---------------------------------------------------- */
+.container { max-width: 1100px; margin: 0 auto; padding: 20px 20px 80px; }
+
+/* 地圖區塊 */
+.map-section {
+    background: var(--bg-white);
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    margin-bottom: 50px;
+    text-align: center;
+}
+.address-alert-box {
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+    border-bottom: 1px dashed #E2E8F0;
+}
+.address-text {
+    font-size: 24px; font-weight: 700; color: var(--primary-color);
+    margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.warning-badge {
+    display: inline-block;
+    background-color: #FFF5F5; color: #C53030;
+    border: 1px solid #FEB2B2;
+    padding: 10px 25px; border-radius: 50px;
+    font-size: 15px; font-weight: bold;
+}
+.traffic-image {
+    width: 100%; height: auto; border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-top: 20px;
+}
+.btn-line { 
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px; 
+    background-color: var(--line-green); color: white; 
+    padding: 12px 30px; border-radius: 50px; font-weight: bold; margin-top: 25px;
+    box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); transition: 0.3s; 
+}
+.btn-line:hover { background-color: #05b64d; transform: translateY(-2px); }
+
+
+/* 資訊卡片佈局 (保留原版雙欄) */
+.info-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 40px; }
+.info-card {
+    background: var(--bg-white); padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    border-top: 4px solid var(--accent-warm); /* 使用 Godin 金色 */
+}
+.info-title { 
+    font-size: 1.5rem; color: var(--primary-color); margin-bottom: 25px; 
+    display: flex; align-items: center; gap: 12px; font-weight: 700;
+}
+.info-title i { color: var(--accent-warm); }
+
+
+/* 停車場 Grids (保留原版樣式與結構) */
+.parking-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.parking-card {
+    background: #F8FAFC; border: 1px solid #E2E8F0;
+    padding: 25px; border-radius: 8px; transition: 0.3s;
+    display: flex; flex-direction: column; justify-content: space-between;
+}
+.parking-card:hover { border-color: var(--accent-warm); box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: translateY(-3px); }
+
+.parking-title { font-weight: bold; color: var(--text-main); margin-bottom: 10px; font-size: 1.1rem; display: flex; justify-content: space-between; align-items: center;}
+.parking-tag { font-size: 0.8rem; background: #EDF2F7; color: var(--text-sub); padding: 2px 8px; border-radius: 4px; }
+
+.parking-info { font-size: 0.9rem; color: var(--text-sub); margin-bottom: 15px; list-style: none; padding: 0; }
+.parking-info li { margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; }
+.parking-info i { color: var(--accent-warm); margin-top: 4px; }
+
+.btn-map-sm {
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    width: 100%; text-align: center; border: 1px solid var(--accent-warm);
+    color: var(--accent-warm); text-decoration: none; padding: 8px; border-radius: 6px;
+    font-size: 0.9rem; font-weight: bold; transition: 0.3s; margin-top: auto;
+}
+.btn-map-sm:hover { background: var(--accent-warm); color: white; }
+
+
+/* 步驟列表 (保留原版樣式) */
+.step-list { counter-reset: step; }
+.step-item { position: relative; padding-left: 40px; margin-bottom: 20px; }
+.step-item::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 0; top: 0; width: 28px; height: 28px;
+    background: #EDF2F7; color: var(--accent-warm);
+    border-radius: 50%; text-align: center; line-height: 28px;
+    font-weight: bold; font-size: 14px;
+}
+.step-title { font-weight: bold; font-size: 1.1rem; color: var(--primary-color); display: block; margin-bottom: 5px; }
+.step-desc { font-size: 0.95rem; color: var(--text-sub); }
+
+
+/* ---------------------------------------------------- */
+/* --- 5. Footer (Godin 完整版) --- */
+/* ---------------------------------------------------- */
+footer { background-color: var(--footer-bg); color: #d7ccc8; padding: 60px 20px 20px; }
+.footer-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;
+}
+.footer-title {
+    color: white; font-size: 19px; font-weight: 600;
+    border-bottom: 2px solid var(--cta-bg); padding-bottom: 10px; margin-bottom: 20px; display: inline-block;
+}
+.footer-link {
+    display: flex; align-items: center; gap: 10px; color: #d7ccc8;
+    margin-bottom: 12px; transition: 0.3s;
+}
+.footer-link:hover { color: var(--cta-bg); transform: translateX(5px); }
+
+/* Footer Tags */
+.keyword-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.seo-tag {
+    background: rgba(255,255,255,0.1); color: #d7ccc8; font-size: 13px;
+    padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);
+    transition: 0.3s; cursor: default;
+}
+.seo-tag:hover { background: var(--cta-bg); color: white; border-color: var(--cta-bg); }
+
+/* RWD */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-menu {
+        position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
+        background: white; flex-direction: column; padding-top: 80px;
+        transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        align-items: flex-start;
+    }
+    .nav-menu.active { right: 0; }
+    .nav-link { width: 100%; padding: 15px 30px; border-bottom: 1px solid #eee; }
+    .dropdown-menu { position: static; box-shadow: none; display: none; opacity: 1; visibility: visible; transform: none; padding-left: 20px; background: #f9f9f9; }
+    .nav-item.active .dropdown-menu { display: block; }
+
+    .hero-title { font-size: 32px; }
+    .hero-subtitle { font-size: 16px; letter-spacing: 2px; }
+    
+    .info-grid { grid-template-columns: 1fr; }
+    .parking-grid { grid-template-columns: 1fr; }
+    .address-text { font-size: 18px; flex-direction: column; }
+}
+
+.sticky-line {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--line-green); color: white;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; box-shadow: 0 5px 20px rgba(6,199,85,0.4);
+    z-index: 999; animation: float 3s ease-in-out infinite; cursor: pointer;
+}
+@keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fa-solid fa-house-chimney" style="color:var(--cta-bg);"></i>
+                溝頂民宿
+            </div>
+            
+            <div class="menu-toggle" id="mobile-menu-btn">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-file-signature"></i> 入住須知 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽署</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item"><a href="traffic.html" class="nav-link active"><i class="fa-solid fa-car"></i> 交通停車</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="attractions.html" class="dropdown-link">周邊景點</a></li>
+                        <li><a href="food.html" class="dropdown-link">鹽埕美食地圖</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero-header">
+        <h1 class="hero-title">交通指南與停車資訊</h1>
+        <div class="hero-subtitle">LOCATION & PARKING</div>
+    </header>
+
+    <main class="container">
+        
+        <div class="map-section">
+            <div class="address-alert-box">
+                <div class="address-text">
+                    <i class="fa-solid fa-location-dot" style="color:var(--cta-bg);"></i>
+                    高雄市鹽埕區大公路70巷6-2號
+                </div>
+                <div class="warning-badge">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    民宿位於靜謐巷弄內，車輛無法直接駛入！<br>
+                    請於巷口下車後步行進來 (約 10 公尺)。
+                </div>
+            </div>
+
+            <img src="images/traffic.jpg" alt="溝頂民宿周邊交通地圖" class="traffic-image">
+            
+            <div style="margin-top:20px; text-align:center;">
+                <a href="https://goo.gl/maps/placeholder" target="_blank" class="btn-line">
+                    <i class="fa-solid fa-person-walking"></i> 開啟 Google Map 步行導航
+                </a>
+            </div>
+        </div>
+
+        <div class="info-grid">
+            
+            <div class="info-card" style="grid-column: span 2;">
+                <h2 class="info-title"><i class="fa-solid fa-square-parking"></i> 停車場資訊 (依距離排序)</h2>
+                
+                <div class="parking-grid">
+                    <div class="parking-card">
+                        <div class="parking-title">路邊停車格 <span class="parking-tag">距離 20-100m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 大公路與七賢三路周邊</li>
+                            <li><i class="fa-solid fa-clock"></i> <strong style="color:#2F855A;">20:00 - 08:00 免費</strong></li>
+                        </ul>
+                        <a href="https://www.google.com/maps/search/?api=1&query=高雄市鹽埕區大公路七賢三路口" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航路口</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">Ping 富野站停車場 <span class="parking-tag">距離 170m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 富野路 78 號</li>
+                            <li><i class="fa-solid fa-dollar-sign"></i> 平日 $30/H，假日 $50/H</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=1856535064860438519&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">嘟嘟房 (高雄富野站) <span class="parking-tag">距離 230m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 富野路 27 號</li>
+                            <li><i class="fa-solid fa-dollar-sign"></i> 平日 $40/H，假日 $50/H</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=18149634423983651854&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">國際會議中心地下 <span class="parking-tag">距離 300m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 中正四路 274 號</li>
+                            <li><i class="fa-solid fa-warehouse"></i> 室內平面車位，免曬太陽</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=2933515461281075928&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">文武聖殿停車場 <span class="parking-tag">距離 350m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 富野路 170 號</li>
+                            <li><i class="fa-solid fa-clock"></i> 06:00 - 22:00 (非24H)</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=14869428468779387843&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+
+                    <div class="parking-card">
+                        <div class="parking-title">鹽埕立體停車場 <span class="parking-tag">距離 500m</span></div>
+                        <ul class="parking-info">
+                            <li><i class="fa-solid fa-location-dot"></i> 大仁路 10 號</li>
+                            <li><i class="fa-solid fa-warehouse"></i> 室內多層停車場</li>
+                        </ul>
+                        <a href="https://maps.google.com/?cid=4456456276069017907&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-map-sm"><i class="fa-solid fa-location-arrow"></i> 導航前往</a>
+                    </div>
+                </div>
+                <div style="margin-top:15px; font-size:0.85rem; color:#999; text-align:center;">
+                    *以上收費與營業資訊僅供參考，實際請以各停車場現場公告為準。
+                </div>
+            </div>
+
+            <div class="info-card" style="grid-column: span 2;">
+                <h2 class="info-title"><i class="fa-solid fa-train-subway"></i> 大眾運輸指南</h2>
+                <div class="step-list">
+                    <div class="step-item">
+                        <span class="step-title">搭乘高鐵 (HSR)</span>
+                        <div class="step-desc">
+                            至「左營站」下車，轉乘捷運紅線至「美麗島站」，再轉乘橘線。
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-title">搭乘捷運 (MRT)</span>
+                        <div class="step-desc">
+                            至橘線<strong>「鹽埕埔站 (O2)」</strong>下車，從 2 號出口步行約 5-7 分鐘即可抵達。
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-title">搭乘輕軌 (LRT)</span>
+                        <div class="step-desc">
+                            至<strong>「文武聖殿站 (C16)」</strong>下車，步行約 3-5 分鐘即可抵達。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-title">關於 溝頂民宿</div>
+                <p style="line-height: 1.8; text-align: justify; color: #d7ccc8;">
+                    溝頂民宿 (Godin B&B) 位於高雄市鹽埕區大公路巷弄內，致力於提供像家一樣溫暖的包棟住宿體驗。我們結合了老屋的復古風情與現代化的便利設施，是您探索高雄港灣的最佳落腳處。
+                </p>
+            </div>
+            <div>
+                <div class="footer-title">聯絡我們</div>
+                <a href="https://goo.gl/maps/placeholder" target="_blank" class="footer-link">
+                    <i class="fa-solid fa-location-dot"></i> 高雄市鹽埕區大公路70巷6-2號
+                </a>
+                <a href="tel:0932828922" class="footer-link">
+                    <i class="fa-solid fa-phone"></i> 0932-828-922
+                </a>
+                <a href="javascript:void(0)" onclick="sendToLine()" class="footer-link">
+                    <i class="fa-brands fa-line"></i> LINE 官方帳號聯繫
+                </a>
+                <div style="margin-top: 15px; font-size: 14px; color: #a1887f;">
+                    <i class="fa-solid fa-clock"></i> 客服時間: 09:00 - 21:00
+                </div>
+            </div>
+            
+            <div>
+                <div class="footer-title">熱門關鍵字</div>
+                <div class="keyword-cloud">
+                    <span class="seo-tag">高雄包棟</span>
+                    <span class="seo-tag">高雄包棟民宿</span>
+                    <span class="seo-tag">高雄10人包棟</span>
+                    <span class="seo-tag">鹽埕區民宿</span>
+                    <span class="seo-tag">駁二住宿</span>
+                    <span class="seo-tag">高雄麻將民宿</span>
+                    <span class="seo-tag">親子友善包棟</span>
+                    <span class="seo-tag">捷運站住宿</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 20px; font-size: 13px; color: #a1887f;">
+            © 2025 Godin B&B 溝頂民宿. All Rights Reserved.
+        </div>
+    </footer>
+
+    <div onclick="sendToLine()" class="sticky-line">
+        <i class="fa-brands fa-line"></i>
+    </div>
+
+    <script>
+        // 核心功能區
+        const LINE_DEEP_LINK = "line://ti/p/@575tprig";
+
+        function sendToLine() {
+            const message = "你好！我想詢問民宿交通與停車資訊 🚗";
+            navigator.clipboard.writeText(message).then(() => {
+                window.location.href = LINE_DEEP_LINK;
+            }).catch(() => {
+                window.location.href = LINE_DEEP_LINK;
+            });
+        }
+
+        // --- UI Interactions ---
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // 手機版下拉選單互動
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    const parent = toggle.parentElement;
+                    parent.classList.toggle('active');
+                }
+            });
+        });
+
+        // 點擊選單外關閉
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
+                navMenu.classList.remove('active');
+                mobileBtn.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>

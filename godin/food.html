@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>鹽埕美食與酒吧攻略 | 溝頂民宿 (Godin B&B)</title>
+<meta name="description" content="入住高雄包棟民宿「溝頂民宿」，走路吃遍鹽埕區。嚴選TOP6人氣酒吧、鴨肉珍、港園牛肉麵等必吃美食。內附周邊菸酒行與24H超商地圖，是團體旅遊最便利的住宿選擇。">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* ---------------------------------------------------- */
+/* --- 1. 全局變數 & 核心設定 (Godin System) --- */
+/* ---------------------------------------------------- */
+:root {
+    --primary-color: #3A6A8C;   /* 沈穩藍 */
+    --accent-warm: #C69C6D;     /* 大地金 */
+    --cta-bg: #B07D62;          /* 磚紅 */
+    
+    --bg-light: #F9F7F5;        /* 頁面背景 */
+    --bg-white: #FFFFFF;        /* 卡片背景 */
+    --text-main: #2C3E50;       
+    --text-sub: #5D5D5D;
+    
+    --line-green: #06C755;
+    --nav-height: 70px;
+    --footer-bg: #4A3B32;
+    --shadow-card: 0 10px 30px rgba(0,0,0,0.06);
+    --border-radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0; padding: 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.7;
+    padding-top: var(--nav-height);
+    display: flex; flex-direction: column; min-height: 100vh;
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; cursor: pointer; }
+ul { list-style: none; padding: 0; margin: 0; }
+img { max-width: 100%; display: block; }
+
+/* ---------------------------------------------------- */
+/* --- 2. 導覽列 (Navbar) --- */
+/* ---------------------------------------------------- */
+.navbar {
+    position: fixed; top: 0; left: 0; width: 100%;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    display: flex; justify-content: center;
+}
+.nav-container {
+    width: 100%; max-width: 1200px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px;
+}
+.nav-logo {
+    font-size: 22px; font-weight: 700; color: var(--primary-color);
+    letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+}
+.nav-menu { display: flex; gap: 5px; align-items: center; }
+.nav-link {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 15px; font-size: 15px; font-weight: 500;
+    color: var(--text-main); border-radius: 6px;
+}
+.nav-link:hover { color: var(--cta-bg); background-color: #fdf5e6; }
+.nav-link.active { color: var(--cta-bg); font-weight: 700; }
+
+/* Dropdown Menu */
+.nav-item { position: relative; }
+.dropdown-menu {
+    position: absolute; top: 100%; left: 0;
+    background: white; min-width: 180px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-radius: 8px; padding: 10px 0;
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: all 0.3s ease; text-align: left;
+}
+.nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown-link { display: block; padding: 10px 20px; font-size: 14px; color: var(--text-sub); }
+.dropdown-link:hover { background-color: #fdf5e6; color: var(--cta-bg); }
+
+.nav-btn-booking {
+    background-color: var(--primary-color); color: white !important;
+    padding: 8px 20px; border-radius: 50px; margin-left: 10px;
+}
+.nav-btn-booking:hover { background-color: #2c5370; }
+.menu-toggle { display: none; cursor: pointer; }
+.bar { display: block; width: 25px; height: 3px; background: var(--text-main); margin: 5px auto; transition: 0.3s; }
+
+/* ---------------------------------------------------- */
+/* --- 3. Hero Header --- */
+/* ---------------------------------------------------- */
+.hero-header {
+    position: relative;
+    min-height: 400px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; color: white;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                url('images/cover-bg.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed;
+    margin-bottom: 40px;
+}
+.hero-title {
+    font-size: 42px; font-weight: 900; 
+    margin: 0 0 10px 0; letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+.hero-subtitle {
+    font-size: 20px; font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+/* ---------------------------------------------------- */
+/* --- 4. 美食列表樣式 (Food Grid) --- */
+/* ---------------------------------------------------- */
+.container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 60px 0; flex: 1; }
+
+.intro-box {
+    background: var(--bg-white); padding: 40px; border-radius: 12px;
+    border-left: 5px solid var(--accent-warm);
+    box-shadow: var(--shadow-card); margin-bottom: 60px;
+}
+.intro-box h2 { font-size: 24px; margin-bottom: 15px; color: var(--primary-color); font-weight: 700; margin-top: 0; }
+.intro-box p { margin: 0; color: var(--text-sub); font-size: 16px; line-height: 1.8; }
+
+.category-header {
+    display: flex; align-items: center; gap: 15px; margin: 60px 0 30px;
+    padding-bottom: 15px; border-bottom: 1px solid #E2E8F0;
+}
+.category-header:first-of-type { margin-top: 0; }
+.category-icon { font-size: 28px; color: var(--accent-warm); }
+.category-title { font-size: 28px; font-weight: 700; color: var(--primary-color); margin: 0; }
+
+/* Food Grid */
+.food-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;
+}
+
+/* Food Card */
+.card {
+    background: var(--bg-white); border-radius: var(--border-radius);
+    overflow: hidden; box-shadow: var(--shadow-card); transition: 0.3s;
+    border: 1px solid rgba(0,0,0,0.05); display: flex; flex-direction: column;
+}
+.card:hover { transform: translateY(-8px); border-color: var(--accent-warm); }
+
+.card-img {
+    position: relative; width: 100%; padding-top: 60%; /* 16:9 */
+    overflow: hidden; background-color: #eee;
+}
+.card-img img {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    object-fit: cover; transition: 0.5s;
+}
+.card:hover .card-img img { transform: scale(1.1); }
+
+/* Card Tags */
+.distance-tag {
+    position: absolute; top: 10px; left: 10px;
+    background: rgba(0, 0, 0, 0.7); color: #fff;
+    padding: 4px 12px; border-radius: 50px;
+    font-size: 12px; font-weight: bold; backdrop-filter: blur(4px);
+}
+.feature-badge {
+    position: absolute; bottom: 10px; right: 10px;
+    background: var(--cta-bg); color: #fff;
+    padding: 4px 10px; border-radius: 4px;
+    font-size: 12px; font-weight: bold;
+}
+
+.card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+.card-title {
+    font-size: 20px; font-weight: 700; color: var(--primary-color);
+    margin-bottom: 10px;
+}
+.card-desc {
+    font-size: 14px; color: var(--text-sub); line-height: 1.6;
+    margin-bottom: 20px; flex-grow: 1; text-align: justify;
+}
+
+.btn-nav-sm {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; background: #fff; color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 10px; border-radius: 6px;
+    font-size: 14px; font-weight: bold; transition: 0.3s;
+}
+.btn-nav-sm:hover { background: var(--primary-color); color: white; }
+
+/* ---------------------------------------------------- */
+/* --- 5. Footer (完整還原版) --- */
+/* ---------------------------------------------------- */
+footer { background-color: var(--footer-bg); color: #d7ccc8; padding: 60px 20px 20px; margin-top: auto;}
+.footer-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;
+}
+.footer-title {
+    color: white; font-size: 19px; font-weight: 600;
+    border-bottom: 2px solid var(--cta-bg); padding-bottom: 10px; margin-bottom: 20px; display: inline-block;
+}
+.footer-link {
+    display: flex; align-items: center; gap: 10px; color: #d7ccc8;
+    margin-bottom: 12px; transition: 0.3s;
+}
+.footer-link:hover { color: var(--cta-bg); transform: translateX(5px); }
+
+.keyword-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.seo-tag {
+    background: rgba(255,255,255,0.1); color: #d7ccc8; font-size: 13px;
+    padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);
+    transition: 0.3s; cursor: default;
+}
+.seo-tag:hover { background: var(--cta-bg); color: white; border-color: var(--cta-bg); }
+
+/* Animation */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+.fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; } 
+.fade-in.visible { opacity: 1; }
+
+/* RWD */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-menu {
+        position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
+        background: white; flex-direction: column; padding-top: 80px;
+        transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        align-items: flex-start;
+    }
+    .nav-menu.active { right: 0; }
+    .nav-link { width: 100%; padding: 15px 30px; border-bottom: 1px solid #eee; }
+    .dropdown-menu { position: static; box-shadow: none; display: none; opacity: 1; visibility: visible; transform: none; padding-left: 20px; background: #f9f9f9; }
+    .nav-item.active .dropdown-menu { display: block; }
+    
+    .hero-title { font-size: 32px; }
+    .hero-subtitle { font-size: 16px; letter-spacing: 2px; }
+    
+    .food-grid { grid-template-columns: 1fr; }
+}
+
+.sticky-line {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--line-green); color: white;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; box-shadow: 0 5px 20px rgba(6,199,85,0.4);
+    z-index: 999; animation: float 3s ease-in-out infinite; cursor: pointer;
+}
+@keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fa-solid fa-house-chimney" style="color:var(--cta-bg);"></i>
+                溝頂民宿
+            </div>
+            
+            <div class="menu-toggle" id="mobile-menu-btn">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-file-signature"></i> 入住須知 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽署</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item"><a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link active dropdown-toggle">
+                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="attractions.html" class="dropdown-link">周邊景點</a></li>
+                        <li><a href="food.html" class="dropdown-link">鹽埕美食地圖</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <a href="javascript:void(0)" onclick="sendToLine()" class="sticky-line">
+        <i class="fa-brands fa-line"></i>
+    </a>
+
+    <header class="hero-header">
+        <h1 class="hero-title">鹽埕美食地圖</h1>
+        <div class="hero-subtitle">TASTE OF KAOHSIUNG</div>
+    </header>
+
+    <div class="container">
+
+        <div class="intro-box fade-in">
+            <h2><i class="fa-solid fa-utensils"></i> 從老店到微醺，吃遍鹽埕味</h2>
+            <p>
+                入住<strong>溝頂民宿</strong>，您就住在美食的中心點！
+                從早餐的<strong>虱目魚</strong>到深夜的<strong>特色酒吧</strong>，走路就能吃遍米其林推薦與在地人私藏名單。
+                我們擁有<strong>豪華中島廚房</strong>，非常推薦將這些美食外帶回來，吹著冷氣、喝著飲料，享受最舒適的包棟聚餐時光。
+            </p>
+        </div>
+
+        <div class="category-header fade-in">
+            <i class="fa-solid fa-moon category-icon"></i>
+            <h2 class="category-title">夜市推薦</h2>
+        </div>
+        <div class="food-grid fade-in">
+            <div class="card">
+                <div class="card-img"><img src="images/food-1.jpg" alt="鹽埕建國夜市" onerror="this.src='https://placehold.co/600x400?text=Night+Market'"><span class="distance-tag">步行12分</span><span class="feature-badge">週六限定</span></div>
+                <div class="card-content"><div class="card-title">鹽埕建國夜市</div><div class="card-desc">在地人的隱藏版夜市，只有週六營業，規模不大但攤攤經典。</div><a href="https://g.co/kgs/feQTQQ" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-2.jpg" alt="六合觀光夜市" onerror="this.src='https://placehold.co/600x400?text=Liuhe'"><span class="distance-tag">捷運直達</span></div>
+                <div class="card-content"><div class="card-title">六合觀光夜市</div><div class="card-desc">高雄最知名的觀光夜市，海鮮粥、木瓜牛奶是必吃美食。</div><a href="https://g.co/kgs/DXMpqMH" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-3.jpg" alt="自強夜市" onerror="this.src='https://placehold.co/600x400?text=Ziqiang'"><span class="distance-tag">車程10分</span><span class="feature-badge">在地推薦</span></div>
+                <div class="card-content"><div class="card-title">自強夜市 (苓雅市場)</div><div class="card-desc">白天是市場，晚上變夜市，在地高雄人覓食的首選之地。</div><a href="https://g.co/kgs/gUg7DX" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+        </div>
+
+        <div class="category-header fade-in">
+            <i class="fa-solid fa-wine-glass category-icon"></i>
+            <h2 class="category-title">鹽埕區熱門酒吧 (Top 6)</h2>
+        </div>
+        <div class="food-grid fade-in">
+            <div class="card">
+                <div class="card-img"><img src="images/bar-1.jpg" alt="Old.Trick" onerror="this.src='https://placehold.co/600x400?text=Old.Trick'"><span class="distance-tag">步行6分</span><span class="feature-badge">老派復古</span></div>
+                <div class="card-content"><div class="card-title">Old.Trick 佬掉牙商行</div><div class="card-desc">鄰近捷運站，充滿復古玩味的特色酒吧，調酒與氛圍都極佳。</div><a href="https://maps.app.goo.gl/xxxxx" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/bar-2.jpg" alt="廢墟BAR" onerror="this.src='https://placehold.co/600x400?text=Ruins+BAR'"><span class="distance-tag">步行6分</span><span class="feature-badge">老屋改建</span></div>
+                <div class="card-content"><div class="card-title">廢墟BAR</div><div class="card-desc">隱身在老屋中的特色空間，保留原始結構，白天是咖啡廳晚上變身酒吧。</div><a href="https://goo.gl/maps/P1RGyZRmJ1jRKXxX7" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/bar-3.jpg" alt="JustIn" onerror="this.src='https://placehold.co/600x400?text=JustIn'"><span class="distance-tag">步行8分</span><span class="feature-badge">甜點酒吧</span></div>
+                <div class="card-content"><div class="card-title">JustIn 入吧</div><div class="card-desc">隱藏在市場巷弄的店中店，主打精緻甜點與創意調酒的完美結合。</div><a href="https://maps.app.goo.gl/xxxxx" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/bar-4.jpg" alt="Hush" onerror="this.src='https://placehold.co/600x400?text=Hush'"><span class="distance-tag">步行12分</span></div>
+                <div class="card-content"><div class="card-title">Hush Drinker 小聲點酒館</div><div class="card-desc">低調有質感的空間，適合不想被打擾、安靜品酒的夜晚。</div><a href="https://maps.app.goo.gl/xxxxx" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/bar-5.jpg" alt="WAVESTELLAR" onerror="this.src='https://placehold.co/600x400?text=WAVESTELLAR'"><span class="distance-tag">步行15分</span><span class="feature-badge">海景酒吧</span></div>
+                <div class="card-content"><div class="card-title">WAVESTELLAR 浪際</div><div class="card-desc">位於大港橋旁，擁有絕美港景，是欣賞高雄港夜色的最佳選擇。</div><a href="https://maps.app.goo.gl/xxxxx" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/bar-6.jpg" alt="BOOZE970" onerror="this.src='https://placehold.co/600x400?text=BOOZE970'"><span class="distance-tag">步行8分</span></div>
+                <div class="card-content"><div class="card-title">BOOZE970 BAR</div><div class="card-desc">鄰近愛河，氣氛熱絡，適合三五好友聚會小酌的平價酒吧。</div><a href="https://maps.google.com/?cid=4562342341522811676&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> 導航</a></div>
+            </div>
+        </div>
+
+        <div class="category-header fade-in">
+            <i class="fa-solid fa-cookie-bite category-icon"></i>
+            <h2 class="category-title">經典小吃 & 下酒菜</h2>
+        </div>
+        <div class="food-grid fade-in">
+            <div class="card">
+                <div class="card-img"><img src="images/food-4.jpg" alt="阿囉哈滷味" onerror="this.src='https://placehold.co/600x400?text=Aloha'"><span class="distance-tag">步行5分</span><span class="feature-badge">下酒首選</span></div>
+                <div class="card-content"><div class="card-title">阿囉哈滷味</div><div class="card-desc">大溝頂知名老店，獨特的中藥滷汁，買回民宿配啤酒最對味。</div><a href="https://goo.gl/maps/7p6QA3RUA2d1zS1J9" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-5.jpg" alt="阿芳古早味清蒸肉圓" onerror="this.src='https://placehold.co/600x400?text=Meatball'"><span class="distance-tag">步行5分</span></div>
+                <div class="card-content"><div class="card-title">阿芳古早味清蒸肉圓</div><div class="card-desc">皮Q肉嫩的清蒸肉圓，搭配一碗四神湯是絕配。</div><a href="https://maps.app.goo.gl/UZXyyNJsLDURvRJY7" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-6.jpg" alt="阿寶豆乳雞" onerror="this.src='https://placehold.co/600x400?text=Chicken'"><span class="distance-tag">步行3分</span><span class="feature-badge">宵夜推薦</span></div>
+                <div class="card-content"><div class="card-title">阿寶豆乳雞</div><div class="card-desc">現炸酥脆豆乳雞翅、雞塊，香氣逼人，適合團體分食。</div><a href="https://goo.gl/maps/PiUTz4aeVGiQHxM66" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-7.jpg" alt="戴蛋餅" onerror="this.src='https://placehold.co/600x400?text=Egg+Pancake'"><span class="distance-tag">步行6分</span></div>
+                <div class="card-content"><div class="card-title">戴蛋餅</div><div class="card-desc">古早味粉漿蛋餅，份量十足，下午茶或點心的好選擇。</div><a href="https://goo.gl/maps/piisu587WpqRQo6v5" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-8.jpg" alt="王家手工豆花" onerror="this.src='https://placehold.co/600x400?text=Tofu+Pudding'"><span class="distance-tag">步行8分</span></div>
+                <div class="card-content"><div class="card-title">王家手工豆花</div><div class="card-desc">綿密滑順的手工豆花，加入金桔檸檬更是清爽解膩。</div><a href="https://maps.app.goo.gl/4UXeUG4cqdX5uRC89" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-9.jpg" alt="50年杏仁茶" onerror="this.src='https://placehold.co/600x400?text=Almond+Tea'"><span class="distance-tag">步行6分</span><span class="feature-badge">老店</span></div>
+                <div class="card-content"><div class="card-title">50年杏仁茶</div><div class="card-desc">濃郁香醇的杏仁茶配上油條，是鹽埕區經典的宵夜場景。</div><a href="https://goo.gl/maps/HzURgeCUYQnGKyEj9" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+        </div>
+
+        <div class="category-header fade-in">
+            <i class="fa-solid fa-mug-hot category-icon"></i>
+            <h2 class="category-title">特色早餐</h2>
+        </div>
+        <div class="food-grid fade-in">
+            <div class="card">
+                <div class="card-img"><img src="images/food-10.jpg" alt="姐妹老五早餐" onerror="this.src='https://placehold.co/600x400?text=Breakfast'"><span class="distance-tag">步行6分</span></div>
+                <div class="card-content"><div class="card-title">姐妹老五早餐</div><div class="card-desc">必點烘蛋漢堡，人氣極高的在地早餐店。</div><a href="https://goo.gl/maps/BpfFYm8N6SZFAsdW7" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-11.jpg" alt="大溝頂虱目魚" onerror="this.src='https://placehold.co/600x400?text=Milkfish'"><span class="distance-tag">步行5分</span><span class="feature-badge">霸氣早餐</span></div>
+                <div class="card-content"><div class="card-title">大溝頂虱目魚</div><div class="card-desc">新鮮現撈虱目魚肚漿湯，高雄人的一天活力來源。</div><a href="https://goo.gl/maps/2DPVK1d8ep9m3Ggi7" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-12.jpg" alt="大摳胖三明治" onerror="this.src='https://placehold.co/600x400?text=Sandwich'"><span class="distance-tag">步行5分</span></div>
+                <div class="card-content"><div class="card-title">大摳胖碳烤三明治</div><div class="card-desc">炭火現烤吐司，夾入特製美乃滋與火腿，簡單卻美味。</div><a href="https://goo.gl/maps/Stu6MPJKCGgnyUem8" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+        </div>
+
+        <div class="category-header fade-in">
+            <i class="fa-solid fa-utensils category-icon"></i>
+            <h2 class="category-title">必吃正餐</h2>
+        </div>
+        <div class="food-grid fade-in">
+            <div class="card">
+                <div class="card-img"><img src="images/food-13.jpg" alt="鴨肉珍" onerror="this.src='https://placehold.co/600x400?text=Duck+Zhen'"><span class="distance-tag">步行7分</span><span class="feature-badge">米其林必比登</span></div>
+                <div class="card-content"><div class="card-title">鴨肉珍</div><div class="card-desc">鹽埕區最著名的鴨肉飯，肉質軟嫩，肉燥飯也是一絕。</div><a href="https://maps.app.goo.gl/n7rDEnbjunGjisPS9" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-14.jpg" alt="港園牛肉麵" onerror="this.src='https://placehold.co/600x400?text=Beef+Noodle'"><span class="distance-tag">步行8分</span><span class="feature-badge">排隊名店</span></div>
+                <div class="card-content"><div class="card-title">港園牛肉麵</div><div class="card-desc">湯頭濃郁不油膩，牛肉拌麵更是老饕最愛。</div><a href="https://goo.gl/maps/B5um8jx32PCxtpu87" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-16.jpg" alt="味味香" onerror="this.src='https://placehold.co/600x400?text=Hot+Pot'"><span class="distance-tag">步行6分</span></div>
+                <div class="card-content"><div class="card-title">味味香汕頭沙茶鍋</div><div class="card-desc">在地人推薦的傳統火鍋，特製沙茶醬與鮮嫩牛肉是亮點。</div><a href="https://g.co/kgs/RfaMcY" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-17.jpg" alt="北站羊肉" onerror="this.src='https://placehold.co/600x400?text=Lamb'"><span class="distance-tag">步行7分</span></div>
+                <div class="card-content"><div class="card-title">北站羊肉海鮮熱炒</div><div class="card-desc">適合團體聚餐的熱炒店，菜色豐富，羊肉爐也是招牌。</div><a href="https://goo.gl/maps/8WgK1jVSxMNx4bZ19" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-18.jpg" alt="尚芳土魠魚羹" onerror="this.src='https://placehold.co/600x400?text=Fish+Soup'"><span class="distance-tag">步行6分</span></div>
+                <div class="card-content"><div class="card-title">尚芳土魠魚羹</div><div class="card-desc">外酥內嫩的土魠魚塊，配上鮮甜羹湯，讓人一口接一口。</div><a href="https://goo.gl/maps/ePNGBX5TU7d8vm2P6" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-19.jpg" alt="鴨肉本" onerror="this.src='https://placehold.co/600x400?text=Duck+Ben'"><span class="distance-tag">步行3分</span></div>
+                <div class="card-content"><div class="card-title">鴨肉本</div><div class="card-desc">與鴨肉珍齊名，口味略有不同，也是在地人常吃的選擇。</div><a href="https://maps.app.goo.gl/5eiZcfKp7eDv1rqo7" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-20.jpg" alt="榮璋陽春麵" onerror="this.src='https://placehold.co/600x400?text=Noodles'"><span class="distance-tag">步行4分</span></div>
+                <div class="card-content"><div class="card-title">榮璋陽春麵</div><div class="card-desc">古早味麵攤，簡單的陽春麵配上滷味，就是最棒的美味。</div><a href="https://goo.gl/maps/E82TmBuFwyUPtcG4A" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-21.jpg" alt="阿進切仔麵" onerror="this.src='https://placehold.co/600x400?text=Ah+Jin'"><span class="distance-tag">步行5分</span></div>
+                <div class="card-content"><div class="card-title">阿進切仔麵</div><div class="card-desc">傳承多代的切仔麵，黑白切種類豐富，湯頭鮮甜。</div><a href="https://goo.gl/maps/XbZLQjLyoy8hZYZp9" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-img"><img src="images/food-22.jpg" alt="黑乾餛鈍麵" onerror="this.src='https://placehold.co/600x400?text=Wonton'"><span class="distance-tag">步行6分</span></div>
+                <div class="card-content"><div class="card-title">黑乾餛鈍麵</div><div class="card-desc">現包餛飩大顆飽滿，夜晚營業，是鹽埕區的深夜食堂。</div><a href="https://goo.gl/maps/MjHnqsPTmxXUpi6E7" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+        </div>
+
+        <div class="category-header fade-in">
+            <i class="fa-solid fa-store category-icon"></i>
+            <h2 class="category-title">生活便利 (洗衣/超市/菸酒)</h2>
+        </div>
+        <div class="food-grid fade-in">
+            <div class="card">
+                <div class="card-content"><div class="card-title"><i class="fa-solid fa-basket-shopping" style="color:#2F855A"></i> 全聯福利中心</div><div class="card-desc">步行約5分鐘，採買生鮮、飲料、零食最方便的超市。</div><a href="https://goo.gl/maps/Nq2cKi5NMwA8Le4w6" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-content"><div class="card-title"><i class="fa-solid fa-store" style="color:#E53E3E"></i> 7-11 便利商店</div><div class="card-desc">巷口就有，24小時補給站。</div><a href="https://goo.gl/maps/VuoZ1JWA3FCRM8Ea6" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-content"><div class="card-title"><i class="fa-solid fa-basket-shopping" style="color:#D53F8C"></i> 美廉社 鹽埕富野店</div><div class="card-desc">步行約3分鐘，購買民生用品與飲料的好選擇。</div><a href="https://spot.line.me/detail/649000605053889145" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-content"><div class="card-title"><i class="fa-solid fa-wine-bottle" style="color:var(--accent-warm)"></i> 尊城洋行 (菸酒)</div><div class="card-desc">步行1分鐘 (73m)，距離最近的菸酒專賣店。</div><a href="https://maps.google.com/?cid=5079615425173750042&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+             <div class="card">
+                <div class="card-content"><div class="card-title"><i class="fa-solid fa-wine-bottle" style="color:var(--accent-warm)"></i> 金酒坊菸酒專賣店</div><div class="card-desc">步行3分鐘 (240m)，選擇多樣。</div><a href="https://maps.google.com/?cid=6434670218465731695&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQ" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> 導航</a></div>
+            </div>
+            <div class="card">
+                <div class="card-content"><div class="card-title"><i class="fa-solid fa-shirt" style="color:var(--accent-warm)"></i> IPSO自助洗衣</div><div class="card-desc">距離最近的24H自助洗衣店。</div><a href="https://goo.gl/maps/KJNuqDhgLhJZYopT9" target="_blank" class="btn-nav-sm"><i class="fa-solid fa-location-arrow"></i> Google Map 導航</a></div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-title">關於 溝頂民宿</div>
+                <p style="line-height: 1.8; text-align: justify; color: #d7ccc8;">
+                    溝頂民宿 (Godin B&B) 位於高雄市鹽埕區大公路巷弄內，致力於提供像家一樣溫暖的包棟住宿體驗。我們結合了老屋的復古風情與現代化的便利設施，是您探索高雄港灣的最佳落腳處。
+                </p>
+            </div>
+            <div>
+                <div class="footer-title">聯絡我們</div>
+                <a href="https://goo.gl/maps/placeholder" target="_blank" class="footer-link">
+                    <i class="fa-solid fa-location-dot"></i> 高雄市鹽埕區大公路70巷6-2號
+                </a>
+                <a href="tel:0932828922" class="footer-link">
+                    <i class="fa-solid fa-phone"></i> 0932-828-922
+                </a>
+                <a href="javascript:void(0)" onclick="sendToLine()" class="footer-link">
+                    <i class="fa-brands fa-line"></i> LINE 官方帳號聯繫
+                </a>
+                <div style="margin-top: 15px; font-size: 14px; color: #a1887f;">
+                    <i class="fa-solid fa-clock"></i> 客服時間: 09:00 - 21:00
+                </div>
+            </div>
+            
+            <div>
+                <div class="footer-title">熱門關鍵字</div>
+                <div class="keyword-cloud">
+                    <span class="seo-tag">高雄包棟</span>
+                    <span class="seo-tag">高雄包棟民宿</span>
+                    <span class="seo-tag">高雄10人包棟</span>
+                    <span class="seo-tag">鹽埕區民宿</span>
+                    <span class="seo-tag">駁二住宿</span>
+                    <span class="seo-tag">高雄麻將民宿</span>
+                    <span class="seo-tag">親子友善包棟</span>
+                    <span class="seo-tag">捷運站住宿</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 20px; font-size: 13px; color: #a1887f;">
+            © 2025 Godin B&B 溝頂民宿. All Rights Reserved.
+        </div>
+    </footer>
+
+    <div onclick="sendToLine()" class="sticky-line">
+        <i class="fa-brands fa-line"></i>
+    </div>
+
+    <script>
+        const LINE_DEEP_LINK = "line://ti/p/@575tprig";
+
+        function sendToLine() {
+            const message = "你好！我想詢問溝頂民宿的空房與優惠資訊 🏠";
+            navigator.clipboard.writeText(message).then(() => {
+                window.location.href = LINE_DEEP_LINK;
+            }).catch(() => {
+                window.location.href = LINE_DEEP_LINK;
+            });
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+            const mobileMenu = document.getElementById('mobile-menu-btn');
+            const navMenu = document.getElementById('nav-menu');
+            const allDropdowns = document.querySelectorAll('.dropdown-toggle');
+
+            mobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+
+            allDropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768) {
+                        e.preventDefault();
+                        const parent = dropdown.parentElement;
+                        parent.classList.toggle('active');
+                    }
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!navMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
+                    navMenu.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

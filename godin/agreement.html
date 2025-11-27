@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>住宿契約與生活規範 | 溝頂民宿 (Godin B&B)</title>
+<meta name="description" content="溝頂民宿 (Godin B&B) 住宿契約條款與生活公約。為了保障雙方權益，請於入住前詳細閱讀退改政策、押金規定與入住須知。">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* ---------------------------------------------------- */
+/* --- 1. 全局變數 & 核心設定 (Godin System) --- */
+/* ---------------------------------------------------- */
+:root {
+    --primary-color: #3A6A8C;   /* 沈穩藍 */
+    --accent-warm: #C69C6D;     /* 大地金/香檳金 */
+    --cta-bg: #B07D62;          /* 磚紅/強調色 */
+    
+    --bg-light: #F9F7F5;        /* 頁面背景 */
+    --bg-white: #FFFFFF;        /* 卡片背景 */
+    --text-main: #2C3E50;       
+    --text-sub: #5D5D5D;
+    
+    --line-green: #06C755;
+    --nav-height: 70px;
+    --footer-bg: #4A3B32;
+    --shadow-card: 0 10px 30px rgba(0,0,0,0.06);
+    --border-radius: 12px;
+    --error-color: #E53E3E;     /* 警示紅 */
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0; padding: 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.7;
+    padding-top: var(--nav-height);
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; cursor: pointer; }
+ul { list-style: none; padding: 0; margin: 0; }
+img { max-width: 100%; display: block; }
+
+/* ---------------------------------------------------- */
+/* --- 2. 導覽列 (Navbar) - Godin 標準版 --- */
+/* ---------------------------------------------------- */
+.navbar {
+    position: fixed; top: 0; left: 0; width: 100%;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    display: flex; justify-content: center;
+}
+.nav-container {
+    width: 100%; max-width: 1200px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px;
+}
+.nav-logo {
+    font-size: 22px; font-weight: 700; color: var(--primary-color);
+    letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+}
+.nav-menu { display: flex; gap: 5px; align-items: center; }
+.nav-link {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 15px; font-size: 15px; font-weight: 500;
+    color: var(--text-main); border-radius: 6px;
+}
+.nav-link:hover { color: var(--cta-bg); background-color: #fdf5e6; }
+.nav-link.active { color: var(--cta-bg); font-weight: 700; }
+
+/* Dropdown Menu Styles */
+.nav-item { position: relative; }
+.dropdown-menu {
+    position: absolute; top: 100%; left: 0;
+    background: white; min-width: 180px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-radius: 8px; padding: 10px 0;
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+.nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown-link { display: block; padding: 10px 20px; font-size: 14px; color: var(--text-sub); }
+.dropdown-link:hover { background-color: #fdf5e6; color: var(--cta-bg); }
+
+.nav-btn-booking {
+    background-color: var(--primary-color); color: white !important;
+    padding: 8px 20px; border-radius: 50px; margin-left: 10px;
+}
+.nav-btn-booking:hover { background-color: #2c5370; }
+
+.menu-toggle { display: none; cursor: pointer; }
+.bar { display: block; width: 25px; height: 3px; background: var(--text-main); margin: 5px auto; transition: 0.3s; }
+
+/* ---------------------------------------------------- */
+/* --- 3. Hero Header (Godin 標準版) --- */
+/* ---------------------------------------------------- */
+.hero-header {
+    position: relative;
+    min-height: 400px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; color: white;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                url('images/cover-bg.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed;
+    margin-bottom: 40px;
+}
+
+.hero-title {
+    font-size: 42px; font-weight: 900; 
+    margin: 0 0 10px 0; letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 20px; font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+/* ---------------------------------------------------- */
+/* --- 4. 契約頁面專用樣式 (Contract Styles) --- */
+/* ---------------------------------------------------- */
+.container { max-width: 900px; margin: 0 auto; padding: 20px 20px 80px; }
+
+.paper-card {
+    background: var(--bg-white);
+    padding: 60px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-card);
+    border-top: 5px solid var(--accent-warm);
+}
+
+.contract-section { margin-bottom: 50px; }
+.contract-title {
+    font-size: 24px; font-weight: 700; color: var(--primary-color);
+    border-left: 5px solid var(--cta-bg); padding-left: 15px;
+    margin-bottom: 25px;
+}
+
+/* 條款狀態區塊 */
+.highlight-box {
+    background: #F8FAFC; border: 1px solid #E2E8F0;
+    padding: 25px; border-radius: 8px; margin-bottom: 20px;
+    font-size: 15px; color: var(--text-sub);
+    transition: 0.3s;
+}
+.highlight-box.disabled { opacity: 0.6; background: #F1F5F9; }
+.highlight-box.active {
+    background: #FFFCF5; border: 2px solid var(--accent-warm);
+    color: var(--text-main); opacity: 1; box-shadow: 0 4px 10px rgba(198, 156, 109, 0.1);
+}
+
+.tag-status {
+    display: inline-block; padding: 3px 12px; border-radius: 4px;
+    font-size: 13px; margin-bottom: 10px; font-weight: bold;
+}
+.tag-disabled { background: #CBD5E0; color: #fff; }
+.tag-active { background: var(--accent-warm); color: #fff; }
+
+/* 法律條文縮排 */
+.legal-text { margin-top: 10px; line-height: 1.8; }
+.legal-indent { display: block; padding-left: 1.5em; text-indent: -1.5em; margin-bottom: 5px; }
+
+/* 規則列表樣式 */
+.rules-list { padding-left: 0; list-style: none; margin: 0; }
+.rules-list li {
+    position: relative; padding-left: 28px; margin-bottom: 12px;
+    color: var(--text-main); border-bottom: 1px dashed #eee; padding-bottom: 12px;
+    text-align: justify;
+}
+.rules-list li:last-child { border-bottom: none; }
+.rules-list li::before {
+    content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900;
+    position: absolute; left: 0; top: 4px;
+    color: var(--line-green); font-size: 16px;
+}
+.rules-header {
+    color: var(--primary-color); margin-bottom: 15px; margin-top: 35px;
+    font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 10px;
+}
+
+.price-highlight {
+    color: var(--error-color); font-weight: bold; font-family: monospace;
+    background: rgba(229, 62, 62, 0.08); padding: 0 6px; border-radius: 4px;
+}
+
+/* 聯繫按鈕 */
+.cta-area { text-align: center; margin-top: 50px; padding-top: 30px; border-top: 1px solid #E2E8F0; }
+.btn-line-large {
+    display: inline-flex; align-items: center; gap: 8px;
+    background-color: var(--line-green); color: white;
+    padding: 14px 40px; border-radius: 50px;
+    font-weight: bold; font-size: 16px;
+    box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); transition: 0.3s;
+}
+.btn-line-large:hover { background-color: #05b64d; transform: translateY(-2px); }
+
+/* ---------------------------------------------------- */
+/* --- 5. Footer (Godin 標準版) --- */
+/* ---------------------------------------------------- */
+footer { background-color: var(--footer-bg); color: #d7ccc8; padding: 60px 20px 20px; }
+.footer-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;
+}
+.footer-title {
+    color: white; font-size: 19px; font-weight: 600;
+    border-bottom: 2px solid var(--cta-bg); padding-bottom: 10px; margin-bottom: 20px; display: inline-block;
+}
+.footer-link {
+    display: flex; align-items: center; gap: 10px; color: #d7ccc8;
+    margin-bottom: 12px; transition: 0.3s;
+}
+.footer-link:hover { color: var(--cta-bg); transform: translateX(5px); }
+
+/* Footer Tags */
+.keyword-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.seo-tag {
+    background: rgba(255,255,255,0.1); color: #d7ccc8; font-size: 13px;
+    padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);
+    transition: 0.3s; cursor: default;
+}
+.seo-tag:hover { background: var(--cta-bg); color: white; border-color: var(--cta-bg); }
+
+/* RWD */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-menu {
+        position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
+        background: white; flex-direction: column; padding-top: 80px;
+        transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        align-items: flex-start;
+    }
+    .nav-menu.active { right: 0; }
+    .nav-link { width: 100%; padding: 15px 30px; border-bottom: 1px solid #eee; }
+    .dropdown-menu { position: static; box-shadow: none; display: none; opacity: 1; visibility: visible; transform: none; padding-left: 20px; background: #f9f9f9; }
+    .nav-item.active .dropdown-menu { display: block; }
+
+    .hero-title { font-size: 32px; }
+    .hero-subtitle { font-size: 16px; letter-spacing: 2px; }
+    
+    .paper-card { padding: 30px 20px; }
+    .highlight-box { font-size: 14px; padding: 15px; }
+}
+
+.sticky-line {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--line-green); color: white;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; box-shadow: 0 5px 20px rgba(6,199,85,0.4);
+    z-index: 999; animation: float 3s ease-in-out infinite; cursor: pointer;
+}
+@keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fa-solid fa-house-chimney" style="color:var(--cta-bg);"></i>
+                溝頂民宿
+            </div>
+            
+            <div class="menu-toggle" id="mobile-menu-btn">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link active dropdown-toggle">
+                        <i class="fa-solid fa-file-signature"></i> 入住須知 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽署</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item"><a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="attractions.html" class="dropdown-link">周邊景點</a></li>
+                        <li><a href="food.html" class="dropdown-link">鹽埕美食地圖</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero-header">
+        <h1 class="hero-title">住宿契約與生活規範</h1>
+        <div class="hero-subtitle">AGREEMENT & HOUSE RULES</div>
+    </header>
+
+    <main class="container">
+        <div class="paper-card">
+            
+            <div class="contract-section">
+                <div class="contract-title">行政院旅宿定型化契約條款</div>
+                <p style="color: var(--text-sub); margin-bottom: 20px;">
+                    旅客訂房一律按「行政院旅宿定型化契約條款」預收約定房價總金額，旅客解除契約時可依下列方式之處理：
+                </p>
+                
+                <div class="highlight-box disabled">
+                    <span class="tag-status tag-disabled">本案不適用</span>
+                    <strong>□ 比例退還預收約定房價總金額：</strong>
+                    <div class="legal-text">
+                        <span class="legal-indent">(一) 旅客解約通知於預定住宿日前第三日以前到達者，業者應退還預收約定房價總金額百分之百。</span>
+                        <span class="legal-indent">(二) 旅客解約通知於預定住宿日前第一日至第二日到達者，業者應退還預收約定房價總金額百分之五十。</span>
+                    </div>
+                </div>
+
+                <div class="highlight-box active">
+                    <span class="tag-status tag-active">☑ 雙方合意適用</span>
+                    <strong style="color:var(--primary-color);">□ 一年內保留已付金額作為日後消費折抵使用：</strong>
+                    <div class="legal-text">
+                        <span class="legal-indent">(一) 旅客解約通知於預定住宿日當日前到達者，得於一年內保留已付金額作為日後消費折抵使用。</span>
+                        <span class="legal-indent">(二) 旅客解約通知於預定住宿日當日到達或未為解約通知者，業者得不退還預收約定房價總金額。</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contract-section">
+                <div class="contract-title">附件：住宿生活公約與規範</div>
+                
+                <div class="rules-header"><i class="fa-solid fa-user-group"></i> 訂房與押金須知</div>
+                <ul class="rules-list">
+                    <li>請依實際訂房人數入住，超出預定人數入住部分加收每人 <span class="price-highlight">1,800元/日</span>。</li>
+                    <li>如需要加人(床)，請於入住前一日告知，並加收超出預定人數每人 <span class="price-highlight">1,000元/日</span>（假日或連續假期為每人 <span class="price-highlight">1,500元/日</span>）。</li>
+                    <li><strong>押金規定：</strong>為確保雙方權益，辦理入住時需收取押金 <span class="price-highlight">5,000元</span>。於退房後確認無任何設備損壞，且未違反入住須知（含過於髒亂）後全數匯款退還。</li>
+                </ul>
+
+                <div class="rules-header"><i class="fa-solid fa-clock"></i> 進退房時間</div>
+                <ul class="rules-list">
+                    <li>進房時間：入住當日 <strong>16:00PM</strong> 以後。若情況允許，可經由民宿主人同意後提早入住。</li>
+                    <li>入住時請出示身分證或護照辦理住宿登記，並當場繳清餘款。最晚請於入住當日 21:00PM 前完成Check-in。</li>
+                    <li>退房時間：退房當日 <strong>11:00AM</strong> 以前。</li>
+                    <li>未經民宿主人同意延遲退房，一小時加收 <span class="price-highlight">1,500元</span>，超過五小時以一日包棟定價 <span class="price-highlight">(34,800)</span> 計算。</li>
+                </ul>
+
+                <div class="rules-header" style="color:var(--error-color);"><i class="fa-solid fa-ban"></i> 禁止行為與訪客規定</div>
+                <ul class="rules-list">
+                    <li>本民宿全棟禁止「吸菸」、「吸毒」、「賭博」、「嚼檳榔」、「燃放爆竹」及任何違反善良風俗之不法行為。如有抽菸需求請至一樓戶外區。若有違法行為將直接報警處理不另行通知。</li>
+                    <li>本旅宿<strong>非寵物友善旅宿</strong>，切勿攜帶寵物入住，以維護旅客權益（事前詢問且經業主同意*不接受入住當天詢問*攜帶寵物入住者，酌收清潔費 <span class="price-highlight">$800元/平日、$1000元/假日</span>，且造成損壞仍需照價賠償）。</li>
+                    <li>除當日入住房客之外，恕不對外開放參觀，且嚴禁非當日入住房客以外人士進入以維持住宿品質及安全，敬請見諒。</li>
+                    <li>包棟開放區域為一樓廚房與所開立之房間外，其餘地方(包含頂樓露台與通往頂樓之樓梯間)為屋主私人空間，未經同意嚴禁人員進入，若經發現將逕行依法(刑法306條)處理。</li>
+                </ul>
+
+                <div class="rules-header"><i class="fa-solid fa-sink"></i> 備品與維護</div>
+                <ul class="rules-list">
+                    <li>民宿不主動提供更換枕套、床單、浴巾等備品，如需付費更換請主動告知。</li>
+                    <li>連續入住之房客，原則上提供每3日更換一次浴巾之免費服務，為顧及房客隱私，需更換浴巾之房客請將使用過之浴巾統一集中於一樓公共空間，替換之乾淨浴巾也會統一放置於一樓公共空間。</li>
+                    <li>開放式客廳之微波爐、熱水壺、冰箱、電視、餐具、娛樂設施於入住期間免費提供房客使用，惟使用後請恢復原貌及妥善清潔，並請隨手關燈、冷氣及節約用水，未遵守者視情況扣除押金。</li>
+                </ul>
+
+                <div class="rules-header"><i class="fa-solid fa-triangle-exclamation"></i> 安全、安寧與賠償</div>
+                <ul class="rules-list">
+                    <li><strong>安寧時間：</strong>民宿位於住宅區，為維護社區他人安寧，入住房客請於每日 <span class="price-highlight">23:00至隔日08:00</span> 期間降低音量，民宿內外勿大聲喧嘩、咆哮，若經屢勸無效則要求立即退房，恕無退還房費，不便之處請見諒！</li>
+                    <li><strong>財物安全：</strong>包棟期間，民宿主人或管家仍保留公共空間進出與維護管理之權利。房客外出時，請鎖上房門，貴重物品請隨身攜帶小心保管，如有遺失不予理賠。民宿所屬之物品僅提供旅客住宿期間使用，請勿私自攜出帶離，如有損壞或遺失，將依市價賠償。</li>
+                    <li><strong>安全注意：</strong>民宿內有階梯、欄杆、窗戶等等設施，請注意同行幼童及長者安全，互相約束不得在室外與室內有追逐、尖叫、攀爬、打球、使用遙控飛機或任何具有危險因子之遊戲或行為。</li>
+                    <li><strong>賠償價目表：</strong><br>
+                        - 寢具用品沾上血漬、嘔吐物、排泄物、紅酒漬、染色等狀況，將收取特殊清潔費 <span class="price-highlight">500～2,000元</span>。<br>
+                        - 公共空間使用完畢若未妥善復原，將視情況收取額外清潔費用 <span class="price-highlight">500～5,000元</span>。<br>
+                        - 若發現室內吸煙行為，<strong>直接扣除全額押金 <span class="price-highlight">5,000元</span> 作為清潔費。</strong><br>
+                        *以上情況如經判定無法清潔復原，將另依市價收取賠償費用。
+                    </li>
+                </ul>
+
+                <div style="background:#F0F4F8; color:#4A5568; padding:20px; font-size:14px; border-radius:8px; margin-top:25px; line-height:1.6;">
+                    <strong>規範限制聲明：</strong><br>
+                    在您訂房的同時，將視同了解並接受上述安全規定與限制，若違反上述限制與規定肇生任何意外，不得對民宿與民宿負責人進行任何之究責與索賠行為。如您無法理解與接受安全規定之必要，與自身負起完全之責任，請另行安排旅程中之住宿選擇。
+                </div>
+            </div>
+
+            <div class="cta-area">
+                <p style="color: var(--text-sub); margin-bottom: 20px;">對合約內容有任何疑問嗎？歡迎隨時聯繫我們。</p>
+                <a href="javascript:void(0)" onclick="sendToLine()" class="btn-line-large">
+                    <i class="fa-brands fa-line"></i> 聯繫管家諮詢
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-title">關於 溝頂民宿</div>
+                <p style="line-height: 1.8; text-align: justify; color: #d7ccc8;">
+                    溝頂民宿 (Godin B&B) 位於高雄市鹽埕區大公路巷弄內，致力於提供像家一樣溫暖的包棟住宿體驗。我們結合了老屋的復古風情與現代化的便利設施，是您探索高雄港灣的最佳落腳處。
+                </p>
+            </div>
+            <div>
+                <div class="footer-title">聯絡我們</div>
+                <a href="https://goo.gl/maps/placeholder" target="_blank" class="footer-link">
+                    <i class="fa-solid fa-location-dot"></i> 高雄市鹽埕區大公路70巷6-2號
+                </a>
+                <a href="tel:0932828922" class="footer-link">
+                    <i class="fa-solid fa-phone"></i> 0932-828-922
+                </a>
+                <a href="javascript:void(0)" onclick="sendToLine()" class="footer-link">
+                    <i class="fa-brands fa-line"></i> LINE 官方帳號聯繫
+                </a>
+                <div style="margin-top: 15px; font-size: 14px; color: #a1887f;">
+                    <i class="fa-solid fa-clock"></i> 客服時間: 09:00 - 21:00
+                </div>
+            </div>
+            
+            <div>
+                <div class="footer-title">熱門關鍵字</div>
+                <div class="keyword-cloud">
+                    <span class="seo-tag">高雄包棟</span>
+                    <span class="seo-tag">高雄包棟民宿</span>
+                    <span class="seo-tag">高雄10人包棟</span>
+                    <span class="seo-tag">鹽埕區民宿</span>
+                    <span class="seo-tag">駁二住宿</span>
+                    <span class="seo-tag">高雄麻將民宿</span>
+                    <span class="seo-tag">親子友善包棟</span>
+                    <span class="seo-tag">捷運站住宿</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 20px; font-size: 13px; color: #a1887f;">
+            © 2025 Godin B&B 溝頂民宿. All Rights Reserved.
+        </div>
+    </footer>
+
+    <div onclick="sendToLine()" class="sticky-line">
+        <i class="fa-brands fa-line"></i>
+    </div>
+
+    <script>
+        // 核心功能區
+        const LINE_DEEP_LINK = "line://ti/p/@575tprig";
+
+        function sendToLine() {
+            const message = "你好！我想詢問入住契約的相關細節 📝";
+            navigator.clipboard.writeText(message).then(() => {
+                window.location.href = LINE_DEEP_LINK;
+            }).catch(() => {
+                window.location.href = LINE_DEEP_LINK;
+            });
+        }
+
+        // --- UI Interactions ---
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // 手機版下拉選單互動
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    const parent = toggle.parentElement;
+                    parent.classList.toggle('active');
+                }
+            });
+        });
+
+        // 點擊選單外關閉
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
+                navMenu.classList.remove('active');
+                mobileBtn.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>

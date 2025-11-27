@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>房型與空間介紹 | 溝頂民宿 (Godin B&B)</title>
+<meta name="description" content="溝頂民宿 (Godin B&B) 房型一覽。提供1F-5F完整透天空間，包含雙人房、四人房及4F專屬交誼廳(附麻將桌)。適合6-12人高雄包棟旅遊。">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+/* ---------------------------------------------------- */
+/* --- 1. 全局變數 & 核心設定 --- */
+/* ---------------------------------------------------- */
+:root {
+    --primary-color: #3A6A8C;   /* 沈穩藍 */
+    --accent-warm: #C69C6D;     /* 大地金/香檳金 */
+    --cta-bg: #B07D62;          /* 磚紅/強調色 */
+    
+    --bg-light: #F9F7F5;        /* 頁面背景 */
+    --bg-white: #FFFFFF;        /* 卡片背景 */
+    --text-main: #2C3E50;       
+    --text-sub: #5D5D5D;
+    
+    --line-green: #06C755;
+    --nav-height: 70px;
+    --footer-bg: #4A3B32;
+    --shadow-card: 0 10px 30px rgba(0,0,0,0.06);
+    --border-radius: 12px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0; padding: 0;
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.7;
+    padding-top: var(--nav-height);
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; cursor: pointer; }
+ul { list-style: none; padding: 0; margin: 0; }
+
+/* ---------------------------------------------------- */
+/* --- 2. 導覽列 (Navbar) - 完整版 --- */
+/* ---------------------------------------------------- */
+.navbar {
+    position: fixed; top: 0; left: 0; width: 100%;
+    height: var(--nav-height);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 1000;
+    display: flex; justify-content: center;
+}
+.nav-container {
+    width: 100%; max-width: 1200px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px;
+}
+.nav-logo {
+    font-size: 22px; font-weight: 700; color: var(--primary-color);
+    letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
+}
+.nav-menu { display: flex; gap: 5px; align-items: center; }
+.nav-link {
+    display: flex; align-items: center; gap: 6px;
+    padding: 10px 15px; font-size: 15px; font-weight: 500;
+    color: var(--text-main); border-radius: 6px;
+}
+.nav-link:hover { color: var(--cta-bg); background-color: #fdf5e6; }
+.nav-link.active { color: var(--cta-bg); font-weight: 700; }
+
+/* Dropdown Menu Styles (補回) */
+.nav-item { position: relative; }
+.dropdown-menu {
+    position: absolute; top: 100%; left: 0;
+    background: white; min-width: 180px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    border-radius: 8px; padding: 10px 0;
+    opacity: 0; visibility: hidden; transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+.nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.dropdown-link { display: block; padding: 10px 20px; font-size: 14px; color: var(--text-sub); }
+.dropdown-link:hover { background-color: #fdf5e6; color: var(--cta-bg); }
+
+.nav-btn-booking {
+    background-color: var(--primary-color); color: white !important;
+    padding: 8px 20px; border-radius: 50px; margin-left: 10px;
+}
+.nav-btn-booking:hover { background-color: #2c5370; }
+
+.menu-toggle { display: none; cursor: pointer; }
+.bar { display: block; width: 25px; height: 3px; background: var(--text-main); margin: 5px auto; transition: 0.3s; }
+
+/* ---------------------------------------------------- */
+/* --- 3. Hero Header (簡化版 - 無 Tags) --- */
+/* ---------------------------------------------------- */
+.hero-header {
+    position: relative;
+    min-height: 400px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; color: white;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                url('images/cover-bg.jpg');
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed;
+    margin-bottom: 40px;
+}
+
+.hero-title {
+    font-size: 42px; font-weight: 900; 
+    margin: 0 0 10px 0; letter-spacing: 3px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+    font-size: 20px; font-weight: 300;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.9;
+}
+
+/* ---------------------------------------------------- */
+/* --- 4. 房型卡片 (Space Cards) --- */
+/* ---------------------------------------------------- */
+.container { max-width: 1000px; margin: 0 auto; padding: 20px 20px 80px; }
+
+.space-card {
+    display: flex;
+    background: var(--bg-white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    margin-bottom: 40px;
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+.space-card:hover { transform: translateY(-5px); }
+
+.card-image {
+    width: 45%; min-height: 280px;
+    background-color: #eee; position: relative;
+}
+.card-image img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: 0.5s;
+}
+
+.card-content {
+    width: 55%; padding: 30px;
+    display: flex; flex-direction: column; justify-content: center;
+}
+
+.card-title {
+    font-size: 24px; font-weight: 700; color: var(--primary-color);
+    margin-bottom: 5px; display: flex; align-items: center; gap: 10px;
+}
+.card-subtitle { font-size: 15px; color: var(--cta-bg); margin-bottom: 15px; font-weight: 500; }
+
+.badge-group { margin-bottom: 15px; }
+.badge {
+    display: inline-block; padding: 4px 12px; border-radius: 6px;
+    font-size: 13px; margin-right: 6px; margin-bottom: 6px; font-weight: 500;
+}
+.badge-size { background: #EDF2F7; color: #4A5568; }
+.badge-gold { background: #FFF9F0; color: #975A16; border: 1px solid #F6E05E; }
+.badge-feature { background: #F0FFF4; color: #2F855A; border: 1px solid #9AE6B4; }
+
+.amenity-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 10px; margin-top: 20px; padding-top: 20px;
+    border-top: 1px dashed #E2E8F0;
+}
+.amenity-item {
+    font-size: 14px; color: var(--text-sub); display: flex; align-items: center; gap: 8px;
+}
+.amenity-item i { color: var(--accent-warm); width: 18px; text-align: center; }
+
+/* ---------------------------------------------------- */
+/* --- 5. CTA & Footer (完整版) --- */
+/* ---------------------------------------------------- */
+.cta-section {
+    background: linear-gradient(135deg, var(--cta-bg), #8d6e63);
+    color: white; text-align: center; padding: 80px 20px;
+}
+.cta-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background-color: white; color: var(--cta-bg);
+    padding: 14px 40px; font-size: 18px; font-weight: bold;
+    text-decoration: none; border-radius: 50px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: 0.3s; cursor: pointer; border:none;
+}
+.cta-btn:hover { transform: scale(1.05); background-color: #fdf5e6; }
+
+footer { background-color: var(--footer-bg); color: #d7ccc8; padding: 60px 20px 20px; }
+.footer-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;
+}
+.footer-title {
+    color: white; font-size: 19px; font-weight: 600;
+    border-bottom: 2px solid var(--cta-bg); padding-bottom: 10px; margin-bottom: 20px; display: inline-block;
+}
+.footer-link {
+    display: flex; align-items: center; gap: 10px; color: #d7ccc8;
+    margin-bottom: 12px; transition: 0.3s;
+}
+.footer-link:hover { color: var(--cta-bg); transform: translateX(5px); }
+
+/* Footer Tags */
+.keyword-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+.seo-tag {
+    background: rgba(255,255,255,0.1); color: #d7ccc8; font-size: 13px;
+    padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);
+    transition: 0.3s; cursor: default;
+}
+.seo-tag:hover { background: var(--cta-bg); color: white; border-color: var(--cta-bg); }
+
+/* RWD Adjustments */
+@media (max-width: 768px) {
+    .menu-toggle { display: block; }
+    .nav-menu {
+        position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
+        background: white; flex-direction: column; padding-top: 80px;
+        transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+        align-items: flex-start;
+    }
+    .nav-menu.active { right: 0; }
+    .nav-link { width: 100%; padding: 15px 30px; border-bottom: 1px solid #eee; }
+    
+    /* Dropdown RWD */
+    .dropdown-menu { position: static; box-shadow: none; display: none; opacity: 1; visibility: visible; transform: none; padding-left: 20px; background: #f9f9f9; }
+    .nav-item.active .dropdown-menu { display: block; }
+
+    .hero-title { font-size: 32px; }
+    .hero-subtitle { font-size: 16px; letter-spacing: 2px; }
+    
+    .space-card { flex-direction: column; }
+    .card-image { width: 100%; height: 240px; }
+    .card-content { width: 100%; padding: 25px; }
+    .amenity-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Sticky Line */
+.sticky-line {
+    position: fixed; bottom: 30px; right: 30px;
+    background: var(--line-green); color: white;
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 32px; box-shadow: 0 5px 20px rgba(6,199,85,0.4);
+    z-index: 999; animation: float 3s ease-in-out infinite; cursor: pointer;
+}
+@keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
+</style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fa-solid fa-house-chimney" style="color:var(--cta-bg);"></i>
+                溝頂民宿
+            </div>
+            
+            <div class="menu-toggle" id="mobile-menu-btn">
+                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+            </div>
+            
+            <ul class="nav-menu" id="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
+                <li class="nav-item"><a href="rooms.html" class="nav-link active"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="agreement.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-file-signature"></i> 入住須知 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽署</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item"><a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a></li>
+                
+                <li class="nav-item dropdown">
+                    <a href="travel.html" class="nav-link dropdown-toggle">
+                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="attractions.html" class="dropdown-link">周邊景點</a></li>
+                        <li><a href="food.html" class="dropdown-link">鹽埕美食地圖</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a href="check.html" class="nav-link nav-btn-booking">
+                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="hero-header">
+        <h1 class="hero-title">房型與空間介紹</h1>
+        <div class="hero-subtitle">Comfort & Luxury Spaces</div>
+    </header>
+
+    <main class="container">
+        
+        <div class="space-card">
+            <div class="card-image">
+                <img src="images/room1.jpg" alt="1F-雙人房">
+            </div>
+            <div class="card-content">
+                <div class="card-title">1F - 經典雙人房</div>
+                <div class="card-subtitle">方便進出．溫馨舒適</div>
+                <div class="badge-group">
+                    <span class="badge badge-size">15 m²</span>
+                    <span class="badge badge-feature">獨立衛浴</span>
+                    <span class="badge badge-feature">對外窗</span>
+                </div>
+                <div style="color: #666; font-size: 14px; margin-bottom: 10px;">
+                    位於一樓後方，免爬樓梯，適合長輩或不想搬運行李的旅客。
+                </div>
+                <div class="amenity-grid">
+                    <div class="amenity-item"><i class="fa-solid fa-bed"></i> 標準雙人床 x1</div>
+                    <div class="amenity-item"><i class="fa-solid fa-desktop"></i> 工作桌椅</div>
+                    <div class="amenity-item"><i class="fa-solid fa-wind"></i> 冷暖空調</div>
+                    <div class="amenity-item"><i class="fa-solid fa-shower"></i> 淋浴設備</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-card">
+            <div class="card-image">
+                <img src="images/room2.jpg" alt="2F-四人房">
+            </div>
+            <div class="card-content">
+                <div class="card-title">2F - 陽光四人房</div>
+                <div class="card-subtitle">極佳採光．家庭首選</div>
+                <div class="badge-group">
+                    <span class="badge badge-size">18 m²</span>
+                    <span class="badge badge-gold">大面採光玻璃</span>
+                    <span class="badge badge-feature">獨立衛浴</span>
+                </div>
+                <div class="amenity-grid">
+                    <div class="amenity-item"><i class="fa-solid fa-bed"></i> 標準雙人床 x2</div>
+                    <div class="amenity-item"><i class="fa-solid fa-bath"></i> 衛浴備品齊全</div>
+                    <div class="amenity-item"><i class="fa-solid fa-wind"></i> 吹風機/空調</div>
+                    <div class="amenity-item"><i class="fa-solid fa-sun"></i> 自然採光</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-card">
+            <div class="card-image">
+                <img src="images/room3.jpg" alt="3F-四人房">
+            </div>
+            <div class="card-content">
+                <div class="card-title">3F - 雅緻四人房</div>
+                <div class="card-subtitle">靜謐空間．好友同樂</div>
+                <div class="badge-group">
+                    <span class="badge badge-size">18 m²</span>
+                    <span class="badge badge-gold">大面採光玻璃</span>
+                    <span class="badge badge-feature">獨立衛浴</span>
+                </div>
+                <div class="amenity-grid">
+                    <div class="amenity-item"><i class="fa-solid fa-bed"></i> 標準雙人床 x2</div>
+                    <div class="amenity-item"><i class="fa-solid fa-bath"></i> 衛浴備品齊全</div>
+                    <div class="amenity-item"><i class="fa-solid fa-wind"></i> 吹風機/空調</div>
+                    <div class="amenity-item"><i class="fa-solid fa-sun"></i> 自然採光</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-card" style="border-left: 5px solid var(--accent-warm);">
+            <div class="card-image">
+                <img src="images/room4.jpg" alt="4F-交誼廳">
+            </div>
+            <div class="card-content">
+                <div class="card-title"><i class="fa-solid fa-mug-hot"></i> 4F 公共交誼廳</div>
+                <div class="card-subtitle">聚會核心．麻將戰場</div>
+                <div class="badge-group">
+                    <span class="badge badge-size">24 m²</span>
+                    <span class="badge badge-gold">休閒麻將桌</span>
+                    <span class="badge badge-feature">獨立空調</span>
+                </div>
+                <div style="color: #666; font-size: 14px;">
+                    這裡是大家聚在一起吃宵夜、聊天、打牌的最佳場所，我們貼心準備了簡易廚房家電。
+                </div>
+                <div class="amenity-grid">
+                    <div class="amenity-item"><i class="fa-solid fa-sink"></i> 流理台/RO水</div>
+                    <div class="amenity-item"><i class="fa-solid fa-snowflake"></i> 雙門冰箱</div>
+                    <div class="amenity-item"><i class="fa-solid fa-bread-slice"></i> 微波爐/烤箱</div>
+                    <div class="amenity-item"><i class="fa-solid fa-tv"></i> 聯網電視</div>
+                    <div class="amenity-item"><i class="fa-solid fa-layer-group"></i> 麻將/桌遊</div>
+                    <div class="amenity-item"><i class="fa-solid fa-couch"></i> 舒適沙發區</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="space-card">
+            <div class="card-image">
+                <img src="images/room5.jpg" alt="5F-雙人房">
+            </div>
+            <div class="card-content">
+                <div class="card-title">5F - 景觀雙人房</div>
+                <div class="card-subtitle">私密閣樓．獨享寧靜</div>
+                <div class="badge-group">
+                    <span class="badge badge-size">15 m²</span>
+                    <span class="badge badge-feature">落地窗</span>
+                    <span class="badge badge-feature">獨立衛浴</span>
+                </div>
+                <div class="amenity-grid">
+                    <div class="amenity-item"><i class="fa-solid fa-bed"></i> 標準雙人床</div>
+                    <div class="amenity-item"><i class="fa-solid fa-book"></i> 閱讀區</div>
+                    <div class="amenity-item"><i class="fa-solid fa-wind"></i> 冷暖空調</div>
+                    <div class="amenity-item"><i class="fa-solid fa-city"></i> 街景視野</div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <section class="cta-section">
+        <h2 style="margin-top:0;">心動了嗎？預約您的高雄假期</h2>
+        <p style="font-size: 18px; margin-bottom: 30px; opacity: 0.9;">
+            適合 6~12 人包棟，平均分攤高CP值。<br>現在加入 LINE，立即查詢檔期！
+        </p>
+        <button onclick="sendToLine()" class="cta-btn">
+            <i class="fa-brands fa-line" style="font-size: 20px;"></i>
+            立即預約諮詢
+        </button>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div>
+                <div class="footer-title">關於 溝頂民宿</div>
+                <p style="line-height: 1.8; text-align: justify; color: #d7ccc8;">
+                    溝頂民宿 (Godin B&B) 位於高雄市鹽埕區大公路巷弄內，致力於提供像家一樣溫暖的包棟住宿體驗。我們結合了老屋的復古風情與現代化的便利設施，是您探索高雄港灣的最佳落腳處。
+                </p>
+            </div>
+            <div>
+                <div class="footer-title">聯絡我們</div>
+                <a href="https://goo.gl/maps/placeholder" target="_blank" class="footer-link">
+                    <i class="fa-solid fa-location-dot"></i> 高雄市鹽埕區大公路70巷6-2號
+                </a>
+                <a href="tel:0932828922" class="footer-link">
+                    <i class="fa-solid fa-phone"></i> 0932-828-922
+                </a>
+                <a href="javascript:void(0)" onclick="sendToLine()" class="footer-link">
+                    <i class="fa-brands fa-line"></i> LINE 官方帳號聯繫
+                </a>
+                <div style="margin-top: 15px; font-size: 14px; color: #a1887f;">
+                    <i class="fa-solid fa-clock"></i> 客服時間: 09:00 - 21:00
+                </div>
+            </div>
+            
+            <div>
+                <div class="footer-title">熱門關鍵字</div>
+                <div class="keyword-cloud">
+                    <span class="seo-tag">高雄包棟</span>
+                    <span class="seo-tag">高雄包棟民宿</span>
+                    <span class="seo-tag">高雄10人包棟</span>
+                    <span class="seo-tag">鹽埕區民宿</span>
+                    <span class="seo-tag">駁二住宿</span>
+                    <span class="seo-tag">高雄麻將民宿</span>
+                    <span class="seo-tag">親子友善包棟</span>
+                    <span class="seo-tag">捷運站住宿</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 20px; font-size: 13px; color: #a1887f;">
+            © 2025 Godin B&B 溝頂民宿. All Rights Reserved.
+        </div>
+    </footer>
+
+    <div onclick="sendToLine()" class="sticky-line">
+        <i class="fa-brands fa-line"></i>
+    </div>
+
+    <script>
+        // 核心功能區
+        const LINE_DEEP_LINK = "line://ti/p/@575tprig";
+
+        function sendToLine() {
+            const message = "你好！我想詢問房型與包棟價格 🏠";
+            navigator.clipboard.writeText(message).then(() => {
+                window.location.href = LINE_DEEP_LINK;
+            }).catch(() => {
+                window.location.href = LINE_DEEP_LINK;
+            });
+        }
+
+        // --- UI Interactions ---
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileBtn.classList.toggle('active');
+            navMenu.classList.toggle('active');
+        });
+
+        // 手機版下拉選單互動
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', (e) => {
+                if (window.innerWidth <= 768) {
+                    e.preventDefault();
+                    const parent = toggle.parentElement;
+                    parent.classList.toggle('active');
+                }
+            });
+        });
+
+        // 點擊選單外關閉
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !mobileBtn.contains(e.target)) {
+                navMenu.classList.remove('active');
+                mobileBtn.classList.remove('active');
+            }
+        });
+    </script>
+
+</body>
+</html>
