@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruins Bar 高雄廢墟場地租借 | 預約系統</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ruin-dark': '#121212',
+                        'ruin-gray': '#1e1e1e',
+                        'neon-pink': '#ff0055',
+                        'neon-blue': '#00f3ff',
+                        'champagne': '#d4af37',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans TC"', 'sans-serif'],
+                        display: ['"Oswald"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #121212; color: #e0e0e0; }
+        input[type="date"] { position: relative; font-size: 1.1rem; }
+        input[type="date"]::-webkit-calendar-picker-indicator { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+        .addon-btn.selected { border-color: #00f3ff; background-color: rgba(0, 243, 255, 0.1); color: white; }
+        .addon-btn.selected .check-icon { opacity: 1; background-color: #00f3ff; color: black; }
+        
+        /* Card Hover Effects */
+        .plan-card { transition: all 0.3s ease; }
+        .plan-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); }
+        .plan-card:hover img { transform: scale(1.05); }
+        .plan-card img { transition: transform 0.8s ease; }
+        .wedding-card:hover { border-color: #d4af37; box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); }
+
+        .gallery-item { break-inside: avoid; margin-bottom: 1rem; }
+        .sticky-btn { position: fixed; bottom: 30px; right: 20px; width: 60px; height: 60px; background-color: #06c755; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 40; transition: all 0.3s ease; text-decoration: none; cursor: pointer; animation: pulse-green 2s infinite; }
+        @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(6, 199, 85, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(6, 199, 85, 0); } 100% { box-shadow: 0 0 0 0 rgba(6, 199, 85, 0); } }
+        
+        /* Modal Scrollbar Fix */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-neon-pink selection:text-white pb-24">
+
+    <nav class="fixed w-full z-50 bg-ruin-dark/95 backdrop-blur-md border-b border-white/10 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <span class="font-display text-2xl font-bold tracking-wider text-white">RUINS <span class="text-neon-pink">BAR</span></span>
+                </div>
+                <div class="hidden lg:block">
+                    <div class="ml-10 flex items-baseline space-x-6">
+                        <a href="#plans-section" class="text-neon-blue hover:text-white transition px-3 py-2 rounded-md text-sm font-bold border border-neon-blue cursor-pointer"><i class="fas fa-calendar-check mr-1"></i> 方案預約</a>
+                        <a href="#gallery" class="hover:text-neon-pink transition px-3 py-2 rounded-md text-sm font-medium">實錄</a>
+                        <a href="#video" class="hover:text-neon-pink transition px-3 py-2 rounded-md text-sm font-medium">影音</a>
+                        <a href="#reviews" class="hover:text-neon-pink transition px-3 py-2 rounded-md text-sm font-medium">好評</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="relative bg-ruin-gray h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-40 bg-cover bg-center grayscale" style="background-image: url('images/cover-bg.jpg');"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-ruin-dark via-transparent to-ruin-dark z-10"></div>
+        <div class="relative z-20 text-center px-4">
+            <h1 class="font-display text-5xl md:text-7xl font-bold text-white mb-4 tracking-widest neon-text-pink">INDUSTRIAL RUINS</h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl mx-auto font-light">高雄鹽埕 × 廢墟美學 × 極致派對體驗</p>
+            <a href="#plans-section" class="inline-block bg-neon-pink text-white font-bold py-4 px-10 rounded-full hover:bg-pink-600 transition duration-300 shadow-[0_0_20px_rgba(255,0,85,0.5)] cursor-pointer">
+                開始預約旅程
+            </a>
+        </div>
+    </div>
+
+    <section id="plans-section" class="py-20 px-4 bg-ruin-dark relative z-30">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-white mb-10 text-center flex items-center justify-center"><i class="fas fa-list-ul text-neon-blue mr-3"></i> 選擇您的活動方案</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                <div onclick="handleCardClick('proposal')" class="plan-card cursor-pointer group relative rounded-2xl overflow-hidden border-2 border-neon-pink/50 shadow-[0_0_30px_rgba(255,0,85,0.15)] hover:border-neon-pink bg-zinc-900 flex flex-col">
+                    <div class="h-80 md:h-96 overflow-hidden relative w-full">
+                        <img src="images/proposal-cover.jpg" alt="高雄求婚佈置" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/50 to-transparent h-32"></div>
+                        <div class="absolute bottom-6 left-8">
+                            <div class="text-white font-bold text-2xl mb-1 flex items-center"><i class="fas fa-heart text-neon-pink mr-3"></i> 浪漫求婚企劃</div>
+                            <p class="text-neon-pink text-xl font-bold">NT$ 48,800 起</p>
+                        </div>
+                    </div>
+                    <div class="p-8 flex-grow flex flex-col justify-between">
+                        <div>
+                            <p class="text-gray-300 mb-4 text-base leading-relaxed">專為不想妥協的你打造。從<span class="text-white font-bold">輕奢佈置</span>到<span class="text-neon-pink font-bold">全包式驚喜</span>，讓廢墟的光影成為你們愛情的最佳見證。</p>
+                            <ul class="text-sm text-gray-500 space-y-1 mb-4">
+                                <li><i class="fas fa-check text-neon-pink mr-2"></i> 專業求婚企劃與流程控場</li>
+                                <li><i class="fas fa-check text-neon-pink mr-2"></i> 廢墟風花藝與燈光設計</li>
+                            </ul>
+                        </div>
+                        <div class="text-right text-neon-pink font-bold group-hover:translate-x-2 transition mt-4">查看 3 種方案細節 <i class="fas fa-arrow-right ml-1"></i></div>
+                    </div>
+                </div>
+
+                <div onclick="handleCardClick('wedding')" class="plan-card wedding-card cursor-pointer group relative rounded-2xl overflow-hidden border-2 border-champagne/50 shadow-[0_0_30px_rgba(212,175,55,0.15)] bg-zinc-900 flex flex-col">
+                    <div class="h-80 md:h-96 overflow-hidden relative w-full">
+                        <img src="images/wedding-cover.jpg" alt="高雄輕婚禮場地" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-black/50 to-transparent h-32"></div>
+                        <div class="absolute bottom-6 left-8">
+                            <div class="text-white font-bold text-2xl mb-1 flex items-center"><i class="fas fa-ring text-champagne mr-3"></i> 輕婚禮 & 證婚</div>
+                            <p class="text-champagne text-xl font-bold">專屬訂製方案</p>
+                        </div>
+                    </div>
+                    <div class="p-8 flex-grow flex flex-col justify-between">
+                        <div>
+                            <p class="text-gray-300 mb-4 text-base leading-relaxed">在獨特的廢墟風格中，舉辦一場不落俗套的婚禮。<br>適合<span class="text-champagne font-bold">證婚儀式</span>、<span class="text-champagne font-bold">After Party</span> 或精緻家宴。</p>
+                            <ul class="text-sm text-gray-500 space-y-1 mb-4">
+                                <li><i class="fas fa-check text-champagne mr-2"></i> 歐美風證婚場地佈置</li>
+                                <li><i class="fas fa-check text-champagne mr-2"></i> 派對 Buffet 與酒水服務</li>
+                            </ul>
+                        </div>
+                        <div class="text-right text-champagne font-bold group-hover:translate-x-2 transition mt-4">查看詳細內容 <i class="fas fa-arrow-right ml-1"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-zinc-800 my-10 relative">
+                <span class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-ruin-dark px-4 text-gray-500 text-sm">更多派對選擇</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div onclick="handleCardClick('baby')" class="plan-card bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden cursor-pointer">
+                    <div class="h-40 overflow-hidden"><img src="images/baby-cover.jpg" class="w-full h-full object-cover"></div>
+                    <div class="p-5">
+                        <h4 class="text-lg font-bold text-white mb-1">抓周 / 性別派對</h4>
+                        <p class="text-neon-blue font-bold mb-2">$39,800</p>
+                        <p class="text-gray-500 text-xs">含氣球佈置、主持人、Candy Bar</p>
+                    </div>
+                </div>
+                <div onclick="handleCardClick('birthday')" class="plan-card bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden cursor-pointer">
+                    <div class="h-40 overflow-hidden"><img src="images/party-cover.jpg" class="w-full h-full object-cover"></div>
+                    <div class="p-5">
+                        <h4 class="text-lg font-bold text-white mb-1">潮流慶生派對</h4>
+                        <p class="text-neon-blue font-bold mb-2">$60,000 起</p>
+                        <p class="text-gray-500 text-xs">含DJ演出、燈光、點心Bar</p>
+                    </div>
+                </div>
+                <div onclick="handleCardClick('rental')" class="plan-card bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden cursor-pointer">
+                    <div class="h-40 overflow-hidden"><img src="images/venue-empty.jpg" class="w-full h-full object-cover"></div>
+                    <div class="p-5">
+                        <h4 class="text-lg font-bold text-white mb-1">純場地租借</h4>
+                        <p class="text-neon-blue font-bold mb-2">$5,000 / hr</p>
+                        <p class="text-gray-500 text-xs">平日低消3hr / 假日2hr</p>
+                    </div>
+                </div>
+                <div onclick="handleCardClick('meeting')" class="plan-card bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden cursor-pointer">
+                    <div class="h-40 overflow-hidden"><img src="images/meeting-cover.jpg" class="w-full h-full object-cover"></div>
+                    <div class="p-5">
+                        <h4 class="text-lg font-bold text-white mb-1">會議講座方案</h4>
+                        <p class="text-neon-blue font-bold mb-2">$10,000 起</p>
+                        <p class="text-gray-500 text-xs">適合商務會議、課程講座</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div onclick="handleCardClick('custom')" class="mt-8 bg-zinc-900/50 border border-dashed border-zinc-600 rounded-xl p-4 text-center cursor-pointer hover:border-neon-pink hover:text-neon-pink transition">
+                <span class="text-sm">有特殊需求？ 點此選擇 <b>客製化方案</b> (展覽/拍攝/活動)</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-20 bg-ruin-dark">
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-white mb-8 text-center">精彩實錄 Gallery</h2>
+            <div class="columns-2 md:columns-3 gap-4 space-y-4">
+                <div class="gallery-item"><img src="images/venue-decor-wedding.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/party-dj-crowd.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/proposal-romantic-light.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/food-buffet.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/baby-party-setup.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/venue-outdoor-vibe.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="video" class="py-20 bg-zinc-900 border-t border-zinc-800">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+             <h2 class="text-3xl font-bold text-white mb-8 flex items-center justify-center"><i class="fab fa-instagram text-neon-pink mr-3"></i> 影音專區 Video</h2>
+             <div class="flex justify-center">
+                <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/ruinsbar_kaohsiung/" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/ruinsbar_kaohsiung/" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.22,37.631 C570.074,34.229 569.533,32.004 568.54,29.453 C567.513,26.813 565.789,24.588 563.568,22.367 C561.347,20.146 559.121,18.423 556.482,17.396 C553.93,16.402 551.706,15.861 548.303,15.715 C545.065,15.576 544.055,15.545 541,15.545 C537.945,15.545 536.935,15.576 533.698,15.715 C530.295,15.861 528.07,16.402 525.519,17.396 C522.88,18.423 520.653,20.146 518.432,22.367 C516.21,24.588 514.486,26.813 513.46,29.453 C512.466,32.004 511.924,34.229 511.778,37.631 C511.641,40.869 511.609,41.878 511.609,50 C511.609,58.122 511.641,59.131 511.778,62.37 C511.924,65.771 512.466,67.997 513.46,70.547 C514.486,73.188 516.21,75.413 518.432,77.634 C520.653,79.855 522.88,81.578 525.519,82.604 C528.07,83.599 530.295,84.14 533.698,84.286 C536.935,84.425 537.945,84.456 541,84.456 C544.055,84.456 545.065,84.425 548.303,84.286 C551.706,84.14 553.93,83.599 556.482,82.604 C559.121,81.578 561.347,79.855 563.568,77.634 C565.789,75.413 567.513,73.188 568.54,70.547 C569.533,67.997 570.074,65.771 570.22,62.37 C570.359,59.131 570.39,58.122 570.39,50 C570.39,41.878 570.359,40.869 570.22,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">在 Instagram 查看這則貼文</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div></div></div></a> <p style=" margin:8px 0 0 0; padding:0 4px;"> <a href="https://www.instagram.com/ruinsbar_kaohsiung/" style=" color:#000; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none; word-wrap:break-word;" target="_blank">Ruins Bar 高雄廢墟酒吧（@ruinsbar_kaohsiung）分享的貼文</a></p></div></blockquote> <script async src="//www.instagram.com/embed.js"></script>
+             </div>
+             <div class="mt-8"><a href="https://www.instagram.com/ruinsbar_kaohsiung/" target="_blank" class="inline-flex items-center text-neon-pink border border-neon-pink px-6 py-3 rounded-full hover:bg-neon-pink hover:text-white transition"><i class="fab fa-instagram text-xl mr-2"></i> 前往 Instagram 看更多</a></div>
+        </div>
+    </section>
+
+    <section id="reviews" class="py-20 bg-zinc-900 border-t border-zinc-800">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-3xl font-bold text-white mb-2">五星好評見證</h2>
+            <div class="mt-10"><a href="https://share.google/sRFN8r3FeaPpirnf3" target="_blank" class="inline-flex items-center text-gray-400 hover:text-white transition text-sm border-b border-gray-600 hover:border-white pb-1"><i class="fab fa-google mr-2"></i> 前往 Google 查看全部真實評論</a></div>
+        </div>
+    </section>
+
+    <div id="subPlanModal" class="hidden fixed inset-0 z-[70] overflow-y-auto" role="dialog">
+        <div class="fixed inset-0 bg-black/90 transition-opacity backdrop-blur-sm" onclick="closeSubModal()"></div>
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative transform overflow-hidden rounded-2xl bg-zinc-900 text-left shadow-2xl w-full max-w-lg border border-zinc-700">
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white mb-4 text-center">請選擇詳細方案</h3>
+                    <div id="subPlanContainer" class="space-y-4">
+                        </div>
+                    <button onclick="closeSubModal()" class="mt-6 w-full text-gray-500 text-sm">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="bookingModal" class="hidden fixed inset-0 z-[60] overflow-y-auto">
+        <div class="fixed inset-0 bg-black/80 transition-opacity backdrop-blur-sm" onclick="closeModal()"></div>
+        <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="relative transform overflow-hidden rounded-2xl bg-zinc-900 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-zinc-700">
+                <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white z-10 p-2"><i class="fas fa-times text-2xl"></i></button>
+
+                <div class="max-h-[85vh] overflow-y-auto p-6 scrollbar-hide">
+                    <h3 class="text-center text-white font-bold mb-2 text-2xl flex justify-center items-center"><i class="fas fa-calendar-alt text-neon-blue mr-3"></i> 檔期查詢</h3>
+                    
+                    <div class="bg-zinc-800 p-3 rounded-lg mb-6 text-center border border-zinc-700">
+                        <span class="text-gray-400 text-xs block">您目前選擇的方案</span>
+                        <span id="selectedPlanDisplay" class="text-neon-pink font-bold text-lg"></span>
+                    </div>
+
+                    <div id="step1">
+                        <form id="checkForm" onsubmit="handleCheck(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-neon-blue text-sm font-bold mb-1">1. 選擇預計日期</label>
+                                <div class="relative"><input type="date" id="dateInput" onchange="checkLogic()" required class="w-full bg-black border border-zinc-700 text-white rounded-lg p-3 focus:border-neon-blue focus:outline-none cursor-pointer"></div>
+                                <p id="dayTypeLabel" class="text-xs text-gray-500 mt-1 text-right"></p>
+                            </div>
+                            <div>
+                                <label class="block text-neon-blue text-sm font-bold mb-1">2. 選擇時段</label>
+                                <select id="timeSlot" onchange="checkLogic()" class="w-full bg-black border border-zinc-700 text-white rounded-lg p-3 focus:border-neon-blue focus:outline-none cursor-pointer">
+                                    <option value="lunch">午場 (11:00-14:00)</option>
+                                    <option value="dinner">晚場 (17:00-20:00)</option>
+                                    <option value="allday">全日包場 (09:00-21:00)</option>
+                                    <option value="custom" class="text-neon-pink font-bold">★ 自訂時段 (08:00-23:30)</option>
+                                </select>
+                            </div>
+                            <div id="customTimeContainer" class="hidden bg-zinc-800/50 p-3 rounded-lg border border-zinc-600">
+                                <p class="text-xs text-gray-400 mb-2">自訂起訖</p>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div><label class="text-white text-xs">開始</label><select id="startTime" onchange="checkLogic()" class="w-full bg-black border-zinc-600 text-white rounded p-1"></select></div>
+                                    <div><label class="text-white text-xs">結束</label><select id="endTime" onchange="checkLogic()" class="w-full bg-black border-zinc-600 text-white rounded p-1"></select></div>
+                                </div>
+                                <p id="durationWarning" class="text-neon-pink text-xs mt-2 hidden font-bold"></p>
+                            </div>
+                            <button id="submitBtn" type="submit" class="w-full bg-neon-blue text-black font-bold py-3 rounded-lg hover:bg-[#00d0dd] transition shadow-lg mt-4 disabled:bg-gray-600 disabled:text-gray-400 disabled:cursor-not-allowed">查詢空檔 <i class="fas fa-search ml-2"></i></button>
+                        </form>
+                    </div>
+
+                    <div id="recommendationArea" class="hidden mt-6 bg-zinc-800 p-4 rounded-lg border border-red-500/50 animate-fade-in-down">
+                        <h4 class="text-red-400 font-bold mb-2"><i class="fas fa-times-circle"></i> 該時段已預約</h4>
+                        <div id="recList" class="space-y-2"></div>
+                        <button onclick="resetRec()" class="text-gray-500 text-xs mt-3 underline w-full text-center">重新選擇日期</button>
+                    </div>
+
+                    <div id="step2" class="hidden mt-6 border-t border-zinc-700 pt-6 animate-fade-in-down">
+                        <div class="bg-zinc-800/80 p-4 rounded-xl border-l-4 border-green-500 mb-4">
+                            <h4 class="text-green-400 font-bold text-lg mb-1"><i class="fas fa-check-circle"></i> 此時段尚有空位！</h4>
+                            <p class="text-white">日期：<span id="displayDate" class="font-bold text-neon-pink"></span></p>
+                            <p class="text-gray-300">時段：<span id="displayTime" class="font-bold"></span></p>
+                        </div>
+                        <div class="text-center"><button onclick="expandAddons()" class="w-full bg-white text-black font-bold py-3 rounded-lg hover:bg-gray-200 transition shadow">下一步：選擇加購服務 <i class="fas fa-chevron-down ml-2"></i></button></div>
+                    </div>
+
+                    <div id="step3" class="hidden mt-6 border-t border-zinc-700 pt-6 animate-fade-in-down">
+                        <h3 class="text-white font-bold mb-4 flex items-center text-lg"><span class="bg-neon-pink text-white text-xs px-2 py-1 rounded mr-3">加購</span> 選擇加值服務</h3>
+                        <div class="grid grid-cols-1 gap-3 mb-6" id="addonList"></div>
+                        <button onclick="expandFinal()" class="w-full bg-neon-pink text-white font-bold py-3 rounded-lg hover:bg-pink-600 transition shadow-[0_0_15px_rgba(255,0,85,0.4)]">查看預估總價 <i class="fas fa-calculator ml-2"></i></button>
+                    </div>
+
+                    <div id="step4" class="hidden mt-6 border-t border-zinc-700 pt-6 animate-fade-in-down">
+                        <div class="bg-white text-black p-5 rounded-xl shadow-2xl relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-neon-blue to-neon-pink"></div>
+                            <h4 class="font-bold text-xl mb-4 border-b border-gray-200 pb-2 text-center">RUINS BAR 預約試算</h4>
+                            <div class="space-y-3 text-sm mb-4">
+                                <div class="flex justify-between items-center"><span class="text-gray-600 font-bold">預約方案</span><span id="invPlanName" class="font-bold text-right"></span></div>
+                                <div class="flex justify-between items-center text-gray-500 text-xs"><span></span><span id="invPlanPrice"></span></div>
+                            </div>
+                            <div class="bg-gray-100 p-3 rounded-lg mb-4">
+                                <p class="text-xs text-gray-500 mb-2 font-bold uppercase">加購項目</p>
+                                <ul id="invAddons" class="text-sm space-y-2"></ul>
+                            </div>
+                            <div class="flex justify-between items-end border-t border-gray-300 pt-4">
+                                <span class="text-gray-600 font-bold text-lg">預估總價</span>
+                                <span id="invTotal" class="text-3xl font-bold text-neon-pink"></span>
+                            </div>
+                        </div>
+                        <div class="mt-6 pb-4">
+                            <button onclick="sendFinalToLine()" class="w-full bg-[#06c755] text-white font-bold py-4 rounded-lg hover:bg-[#05b54d] transition shadow-lg flex items-center justify-center text-xl animate-pulse"><i class="fab fa-line text-3xl mr-3"></i> 確認傳送預約</button>
+                            <p class="text-center text-gray-500 text-xs mt-2">*送出後將自動開啟 LINE 視窗</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="javascript:void(0)" onclick="directLine()" class="sticky-btn" aria-label="Line洽詢"><i class="fa-brands fa-line"></i></a>
+    <footer class="bg-black py-10 border-t border-zinc-800 mb-16"><div class="max-w-7xl mx-auto px-4 text-center"><p class="text-gray-500 text-sm">© 2024 Ruins Bar</p></div></footer>
+
+    <script>
+        const LINE_ID = "@529ldsir"; 
+        const LINE_DEEP_LINK = "line://ti/p/" + LINE_ID;
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbyiyxa6_OwdrWp_YQVkJ622DQgN23jHWTdCdt-lj0LBQ1Lm_pV2RWkvFQMigMpcg59NHQ/exec";
+
+        // ★ V19 資料結構：完整列出所有包含項目 (不只是差異)
+        const plansData = {
+            'proposal': {
+                hasVariants: true,
+                variants: [
+                    { 
+                        name: '求婚方案 A (輕奢)', 
+                        price: 48800,
+                        features: ['室內場地 (2hr)', '氣球拍照背板', '求婚捧花', 'MerryMe 燈條', 'Candy Bar (20人)', '專業音響設備']
+                    },
+                    { 
+                        name: '求婚方案 B (盛大)', 
+                        price: 78800, 
+                        features: ['<span class="text-neon-pink font-bold">室內+戶外場地</span>', '<span class="text-neon-pink font-bold">鮮花主題背板</span>', '新人英文燈條', '戶外燈串佈置', 'Candy Bar (30人)', '求婚捧花 & 燈條']
+                    },
+                    { 
+                        name: '求婚方案 C (頂級)', 
+                        price: 98000,
+                        features: ['<span class="text-champagne font-bold">求婚平面攝影紀錄</span>', '<span class="text-champagne font-bold">精緻外燴 Buffet (16道)</span>', '戶外美合椅', '完整包場 3 小時', '鮮花佈置 & 燈串', '專屬燈條帶回']
+                    }
+                ]
+            },
+            'wedding': {
+                hasVariants: true,
+                variants: [
+                    { name: '證婚儀式方案 (30人)', price: 39800, features: ['純儀式場地租借', '證婚拱門佈置', '觀禮座椅', '專業音響設備', '新娘休息室'] },
+                    { name: '輕婚禮派對 (50人)', price: 88000, features: ['<span class="text-champagne font-bold">精緻外燴 Buffet</span>', '婚禮管家服務', '全場花藝佈置', '證婚儀式流程', '音響 & 投影'] },
+                    { name: '婚禮 After Party', price: 60000, features: ['包場 3 小時', '酒水服務專員', 'DJ 演出安排', '派對點心 Bar', '派對燈光設計'] }
+                ]
+            },
+            'birthday': {
+                hasVariants: true,
+                variants: [
+                    { name: '慶生派對 A', price: 60000, features: ['室內場地 (2hr)', 'DJ 放歌 (2hr)', '精緻點心 Bar', '霓虹燈條佈置', '投影音響設備'] },
+                    { name: '慶生派對 B', price: 99000, features: ['<span class="text-neon-pink font-bold">室內+戶外場地 (3hr)</span>', '<span class="text-neon-pink font-bold">啤酒車暢飲</span>', '<span class="text-neon-pink font-bold">精緻外燴餐點</span>', 'DJ 演出 (3hr)', '戶外高腳桌椅'] }
+                ]
+            },
+            'baby': { hasVariants: false, name: '抓周派對方案', price: 39800, type: 'pkg' },
+            'rental': { hasVariants: false, name: '純場地租借', price: 10000, type: 'rental' },
+            'meeting': { hasVariants: false, name: '會議講座', price: 10000, type: 'pkg' },
+            'custom': { hasVariants: false, name: '客製化方案', price: 0, type: 'custom' }
+        };
+
+        const addOnOptions = [
+            { id: 'snack', name: '自助式點心 (20人份)', price: 8000 },
+            { id: 'meal', name: '自助式正餐 (20人份)', price: 12000 },
+            { id: 'bbq', name: '台式串燒拼盤 (20人份)', price: 15000 },
+            { id: 'cocktail_bucket', name: '桶裝雞尾酒 (5公升)', price: 2500 },
+            { id: 'beer_car', name: '啤酒車暢飲 (100罐)', price: 6000 },
+            { id: 'bartender', name: '專屬調酒師 (2hr)', price: 6000 },
+            { id: 'photographer', name: '活動平面攝影 (2hr)', price: 8000 }
+        ];
+
+        let selectedAddons = new Set();
+        let bookingData = {};
+        let calculatedRentalPrice = 0; 
+        let currentPlan = { name: '', price: 0, type: '' };
+
+        window.onload = function() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById("dateInput").setAttribute('min', today);
+            initCustomTimeSelects();
+            renderAddons();
+        };
+
+        // ★ 卡片點擊處理 (V19 Update: 垂直列表顯示完整項目)
+        function handleCardClick(planKey) {
+            const plan = plansData[planKey];
+            
+            if (plan.hasVariants) {
+                const container = document.getElementById('subPlanContainer');
+                container.innerHTML = '';
+                plan.variants.forEach(v => {
+                    const btn = document.createElement('div');
+                    btn.className = "w-full bg-zinc-800 border border-zinc-600 text-white p-5 rounded-lg cursor-pointer hover:bg-zinc-700 hover:border-neon-pink transition group shadow-lg";
+                    
+                    // 使用垂直列表 (ul/li) 來清晰展示項目
+                    let featuresHtml = v.features.map(f => `<li class="flex items-start"><i class="fas fa-check text-neon-blue mt-1 mr-2 text-xs"></i><span class="text-sm text-gray-300">${f}</span></li>`).join('');
+                    
+                    btn.innerHTML = `
+                        <div class="flex justify-between items-center mb-3 pb-2 border-b border-zinc-600">
+                            <span class="font-bold text-xl group-hover:text-neon-pink transition">${v.name}</span>
+                            <span class="text-neon-pink font-bold text-xl">$${v.price.toLocaleString()}</span>
+                        </div>
+                        <ul class="space-y-1">
+                            ${featuresHtml}
+                        </ul>
+                    `;
+                    btn.onclick = () => confirmPlan(v.name, v.price, 'pkg');
+                    container.appendChild(btn);
+                });
+                document.getElementById('subPlanModal').classList.remove('hidden');
+            } else {
+                confirmPlan(plan.name, plan.price, plan.type);
+            }
+        }
+
+        function confirmPlan(name, price, type) {
+            currentPlan = { name, price, type };
+            document.getElementById('selectedPlanDisplay').innerText = name;
+            
+            document.getElementById('subPlanModal').classList.add('hidden');
+            document.getElementById('step1').classList.remove('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById('recommendationArea').classList.add('hidden');
+            
+            document.getElementById('bookingModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() { document.getElementById('bookingModal').classList.add('hidden'); document.body.style.overflow = 'auto'; }
+        function closeSubModal() { document.getElementById('subPlanModal').classList.add('hidden'); }
+
+        function initCustomTimeSelects() {
+            const s = document.getElementById('startTime');
+            const e = document.getElementById('endTime');
+            for (let i = 16; i <= 47; i++) {
+                const hour = Math.floor(i / 2);
+                const min = (i % 2) === 0 ? '00' : '30';
+                const hStr = hour < 10 ? '0'+hour : hour;
+                const time = `${hStr}:${min}`;
+                s.add(new Option(time, time));
+                e.add(new Option(time, time));
+            }
+        }
+
+        function checkLogic() {
+            const dateVal = document.getElementById('dateInput').value;
+            const timeSlot = document.getElementById('timeSlot').value;
+            const customContainer = document.getElementById('customTimeContainer');
+            const warning = document.getElementById('durationWarning');
+            const submitBtn = document.getElementById('submitBtn');
+            const dayTypeLabel = document.getElementById('dayTypeLabel');
+
+            let isWeekend = false;
+            if(dateVal) {
+                const day = new Date(dateVal).getDay();
+                isWeekend = (day === 0 || day === 6); 
+                dayTypeLabel.innerText = isWeekend ? "假日 (低消2hr / $5000/hr)" : "平日 (低消3hr / $10000/3hr)";
+            }
+
+            let diffMin = 0;
+            if (timeSlot === 'custom') {
+                customContainer.classList.remove('hidden');
+                const s = document.getElementById('startTime').value;
+                const e = document.getElementById('endTime').value;
+                if(s && e) {
+                    const [sh, sm] = s.split(':').map(Number);
+                    const [eh, em] = e.split(':').map(Number);
+                    const startMin = sh * 60 + sm;
+                    const endMin = eh * 60 + em;
+                    diffMin = endMin - startMin;
+                }
+            } else {
+                customContainer.classList.add('hidden');
+            }
+
+            let restrictPkg = false;
+            if (timeSlot === 'allday' || (timeSlot === 'custom' && diffMin > 180)) {
+                restrictPkg = true;
+            }
+
+            if (restrictPkg && currentPlan.type === 'pkg') {
+                warning.innerText = "⚠️ 此時段超過3小時，不適用包套方案。請改選純場地租借。";
+                warning.classList.remove('hidden');
+                submitBtn.disabled = true;
+                return; 
+            } else {
+                warning.classList.add('hidden');
+                submitBtn.disabled = false;
+            }
+
+            if(currentPlan.type === 'rental' && timeSlot === 'custom') {
+                if(diffMin <= 0) {
+                     warning.innerText = "❌ 時間錯誤";
+                     warning.classList.remove('hidden');
+                     submitBtn.disabled = true;
+                     return;
+                }
+                if (isWeekend) {
+                    if (diffMin < 120) {
+                        warning.innerText = "⛔ 假日低消 2 小時";
+                        warning.classList.remove('hidden');
+                        submitBtn.disabled = true;
+                    } else {
+                        calculatedRentalPrice = (diffMin / 60) * 5000;
+                        warning.innerText = `✅ 場租試算：$${calculatedRentalPrice.toLocaleString()}`;
+                        warning.classList.remove('hidden');
+                        warning.classList.replace('text-neon-pink', 'text-green-400');
+                    }
+                } else {
+                    if (diffMin < 180) {
+                        warning.innerText = "⛔ 平日低消 3 小時";
+                        warning.classList.remove('hidden');
+                        warning.classList.add('text-neon-pink');
+                        submitBtn.disabled = true;
+                    } else {
+                        let extraHours = (diffMin - 180) / 60;
+                        calculatedRentalPrice = 10000 + (extraHours * 3333);
+                        calculatedRentalPrice = Math.round(calculatedRentalPrice);
+                        warning.innerText = `✅ 場租試算：$${calculatedRentalPrice.toLocaleString()}`;
+                        warning.classList.remove('hidden');
+                        warning.classList.replace('text-neon-pink', 'text-green-400');
+                    }
+                }
+            } else {
+                 warning.classList.replace('text-green-400', 'text-neon-pink');
+            }
+        }
+
+        function renderAddons() {
+            const container = document.getElementById('addonList');
+            container.innerHTML = '';
+            addOnOptions.forEach(opt => {
+                const btn = document.createElement('div');
+                btn.className = 'addon-btn bg-black border border-zinc-600 rounded-lg p-3 flex justify-between items-center cursor-pointer hover:bg-zinc-800 transition select-none';
+                btn.onclick = () => toggleAddon(btn, opt.id);
+                btn.innerHTML = `<div class="flex items-center"><div class="check-icon w-5 h-5 rounded-full border border-zinc-500 mr-2 flex items-center justify-center opacity-30 transition-all"><i class="fas fa-check text-[10px]"></i></div><span class="text-sm font-bold text-white">${opt.name}</span></div><span class="text-neon-pink text-sm font-bold">+$${opt.price.toLocaleString()}</span>`;
+                container.appendChild(btn);
+            });
+        }
+        function toggleAddon(btn, id) {
+            if (selectedAddons.has(id)) { selectedAddons.delete(id); btn.classList.remove('selected'); } 
+            else { selectedAddons.add(id); btn.classList.add('selected'); }
+        }
+
+        function handleCheck(e) {
+            e.preventDefault();
+            const dateVal = document.getElementById('dateInput').value;
+            const slotVal = document.getElementById('timeSlot').value;
+            
+            let planPrice = currentPlan.price;
+            let planName = currentPlan.name;
+            
+            if(!dateVal) { alert("請選擇日期"); return; }
+
+            if (slotVal === 'custom' && currentPlan.type === 'rental' && calculatedRentalPrice > 0) {
+                planPrice = calculatedRentalPrice;
+            }
+
+            let reqStart = "", reqEnd = "", timeText = "";
+            if(slotVal === 'lunch') { reqStart = "11:00"; reqEnd = "14:00"; timeText = "午場 (11:00-14:00)"; }
+            else if(slotVal === 'dinner') { reqStart = "17:00"; reqEnd = "20:00"; timeText = "晚場 (17:00-20:00)"; }
+            else if(slotVal === 'allday') { reqStart = "09:00"; reqEnd = "21:00"; timeText = "全日包場 (09:00-21:00)"; }
+            else { 
+                reqStart = document.getElementById('startTime').value;
+                reqEnd = document.getElementById('endTime').value;
+                timeText = `自訂 (${reqStart}-${reqEnd})`;
+            }
+
+            bookingData = { date: dateVal, time: timeText, planName: planName, planPrice: planPrice };
+
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 查詢中...';
+            btn.disabled = true;
+            
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('recommendationArea').classList.add('hidden');
+
+            fetch(`${GAS_URL}?date=${dateVal}&start=${reqStart}&end=${reqEnd}`)
+                .then(response => response.json())
+                .then(data => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+
+                    if (data.available) {
+                        document.getElementById('displayDate').innerText = dateVal;
+                        document.getElementById('displayTime').innerText = timeText;
+                        const step2 = document.getElementById('step2');
+                        step2.classList.remove('hidden');
+                        step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        showRecommendations(data.recommendations);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    alert("查詢失敗，請檢查網路或稍後再試。");
+                });
+        }
+
+        function showRecommendations(recs) {
+            const area = document.getElementById('recommendationArea');
+            const list = document.getElementById('recList');
+            list.innerHTML = '';
+
+            if (recs && recs.length > 0) {
+                recs.forEach(r => {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center bg-black/40 p-3 rounded hover:bg-black/60 cursor-pointer transition border border-zinc-700 hover:border-neon-blue';
+                    div.innerHTML = `<div><span class="text-xs bg-gray-600 text-white px-2 py-0.5 rounded mr-2">${r.label}</span><span class="text-white text-sm font-bold">${r.date}</span><span class="text-neon-blue text-xs ml-1">${r.start} - ${r.end}</span></div><i class="fas fa-chevron-right text-gray-500"></i>`;
+                    div.onclick = () => {
+                        document.getElementById('dateInput').value = r.date;
+                        if(r.start === '11:00') document.getElementById('timeSlot').value = 'lunch';
+                        else if(r.start === '17:00') document.getElementById('timeSlot').value = 'dinner';
+                        else document.getElementById('timeSlot').value = 'custom';
+                        
+                        checkLogic(); 
+                        document.getElementById('submitBtn').click();
+                    };
+                    list.appendChild(div);
+                });
+            } else {
+                list.innerHTML = '<p class="text-gray-500 text-sm">暫無相近推薦，請嘗試選擇其他日期。</p>';
+            }
+            area.classList.remove('hidden');
+            area.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetRec() {
+            document.getElementById('recommendationArea').classList.add('hidden');
+            document.getElementById('dateInput').focus();
+        }
+
+        function expandAddons() { document.getElementById('step3').classList.remove('hidden'); document.getElementById('step3').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        
+        function expandFinal() {
+            document.getElementById('invPlanName').innerText = bookingData.planName;
+            document.getElementById('invPlanPrice').innerText = (bookingData.planPrice === 0) ? "依報價" : "$ " + bookingData.planPrice.toLocaleString();
+            
+            const listContainer = document.getElementById('invAddons');
+            listContainer.innerHTML = '';
+            let totalAddonPrice = 0;
+            if(selectedAddons.size === 0) { listContainer.innerHTML = '<li class="text-gray-400 italic">無加購項目</li>'; } 
+            else {
+                addOnOptions.forEach(opt => {
+                    if(selectedAddons.has(opt.id)) {
+                        listContainer.innerHTML += `<li class="flex justify-between items-center border-b border-gray-200 pb-1"><span>${opt.name}</span> <span class="text-gray-600 font-medium">+$${opt.price.toLocaleString()}</span></li>`;
+                        totalAddonPrice += opt.price;
+                    }
+                });
+            }
+            
+            const finalTotal = bookingData.planPrice + totalAddonPrice;
+            document.getElementById('invTotal').innerText = (bookingData.planPrice === 0) ? "另行報價" : "NT$ " + finalTotal.toLocaleString();
+            bookingData.finalTotal = finalTotal;
+            document.getElementById('step4').classList.remove('hidden');
+            document.getElementById('step4').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function sendFinalToLine() {
+            let msg = `您好！我想預約 RUINS BAR 廢墟場地 🥂\n\n📅 日期：${bookingData.date}\n⏰ 時段：${bookingData.time}\n📋 方案：${bookingData.planName}\n`;
+            if(selectedAddons.size > 0) { msg += `\n➕ 加購項目：\n`; addOnOptions.forEach(opt => { if(selectedAddons.has(opt.id)) { msg += `- ${opt.name} ($${opt.price.toLocaleString()})\n`; } }); } 
+            else { msg += `\n➕ 加購項目：無\n`; }
+            
+            if(bookingData.planPrice === 0) {
+                msg += `\n💰 預估總價：待專人報價\n`;
+            } else {
+                msg += `\n💰 預估總價：NT$ ${bookingData.finalTotal.toLocaleString()}\n`;
+            }
+            
+            msg += `\n請協助確認檔期與最終報價，謝謝！`;
+            if (navigator.clipboard) { navigator.clipboard.writeText(msg).then(() => { window.location.href = LINE_DEEP_LINK; }).catch(() => { window.location.href = LINE_DEEP_LINK; }); } else { window.location.href = LINE_DEEP_LINK; }
+        }
+        function directLine() { window.location.href = LINE_DEEP_LINK; }
+    </script>
+</body>
+</html>
