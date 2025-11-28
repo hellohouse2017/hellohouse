@@ -52,6 +52,7 @@
     .btn-submit { background-color: var(--c-dark); color: var(--c-gold); border: 1px solid var(--c-dark); padding: 15px 40px; font-size: 1rem; font-weight: bold; letter-spacing: 1px; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 10px rgba(44, 62, 80, 0.2); }
     .btn-submit:hover { background-color: var(--c-gold); color: white; border-color: var(--c-gold); transform: translateY(-2px); }
     .btn-submit:disabled { background-color: #BDC3C7; border-color: #BDC3C7; color: white; cursor: not-allowed; transform: none; box-shadow: none; }
+    
     .btn-search { background-color: var(--c-gold); color: white; border-color: var(--c-gold); }
     .btn-search:hover { background-color: #A68550; border-color: #A68550; }
 
@@ -106,7 +107,7 @@
     <nav class="navbar"><a href="#" class="nav-logo">你好哇寓所 | 溝頂民宿</a></nav>
     <div class="header-section"><h1>房況查詢與報價</h1><p>Check Availability & Price</p></div>
 
-    <div class="container" id="main-content">
+    <div class="container">
         <div class="inquiry-card">
             
             <div id="step-1">
@@ -167,10 +168,14 @@
     <footer class="footer">© 2025 你好哇寓所 & 溝頂民宿. All Rights Reserved.</footer>
 
     <script>
+        // --- 設定區 ---
         const LIFF_ID = "2008582194-wrJ4dqXq"; 
         const GAS_URL = "https://script.google.com/macros/s/AKfycbxsFEJ9ubWMY9Y6xqBZ-3-KgSrYQnC9D3zwuKUL66HvKJdN5S1HTNeahhWlV6hcixbx0A/exec";
         const LINE_OFFICIAL_ID = "@575tprig"; 
+        // 假設你的入住須知網址 (如果有不同請修改這裡)
+        const RULES_URL = "agreement.html"; 
         
+        // --- 房型與定價資料庫 ---
         const ROOM_PLANS = {
             'hello': [
                 { title: "3房包棟 (8人)", price_weekday: 16000, price_weekend: 20000, capacity: "8人", detail: "配置：3房 (2/2/4)" },
@@ -341,44 +346,79 @@
             return { weekdays, weekends };
         }
 
-        // --- 傳送邏輯 (最簡化文字版) ---
+        // --- 發送邏輯 ---
         function handleSend() {
             const name = document.getElementById('user-name').value.trim();
             const phone = document.getElementById('user-phone').value.trim();
 
             if(!name || !phone) { Swal.fire({ icon: 'warning', title: '資料不完整', text: '請輸入姓名與電話', confirmButtonColor: '#BFA15F' }); return; }
 
-            // 組合文字訊息
-            const message = `你好！我想詢問訂房 💰\n--------------------------\n📅 日期：${formatDate(selectedStart)} ~ ${formatDate(selectedEnd)}\n🏨 館別：${currentVenue}\n🛏️ 方案：${currentPlan}\n💰 系統算價：${currentPrice}\n--------------------------\n👤 姓名：${name}\n📱 電話：${phone}\n--------------------------\n請問是否有空房？謝謝！`;
+            // 1. 組合訊息 (客人傳給管家，口吻要對)
+            const message = `【訂房詢價單】\n--------------------------\n📅 日期：${formatDate(selectedStart)} ~ ${formatDate(selectedEnd)}\n🏨 館別：${currentVenue}\n🛏️ 方案：${currentPlan}\n💰 系統算價：${currentPrice}\n--------------------------\n👤 姓名：${name}\n📱 電話：${phone}\n--------------------------\n您好，以上是我的預約資訊。\n請問是否有空房？謝謝！`;
             
-            // 產生 Deep Link (一鍵跳轉)
+            // 2. 製作連結
             const lineUrl = `https://line.me/R/oaMessage/${LINE_OFFICIAL_ID}/?text=${encodeURIComponent(message)}`;
 
-            // 判斷是否為手機 (LIFF 或 手機瀏覽器)
+            // 3. 準備 Web 端的「成功提示彈窗」 (這是管家對客人說的話)
+            const showSuccessAlert = (confirmCallback) => {
+                Swal.fire({
+                    title: `${name} 您好！`,
+                    html: `
+                        <div style="text-align:left; font-size:0.95rem; line-height:1.6; color:#555;">
+                            <p>感謝您的詢問，詢價單已準備就緒。<br>
+                            請點擊下方按鈕將資訊傳送給我們。</p>
+                            <hr style="border:0; border-top:1px dashed #ddd; margin:10px 0;">
+                            <p style="font-size:0.85rem; color:#888;">
+                                <i class="fa-solid fa-bell" style="color:var(--c-gold)"></i> 
+                                管家收到訊息後將盡快回覆您。<br>
+                                建議您可先詳閱：<a href="${RULES_URL}" target="_blank" style="color:var(--c-primary); font-weight:bold; text-decoration:underline;">入住須知與生活公約</a>
+                            </p>
+                        </div>
+                    `,
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: '立即傳送 LINE',
+                    cancelButtonText: '稍後再傳',
+                    confirmButtonColor: '#06C755'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        confirmCallback();
+                    }
+                });
+            };
+
+            // 4. 執行邏輯 (分流)
             const isMobile = liff.isInClient() || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
             if (isMobile) {
-                // 手機版：直接跳轉
-                window.location.href = lineUrl;
+                // 手機版：先跳彈窗確認，按確定後跳轉 LINE
+                showSuccessAlert(() => {
+                    window.location.href = lineUrl;
+                });
             } else {
-                // 電腦版：顯示 QR Code (QR Code 內容就是上面那個連結)
-                generateQrCode(lineUrl);
+                // 電腦版：顯示 QR Code (QR Code 下方也可以加註警語)
+                generateQrCode(lineUrl, name);
             }
         }
 
-        function generateQrCode(url) {
+        function generateQrCode(url, name) {
             Swal.fire({
-                title: '請用手機掃描傳送',
+                title: `${name} 您好！`,
                 html: `
-                    <div style="font-size:0.9rem; color:#666; margin-bottom:20px;">
-                        請開啟手機 LINE 掃描下方 QR Code<br>即可快速發送詢價單給管家
+                    <div style="font-size:0.9rem; color:#666; margin-bottom:15px; line-height:1.5;">
+                        感謝您的詢問！請開啟手機 LINE 掃描下方 QR Code<br>
+                        即可快速發送詢價單給管家。
                     </div>
-                    <div id="qrcode" style="display:flex; justify-content:center; margin:10px auto;"></div>
+                    <div id="qrcode" style="display:flex; justify-content:center; margin:15px auto;"></div>
+                    <div style="font-size:0.8rem; color:#888; margin-top:10px;">
+                        <i class="fa-solid fa-circle-info"></i> 傳送後管家將盡快回覆。<br>
+                        建議您先撥空閱讀 <a href="${RULES_URL}" target="_blank" style="color:#BFA15F;">入住須知</a>
+                    </div>
                 `,
                 showConfirmButton: true, 
                 confirmButtonText: '已掃描傳送',
                 confirmButtonColor: '#2C3E50',
-                width: 400,
+                width: 420,
                 didOpen: () => {
                     new QRCode(document.getElementById("qrcode"), {
                         text: url, width: 200, height: 200, colorDark : "#2C3E50", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.M
