@@ -515,10 +515,12 @@
         }
 
         // 執行發送 Flex Message
+        // --- 最終發送函式 (含失敗自動救援) ---
         function sendFlexMessage(name, phone) {
             const btn = document.getElementById('btn-submit');
             if(btn) { btn.disabled = true; btn.innerHTML = '<span>傳送中...</span> <i class="fa-solid fa-spinner fa-spin"></i>'; }
             
+            // 準備 Flex Message (精美小卡)
             const flexMessage = {
                 "type": "flex", "altText": "📋 來自網站的訂房詢價單",
                 "contents": {
@@ -553,12 +555,25 @@
                 }
             };
 
+            // 嘗試發送
             liff.sendMessages([flexMessage])
-                .then(() => { liff.closeWindow(); })
+                .then(() => { 
+                    liff.closeWindow(); // 成功：關閉視窗
+                })
                 .catch((err) => {
-                    console.error("Send Error", err);
-                    Swal.fire({icon:'error', title:'發送失敗', text:'請確認已加入好友並允許傳訊'});
-                    if(btn) { btn.disabled = false; btn.innerText = "重新傳送"; }
+                    console.error("LIFF Send Failed:", err);
+                    
+                    // ★★★ 自動補救機制 ★★★
+                    // 如果 sendMessages 失敗 (例如沒加好友、權限不足)，
+                    // 則改用 "跳轉聊天室並帶入文字" 的方式 (保證 100% 能送出)
+                    
+                    const textMsg = `你好！我想詢問訂房 💰\n--------------------------\n📅 日期：${formatDate(selectedStart)} ~ ${formatDate(selectedEnd)}\n🏨 館別：${currentVenue}\n🛏️ 方案：${currentPlan}\n💰 系統算價：${currentPrice}\n--------------------------\n👤 姓名：${name}\n📱 電話：${phone}\n--------------------------\n請問是否有空房？謝謝！`;
+                    
+                    // 跳轉到官方帳號聊天室，並填好文字
+                    window.location.href = `https://line.me/R/oaMessage/${LINE_OFFICIAL_ID}/?text=${encodeURIComponent(textMsg)}`;
+                    
+                    // 恢復按鈕
+                    if(btn) { btn.disabled = false; btn.innerText = "傳送詢價單給管家"; }
                 });
         }
 
