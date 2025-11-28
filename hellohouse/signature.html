@@ -20,185 +20,117 @@
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
     <style>
-        /* =========================================
-           Design System
-           ========================================= */
-        :root {
-            --c-primary: #1A202C;       
-            --c-accent: #C5A065;        
-            --c-accent-hover: #A68550;
-            --c-bg-body: #F9F9F7;       
-            --c-bg-white: #FFFFFF;
-            --c-text-gray: #555555; 
-            --c-line: #06C755;
-            --c-alert: #C53030;
-            --theme-dark-bg: #1A202C;
-            --font-serif: 'Noto Serif TC', serif; 
-            --font-sans: 'Noto Sans TC', sans-serif; 
-        }
-
+        :root { --c-primary: #1A202C; --c-accent: #C5A065; --c-line: #06C755; --c-alert: #C53030; --c-bg-body: #F9F9F7; --theme-dark-bg: #1A202C; --font-sans: 'Noto Sans TC', sans-serif; }
         *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; font-family: var(--font-sans); background-color: var(--c-bg-body); color: var(--c-primary); line-height: 1.8; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         
-        body {
-            margin: 0; font-family: var(--font-sans); background-color: var(--c-bg-body); color: var(--c-primary);
-            line-height: 1.8; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden;
-        }
-
-        /* Navbar & UI Styles (保持原樣，省略部分細節以節省篇幅) */
-        .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); }
+        /* Navbar */
+        .navbar { background: rgba(26, 32, 44, 0.95); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        .nav-logo { color: var(--c-accent); font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; }
-        /* ... (Navbar CSS 省略，保持您原本的設定即可) ... */
+        .nav-logo { color: var(--c-accent); font-size: 1.5rem; font-weight: 700; text-decoration: none; }
+        .nav-menu { display: flex; gap: 20px; list-style: none; padding: 0; margin: 0; }
+        .nav-link { color: #fff; text-decoration: none; font-weight: 500; }
         
-        /* 表單區域優化 */
-        .container { width: 90%; max-width: 900px; margin: 0 auto; padding: 80px 0; flex: 1; }
-        #capture-area { background-color: #fff; padding: 40px; border: 1px solid #E2E8F0; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-top: 5px solid var(--c-accent); }
+        /* Container */
+        .hero { height: 200px; background: var(--c-primary); display: flex; align-items: center; justify-content: center; color: white; margin-top: 70px; }
+        .container { width: 90%; max-width: 800px; margin: 0 auto; padding: 40px 0; flex: 1; }
         
-        /* 輸入框樣式 */
-        .form-input, .date-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; margin-bottom: 15px; }
-        .booking-info-wrapper { background-color: #FFFBF2; padding: 25px; border-radius: 8px; margin-bottom: 30px; border: 1px dashed var(--c-accent); }
+        /* Form & Capture Area */
+        #capture-area { background-color: #fff; padding: 30px; border: 1px solid #E2E8F0; border-radius: 12px; border-top: 5px solid var(--c-accent); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .form-input, .date-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; margin-bottom: 15px; box-sizing: border-box; }
+        .booking-info-wrapper { background-color: #FFFBF2; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--c-accent); }
         
-        /* 簽名板 */
+        /* Signature */
         .signature-wrapper { margin: 30px 0; padding: 20px; background: #EDF2F7; border-radius: 12px; text-align: center; }
-        .sign-box { width: 100%; max-width: 500px; height: 250px; background: #fff; border: 2px solid #4A5568; margin: 10px auto; position: relative; touch-action: none; border-radius: 4px; }
+        .sign-box { width: 100%; height: 250px; background: #fff; border: 2px solid #4A5568; margin: 10px auto; position: relative; touch-action: none; border-radius: 4px; }
         canvas { display: block; width: 100%; height: 100%; }
         
-        /* 按鈕區域 */
-        .action-area { margin-top: 40px; text-align: center; padding-bottom: 40px; }
-        .btn-submit { 
-            background: var(--c-line); color: white; border: none; padding: 16px 40px; 
-            font-size: 1.1rem; font-weight: bold; border-radius: 50px; cursor: pointer; 
-            box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3); transition: 0.3s; width: 100%; max-width: 350px;
-            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-        }
-        .btn-submit:hover { background-color: #05b64d; transform: translateY(-2px); }
-        .btn-submit:disabled { background-color: #ccc; cursor: not-allowed; box-shadow: none; transform: none; }
+        /* Button */
+        .action-area { margin-top: 30px; text-align: center; padding-bottom: 40px; }
+        .btn-submit { background: var(--c-line); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: bold; border-radius: 50px; cursor: pointer; width: 100%; max-width: 300px; transition: 0.3s; }
+        .btn-submit:disabled { background-color: #ccc; cursor: not-allowed; }
+        .highlight-error { border-color: #e53e3e !important; box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2); }
         
-        .loading-spinner { display: none; }
-        .generating .loading-spinner { display: inline-block; animation: fa-spin 1s infinite linear; }
-
-        /* 錯誤提示 */
-        .highlight-error { animation: shake 0.5s; border-color: #e53e3e !important; box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2); }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-
-        /* 合約選項 */
-        .contract-option { padding: 15px; margin-bottom: 15px; border-radius: 8px; font-size: 0.9rem; }
-        .contract-option.selected { border: 2px solid var(--c-accent); background: #FFFCF5; position: relative; }
-        .contract-option.selected::before { content: "☑ 適用條款"; font-weight: bold; color: var(--c-accent); display: block; margin-bottom: 5px; }
-        .contract-option.disabled { background: #f7fafc; color: #a0aec0; border: 1px dashed #cbd5e0; }
-
-        /* Footer (保持您的樣式) */
-        .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 60px 0 30px; margin-top: auto; }
-        /* ... 其他樣式省略 ... */
+        /* Footer */
+        .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 40px 0; text-align: center; margin-top: auto; }
+        
+        @media (max-width: 768px) {
+            .nav-menu { display: none; } /* 簡化手機版顯示 */
+            #capture-area { padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="nav-logo">你好哇寓所</a>
-            <div class="menu-toggle" id="mobile-menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="index.html" class="nav-link">首頁</a></li>
-                <li class="nav-item"><a href="rooms.html" class="nav-link">房型</a></li>
-                <li class="nav-item"><a href="agreement.html" class="nav-link active">入住契約</a></li>
-            </ul>
+            <a href="#" class="nav-logo">你好哇寓所</a>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="hero-bg"></div>
-        <div class="hero-content">
-            <h1>入住契約簽署</h1>
-            <p>ONLINE SIGNATURE</p>
+        <div>
+            <h1 style="margin:0;">入住契約簽署</h1>
+            <p style="margin:5px 0 0; text-align:center;">ONLINE SIGNATURE</p>
         </div>
     </header>
 
     <div class="container">
-        
         <div id="capture-area">
-            <div style="text-align: center; margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
+            <div style="text-align: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
                 <h2 style="margin:0; color:#1A202C;">住宿契約與規範</h2>
-                <p style="margin:5px 0 0; color:#C5A065; font-size:0.9rem;">Accommodation Contract</p>
+                <p style="margin:0; color:#C5A065; font-size:0.9rem;">Accommodation Contract</p>
             </div>
 
-            <div id="booking-info" class="booking-info-wrapper">
-                <div style="text-align:center; margin-bottom:20px;">
-                    <label style="display:block; margin-bottom:8px; font-weight:bold; color:#C5A065;">入住期間 (Check-in / out)</label>
-                    <input type="text" id="date-range-picker" class="date-input" placeholder="請選擇入住與退房日期" readonly style="text-align:center;">
-                </div>
+            <div class="booking-info-wrapper">
+                <label style="display:block; margin-bottom:5px; font-weight:bold;">入住期間</label>
+                <input type="text" id="date-range-picker" class="date-input" placeholder="點擊選擇日期..." readonly>
                 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div>
-                        <label style="font-size:0.9rem; font-weight:bold;">訂房人姓名 (Name)</label>
-                        <input type="text" id="booker-name" class="form-input" placeholder="真實姓名">
-                    </div>
-                    <div>
-                        <label style="font-size:0.9rem; font-weight:bold;">聯絡電話 (Phone)</label>
-                        <input type="tel" id="booker-phone" class="form-input" placeholder="09xxxxxxxx">
-                    </div>
-                </div>
+                <label style="display:block; margin-bottom:5px; font-weight:bold;">訂房人姓名</label>
+                <input type="text" id="booker-name" class="form-input" placeholder="請輸入真實姓名">
                 
-                <div style="margin-top: 15px;">
-                    <label style="font-size:0.9rem; font-weight:bold;">入住館別</label>
-                    <select id="house-select" class="form-input">
-                        <option value="你好哇寓所">你好哇寓所 (主館)</option>
-                        <option value="溝頂民宿">溝頂民宿 (二館)</option>
-                    </select>
-                </div>
+                <label style="display:block; margin-bottom:5px; font-weight:bold;">聯絡電話</label>
+                <input type="tel" id="booker-phone" class="form-input" placeholder="09xxxxxxxx">
+                
+                <label style="display:block; margin-bottom:5px; font-weight:bold;">入住館別</label>
+                <select id="house-select" class="form-input">
+                    <option value="你好哇寓所">你好哇寓所 (主館)</option>
+                    <option value="溝頂民宿">溝頂民宿 (二館)</option>
+                </select>
             </div>
 
-            <div style="margin-bottom: 30px;">
-                <div class="contract-option selected">
-                    <strong>□ 一年內保留已付金額作為日後消費折抵使用：</strong>
-                    <div style="margin-top:5px; font-size:0.85rem; color:#555;">
-                        旅客解約通知於預定住宿日當日前到達者，得於一年內保留已付金額作為日後消費折抵使用。雙方合意依此條款作為解約處理方式。
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-bottom: 30px; font-size: 0.9rem; line-height: 1.6; color:#444;">
+            <div style="font-size: 0.9rem; color:#444; line-height: 1.6; margin-bottom: 20px;">
                 <h4 style="border-left: 3px solid #C5A065; padding-left: 10px; margin-bottom: 10px;">重點規範確認</h4>
-                <ul style="padding-left: 20px;">
-                    <li><strong>押金規定：</strong>入住收取押金 $5,000，退房確認無損壞且無違規後全額退還。</li>
-                    <li><strong>禁止行為：</strong>室內全面禁菸、禁毒、禁賭，且嚴禁攜帶寵物 (除非事前獲准)。</li>
-                    <li><strong>安寧時間：</strong>每日 23:00 至隔日 08:00 請降低音量，勿喧嘩。</li>
-                    <li><strong>賠償責任：</strong>若造成設備損壞或髒亂無法清潔，將照價賠償或收取清潔費。</li>
+                <ul style="padding-left: 20px; margin: 0;">
+                    <li><strong>押金規定：</strong>入住收取押金 $5,000，退房確認無損壞後全額退還。</li>
+                    <li><strong>禁止行為：</strong>室內全面禁菸、禁賭，嚴禁攜帶寵物。</li>
+                    <li><strong>安寧時間：</strong>每日 23:00 至隔日 08:00 請降低音量。</li>
                 </ul>
             </div>
 
             <div class="signature-wrapper" id="signature-wrapper">
                 <div style="font-weight:bold; margin-bottom:5px;">旅客簽名 (Signature)</div>
-                <div style="font-size:0.8rem; color:#666;">本人已詳閱並同意上述所有條款</div>
-                
                 <div class="sign-box" id="sign-wrapper">
-                    <span id="sign-hint" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#ccc; font-size:1.5rem; pointer-events:none;">請在此簽名</span>
+                    <span id="sign-hint" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); color:#ccc; pointer-events:none;">請在此簽名</span>
                     <canvas id="signature-canvas"></canvas>
                 </div>
-                
-                <button onclick="clearPad()" style="background:none; border:none; color:#718096; cursor:pointer; font-size:0.9rem; margin-top:5px;">
-                    <i class="fa-solid fa-rotate-right"></i> 清除重簽
-                </button>
-                <div id="date-display" style="margin-top:10px; font-family:monospace; font-weight:bold;"></div>
+                <button onclick="clearPad()" style="background:none; border:1px solid #ccc; padding:5px 10px; border-radius:4px; margin-top:5px;">清除重簽</button>
+                <div id="date-display" style="margin-top:10px; font-family:monospace;"></div>
             </div>
         </div>
 
         <div class="action-area">
-            <button id="btn-submit" class="btn-submit" onclick="submitContract()">
-                <span class="btn-text">✅ 確認簽署並回傳</span>
-                <i class="fa-solid fa-spinner loading-spinner"></i>
-            </button>
-            <p style="font-size:13px; color:#666; margin-top:15px;">系統將自動生成 PDF 並加密上傳至管家雲端</p>
+            <button id="btn-submit" class="btn-submit" onclick="submitContract()">✅ 確認簽署並回傳</button>
+            <p style="font-size:13px; color:#666; margin-top:10px;">系統將自動生成 PDF 並上傳</p>
         </div>
-
     </div>
 
     <footer class="footer">
-        <div style="text-align:center; font-size:0.85rem;">© 2025 你好哇寓所 Hello House.</div>
+        © 2025 你好哇寓所 Hello House.
     </footer>
 
     <script>
-        // ★★★ 已更新為您的最新 GAS 網址 ★★★
+        // ★★★ 設定區 ★★★
         const GAS_APP_URL = "https://script.google.com/macros/s/AKfycbzfqpbILo5s6P0593PcdpYVie5cbyYGhxe83-Xbzs5QHymN6uNwo37ziT0As6zj1tZk1w/exec";
         const MY_LIFF_ID = "2008582194-vLLGoM4M"; 
 
@@ -207,25 +139,18 @@
         let datePicker;
 
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. 初始化 LIFF
             if (typeof liff !== 'undefined') {
-                liff.init({ liffId: MY_LIFF_ID }).catch(err => console.error("LIFF Error:", err));
+                liff.init({ liffId: MY_LIFF_ID }).catch(err => console.error(err));
             }
 
-            // 2. 日期選擇器
             datePicker = flatpickr("#date-range-picker", {
-                mode: "range",
-                minDate: "today",
-                dateFormat: "Y-m-d",
-                conjunction: " 至 ",
-                locale: "zh_tw"
+                mode: "range", minDate: "today", dateFormat: "Y-m-d", conjunction: " 至 ", locale: "zh_tw"
             });
 
-            // 3. 簽名板初始化
             initSignaturePad();
         });
 
-        // 簽名板邏輯
+        // 簽名板
         const canvas = document.getElementById('signature-canvas');
         const ctx = canvas.getContext('2d');
         const hint = document.getElementById('sign-hint');
@@ -234,14 +159,12 @@
         function initSignaturePad() {
             const wrapper = document.getElementById('sign-wrapper');
             function resize() {
-                const ratio = Math.max(window.devicePixelRatio || 1, 1);
-                canvas.width = wrapper.offsetWidth * ratio;
-                canvas.height = wrapper.offsetHeight * ratio;
-                ctx.scale(ratio, ratio);
+                canvas.width = wrapper.offsetWidth;
+                canvas.height = wrapper.offsetHeight;
                 ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.strokeStyle = "#000";
             }
             window.addEventListener('resize', resize);
-            resize();
+            resize(); // Initial resize
 
             let isDrawing = false;
             const start = (e) => { isDrawing = true; hasSigned = true; hint.style.display = 'none'; ctx.beginPath(); draw(e); };
@@ -249,16 +172,11 @@
             const draw = (e) => {
                 if(!isDrawing) return;
                 const rect = canvas.getBoundingClientRect();
-                let x, y;
-                if(e.type.includes('touch')) {
-                    x = e.touches[0].clientX - rect.left;
-                    y = e.touches[0].clientY - rect.top;
-                } else {
-                    x = e.clientX - rect.left;
-                    y = e.clientY - rect.top;
-                }
+                let x = (e.clientX || e.touches[0].clientX) - rect.left;
+                let y = (e.clientY || e.touches[0].clientY) - rect.top;
                 ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
             };
+
             canvas.addEventListener('mousedown', start);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', end);
@@ -273,44 +191,39 @@
             hasSigned = false;
         }
 
-        // ★★★ 穩定版：生成 PDF -> 上傳 -> 發送文字通知 ★★★
+        // ★★★ 核心上傳功能 ★★★
         async function submitContract() {
+            // 0. 按鈕測試 (確認是否有點擊反應)
+            // alert("開始執行上傳程序..."); 
+
             const name = document.getElementById('booker-name').value.trim();
             const phone = document.getElementById('booker-phone').value.trim();
             const house = document.getElementById('house-select').value;
             const phoneRegex = /^09\d{8}$/;
 
-            // 1. 驗證欄位
+            // 1. 驗證
             if (!datePicker || datePicker.selectedDates.length !== 2) return alertAndFocus("請選擇「入住與退房日期」", "date-range-picker");
             if (!name) return alertAndFocus("請輸入訂房人姓名", "booker-name");
-            if (!phoneRegex.test(phone)) return alertAndFocus("請輸入正確的手機號碼 (09xxxxxxxx)", "booker-phone");
-            if (!hasSigned) return alertAndFocus("請在下方簽名欄完成簽名", "signature-canvas");
+            if (!phoneRegex.test(phone)) return alertAndFocus("請輸入正確的手機號碼", "booker-phone");
+            if (!hasSigned) return alertAndFocus("請在下方簽名", "signature-canvas");
 
             // 2. 鎖定按鈕
+            const now = new Date();
+            document.getElementById('date-display').innerText = "簽署時間：" + now.toLocaleString('zh-TW');
             const btn = document.getElementById('btn-submit');
-            const btnText = btn.querySelector('.btn-text');
             btn.disabled = true;
-            btn.classList.add('generating');
-            btnText.innerText = "加密上傳中...";
+            btn.innerText = "加密上傳中...";
 
             try {
-                // 3. 準備資料
+                // 3. 生成 PDF
                 const dateVal = document.getElementById('date-range-picker').value;
-                // 檔名處理：移除空格，避免檔名過長或特殊符號
-                const cleanDate = dateVal.split(' 至 ')[0].replace(/-/g, ''); 
+                const cleanDate = dateVal.split(' 至 ')[0].replace(/-/g, '');
                 const fileName = `${cleanDate}_${house}_${name}.pdf`;
 
                 const captureArea = document.getElementById("capture-area");
-                
-                // 4. 截圖 (使用 scale:1 降低檔案大小，提高成功率)
-                const canvasData = await html2canvas(captureArea, { 
-                    scale: 1, 
-                    useCORS: true, 
-                    backgroundColor: "#ffffff",
-                    logging: false
-                });
-                
+                const canvasData = await html2canvas(captureArea, { scale: 1, useCORS: true, backgroundColor: "#ffffff" });
                 const imgData = canvasData.toDataURL('image/jpeg', 0.6);
+                
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const imgProps = pdf.getImageProperties(imgData);
@@ -325,45 +238,27 @@
                     var pdfBase64 = pdf.output('datauristring');
                 }
 
-                // 5. 上傳至 GAS
+                // 4. 上傳 GAS
                 const response = await fetch(GAS_APP_URL, {
                     method: "POST",
                     redirect: "follow",
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify({
-                        type: "UPLOAD_IMG",
-                        image: pdfBase64,
-                        filename: fileName,
-                        user: name
-                    })
+                    body: JSON.stringify({ type: "UPLOAD_IMG", image: pdfBase64, filename: fileName, user: name })
                 });
 
-                // 解析回應
                 const textResponse = await response.text();
                 let result;
-                try {
-                    result = JSON.parse(textResponse);
-                } catch (e) {
-                    throw new Error("伺服器回應錯誤 (非 JSON)");
-                }
+                try { result = JSON.parse(textResponse); } catch(e) { throw new Error("伺服器回應非 JSON"); }
 
                 if (result.status === "success") {
                     const downloadLink = result.url;
                     
-                    // 6. 成功！透過 LIFF 發送訊息
+                    // 5. 透過 LIFF 回傳文字
                     if (liff.isInClient()) {
-                        // ★ 改為發送「文字訊息」而非卡片，避免 invalid_message 錯誤
                         const msgText = `✅ 線上簽約完成！\n\n📄 旅客：${name}\n🏠 館別：${house}\n\n📥 合約下載連結：\n${downloadLink}\n\n(此連結由 Google Drive 提供，永久有效)`;
-                        
-                        await liff.sendMessages([{
-                            type: "text",
-                            text: msgText
-                        }]);
-                        
-                        // 成功後關閉視窗
+                        await liff.sendMessages([{ type: "text", text: msgText }]);
                         liff.closeWindow();
                     } else {
-                        // 電腦版備案
                         alert("✅ 上傳成功！\n檔案連結：" + downloadLink);
                     }
                 } else {
@@ -372,12 +267,20 @@
 
             } catch (err) {
                 console.error(err);
-                alert("發生錯誤：" + err.message + "\n請截圖聯繫管家。");
+                alert("上傳失敗！\n原因：" + err.message);
             } finally {
-                // 解鎖按鈕
                 btn.disabled = false;
-                btn.classList.remove('generating');
-                btnText.innerText = "✅ 確認簽署並回傳";
+                btn.innerText = "✅ 確認簽署並回傳";
+            }
+        }
+
+        function alertAndFocus(msg, id) {
+            alert(msg);
+            const el = document.getElementById(id);
+            if(el) {
+                el.scrollIntoView({behavior: "smooth", block: "center"});
+                el.classList.add('highlight-error');
+                setTimeout(() => el.classList.remove('highlight-error'), 1500);
             }
         }
     </script>
