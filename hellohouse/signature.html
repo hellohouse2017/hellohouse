@@ -277,7 +277,7 @@
         }
 
         // ★★★ 核心功能：生成 PDF 並上傳 ★★★
-        // ★★★ 核心功能：生成 PDF 並上傳 (含回傳卡片) ★★★
+        // ★★★ 輕量化穩定版：生成 PDF 並上傳 ★★★
         async function submitContract() {
             const name = document.getElementById('booker-name').value.trim();
             const phone = document.getElementById('booker-phone').value.trim();
@@ -290,7 +290,7 @@
             if (!phoneRegex.test(phone)) return alertAndFocus("請輸入正確的手機號碼 (09xxxxxxxx)", "booker-phone");
             if (!hasSigned) return alertAndFocus("請在下方簽名欄完成簽名", "signature-canvas");
 
-            // 2. 更新時間與鎖定按鈕
+            // 2. 更新時間與鎖定
             const now = new Date();
             document.getElementById('date-display').innerText = "簽署時間：" + now.toLocaleString('zh-TW');
             
@@ -298,20 +298,25 @@
             const btnText = btn.querySelector('.btn-text');
             btn.disabled = true;
             btn.classList.add('generating');
-            btnText.innerText = "正在加密上傳 PDF...";
+            btnText.innerText = "正在壓縮並上傳 PDF..."; // 提示文字改一下
 
             try {
-                // 3. 產生檔名：入住日期_民宿名稱_名字_電話.pdf
-                // 格式範例：20231128_你好哇寓所_王小明_0912345678.pdf
                 const checkInDate = document.getElementById('date-range-picker').value.split(' 至 ')[0].replace(/-/g, '');
                 const fileName = `${checkInDate}_${house}_${name}_${phone}.pdf`;
 
-                // 4. 截圖轉 Canvas
+                // 3. ★★★ 關鍵修改：降低解析度以確保上傳成功 ★★★
                 const captureArea = document.getElementById("capture-area");
-                const canvasData = await html2canvas(captureArea, { scale: 2, useCORS: true, backgroundColor: "#ffffff" });
                 
-                // 5. Canvas 轉 PDF Base64
-                const imgData = canvasData.toDataURL('image/jpeg', 0.85);
+                // scale: 1 (原尺寸即可，手機螢幕其實夠清楚)
+                const canvasData = await html2canvas(captureArea, { 
+                    scale: 1, 
+                    useCORS: true, 
+                    backgroundColor: "#ffffff" 
+                });
+                
+                // 圖片壓縮品質改為 0.6 (大幅縮小檔案體積)
+                const imgData = canvasData.toDataURL('image/jpeg', 0.6);
+                
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const imgProps = pdf.getImageProperties(imgData);
@@ -326,23 +331,31 @@
                     var pdfBase64 = pdf.output('datauristring');
                 }
 
-                // 6. 上傳到 GAS
+                // 4. 上傳到 GAS (增加 redirect 參數)
                 const response = await fetch(GAS_APP_URL, {
                     method: "POST",
+                    redirect: "follow", // 確保跟隨 GAS 的轉址
                     body: JSON.stringify({
                         type: "UPLOAD_IMG",
                         image: pdfBase64,
                         filename: fileName,
                         user: name
-                    })
+                    }),
+                    // 避免發送額外的 Preflight 請求
+                    headers: { "Content-Type": "text/plain;charset=utf-8" }
                 });
                 
-                const result = await response.json();
+                // ★★★ 錯誤偵錯：如果回傳不是 JSON，拋出文字內容以便除錯 ★★★
+                const textResponse = await response.text();
+                let result;
+                try {
+                    result = JSON.parse(textResponse);
+                } catch (e) {
+                    throw new Error("GAS 回傳錯誤 (非 JSON): " + textResponse.substring(0, 100));
+                }
 
                 if (result.status === "success") {
-                    const downloadLink = result.url; // GAS 回傳的公開下載連結
-
-                    // 7. 透過 LIFF 回傳「檔案卡片」
+                    const downloadLink = result.url;
                     if (liff.isInClient()) {
                         await liff.sendMessages([
                             {
@@ -362,20 +375,8 @@
                                             {
                                                 "type": "box", "layout": "vertical", "margin": "lg", "spacing": "sm",
                                                 "contents": [
-                                                    {
-                                                        "type": "box", "layout": "baseline", "spacing": "sm",
-                                                        "contents": [
-                                                            { "type": "text", "text": "簽署人", "color": "#aaaaaa", "size": "sm", "flex": 2 },
-                                                            { "type": "text", "text": name, "wrap": true, "color": "#666666", "size": "sm", "flex": 5 }
-                                                        ]
-                                                    },
-                                                    {
-                                                        "type": "box", "layout": "baseline", "spacing": "sm",
-                                                        "contents": [
-                                                            { "type": "text", "text": "館別", "color": "#aaaaaa", "size": "sm", "flex": 2 },
-                                                            { "type": "text", "text": house, "wrap": true, "color": "#666666", "size": "sm", "flex": 5 }
-                                                        ]
-                                                    }
+                                                    { "type": "box", "layout": "baseline", "spacing": "sm", "contents": [ { "type": "text", "text": "簽署人", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": name, "wrap": true, "color": "#666666", "size": "sm", "flex": 5 } ] },
+                                                    { "type": "box", "layout": "baseline", "spacing": "sm", "contents": [ { "type": "text", "text": "館別", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": house, "wrap": true, "color": "#666666", "size": "sm", "flex": 5 } ] }
                                                 ]
                                             }
                                         ]
@@ -383,19 +384,15 @@
                                     "footer": {
                                         "type": "box", "layout": "vertical", "spacing": "sm",
                                         "contents": [
-                                            {
-                                                "type": "button", "style": "primary", "height": "sm", "color": "#C5A065",
-                                                "action": { "type": "uri", "label": "📥 下載/查看合約 PDF", "uri": downloadLink }
-                                            },
+                                            { "type": "button", "style": "primary", "height": "sm", "color": "#C5A065", "action": { "type": "uri", "label": "📥 下載/查看合約 PDF", "uri": downloadLink } },
                                             { "type": "text", "text": "此連結由 Google Drive 提供，永久有效。", "size": "xxs", "color": "#bbbbbb", "align": "center", "margin": "sm" }
                                         ]
                                     }
                                 }
                             }
                         ]);
-                        liff.closeWindow(); // 成功後關閉視窗
+                        liff.closeWindow();
                     } else {
-                        // 電腦版或非 LINE 環境
                         alert("✅ 簽約成功！\n檔案已上傳至雲端，請點擊確定跳轉回 LINE。");
                         window.location.href = LINE_DEEP_LINK;
                     }
@@ -405,7 +402,8 @@
 
             } catch (err) {
                 console.error(err);
-                alert("上傳失敗，請檢查網路或稍後再試。\n錯誤：" + err.message);
+                // 這裡會把具體的錯誤顯示出來
+                alert("上傳失敗！\n原因：" + err.message);
                 btn.disabled = false;
                 btn.classList.remove('generating');
                 btnText.innerText = "✅ 確認簽署並回傳";
