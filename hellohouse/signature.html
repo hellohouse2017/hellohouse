@@ -13,9 +13,12 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh_tw.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
@@ -28,14 +31,12 @@
         .navbar { background: rgba(26, 32, 44, 0.95); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         .nav-logo { color: var(--c-accent); font-size: 1.5rem; font-weight: 700; text-decoration: none; }
-        .nav-menu { display: flex; gap: 20px; list-style: none; padding: 0; margin: 0; }
-        .nav-link { color: #fff; text-decoration: none; font-weight: 500; }
         
         /* Container */
         .hero { height: 200px; background: var(--c-primary); display: flex; align-items: center; justify-content: center; color: white; margin-top: 70px; }
         .container { width: 90%; max-width: 800px; margin: 0 auto; padding: 40px 0; flex: 1; }
         
-        /* Form & Capture Area */
+        /* Form */
         #capture-area { background-color: #fff; padding: 30px; border: 1px solid #E2E8F0; border-radius: 12px; border-top: 5px solid var(--c-accent); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .form-input, .date-input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; margin-bottom: 15px; box-sizing: border-box; }
         .booking-info-wrapper { background-color: #FFFBF2; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed var(--c-accent); }
@@ -47,17 +48,18 @@
         
         /* Button */
         .action-area { margin-top: 30px; text-align: center; padding-bottom: 40px; }
-        .btn-submit { background: var(--c-line); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: bold; border-radius: 50px; cursor: pointer; width: 100%; max-width: 300px; transition: 0.3s; }
+        .btn-submit { background: var(--c-line); color: white; border: none; padding: 15px 40px; font-size: 1.1rem; font-weight: bold; border-radius: 50px; cursor: pointer; width: 100%; max-width: 300px; transition: 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-submit:disabled { background-color: #ccc; cursor: not-allowed; }
         .highlight-error { border-color: #e53e3e !important; box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2); }
         
         /* Footer */
         .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 40px 0; text-align: center; margin-top: auto; }
         
-        @media (max-width: 768px) {
-            .nav-menu { display: none; } /* 簡化手機版顯示 */
-            #capture-area { padding: 20px; }
-        }
+        /* SweetAlert 自訂樣式 (讓按鈕更有質感) */
+        .swal2-styled.swal2-confirm { background-color: var(--c-accent) !important; border-radius: 50px !important; box-shadow: 0 4px 15px rgba(197, 160, 101, 0.4) !important; font-size: 1.1em !important; padding: 12px 30px !important; }
+        .swal2-popup { border-radius: 20px !important; }
+
+        @media (max-width: 768px) { #capture-area { padding: 20px; } }
     </style>
 </head>
 <body>
@@ -120,8 +122,10 @@
         </div>
 
         <div class="action-area">
-            <button id="btn-submit" class="btn-submit" onclick="submitContract()">✅ 確認簽署並回傳</button>
-            <p style="font-size:13px; color:#666; margin-top:10px;">系統將自動生成 PDF 並上傳</p>
+            <button id="btn-submit" class="btn-submit" onclick="submitContract()">
+                <span id="btn-text">✅ 確認簽署並回傳</span>
+            </button>
+            <p style="font-size:13px; color:#666; margin-top:10px;">系統將自動生成 PDF 並加密上傳</p>
         </div>
     </div>
 
@@ -130,11 +134,9 @@
     </footer>
 
     <script>
-        // ★★★ 設定區 ★★★
         const GAS_APP_URL = "https://script.google.com/macros/s/AKfycbzfqpbILo5s6P0593PcdpYVie5cbyYGhxe83-Xbzs5QHymN6uNwo37ziT0As6zj1tZk1w/exec";
         const MY_LIFF_ID = "2008582194-vLLGoM4M"; 
 
-        // 初始化
         const { jsPDF } = window.jspdf;
         let datePicker;
 
@@ -142,15 +144,12 @@
             if (typeof liff !== 'undefined') {
                 liff.init({ liffId: MY_LIFF_ID }).catch(err => console.error(err));
             }
-
             datePicker = flatpickr("#date-range-picker", {
                 mode: "range", minDate: "today", dateFormat: "Y-m-d", conjunction: " 至 ", locale: "zh_tw"
             });
-
             initSignaturePad();
         });
 
-        // 簽名板
         const canvas = document.getElementById('signature-canvas');
         const ctx = canvas.getContext('2d');
         const hint = document.getElementById('sign-hint');
@@ -164,8 +163,7 @@
                 ctx.lineWidth = 2; ctx.lineCap = "round"; ctx.strokeStyle = "#000";
             }
             window.addEventListener('resize', resize);
-            resize(); // Initial resize
-
+            resize(); 
             let isDrawing = false;
             const start = (e) => { isDrawing = true; hasSigned = true; hint.style.display = 'none'; ctx.beginPath(); draw(e); };
             const end = () => { isDrawing = false; ctx.beginPath(); };
@@ -176,7 +174,6 @@
                 let y = (e.clientY || e.touches[0].clientY) - rect.top;
                 ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
             };
-
             canvas.addEventListener('mousedown', start);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', end);
@@ -191,31 +188,28 @@
             hasSigned = false;
         }
 
-        // ★★★ 核心上傳功能 ★★★
+        // ★★★ 核心上傳功能 (含 SweetAlert 美化) ★★★
         async function submitContract() {
-            // 0. 按鈕測試 (確認是否有點擊反應)
-            // alert("開始執行上傳程序..."); 
-
             const name = document.getElementById('booker-name').value.trim();
             const phone = document.getElementById('booker-phone').value.trim();
             const house = document.getElementById('house-select').value;
             const phoneRegex = /^09\d{8}$/;
 
-            // 1. 驗證
             if (!datePicker || datePicker.selectedDates.length !== 2) return alertAndFocus("請選擇「入住與退房日期」", "date-range-picker");
             if (!name) return alertAndFocus("請輸入訂房人姓名", "booker-name");
             if (!phoneRegex.test(phone)) return alertAndFocus("請輸入正確的手機號碼", "booker-phone");
             if (!hasSigned) return alertAndFocus("請在下方簽名", "signature-canvas");
 
-            // 2. 鎖定按鈕
             const now = new Date();
             document.getElementById('date-display').innerText = "簽署時間：" + now.toLocaleString('zh-TW');
             const btn = document.getElementById('btn-submit');
+            const btnText = document.getElementById('btn-text');
+            
             btn.disabled = true;
-            btn.innerText = "加密上傳中...";
+            btnText.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 加密上傳中...';
 
             try {
-                // 3. 生成 PDF
+                // 生成 PDF
                 const dateVal = document.getElementById('date-range-picker').value;
                 const cleanDate = dateVal.split(' 至 ')[0].replace(/-/g, '');
                 const fileName = `${cleanDate}_${house}_${name}.pdf`;
@@ -238,7 +232,7 @@
                     var pdfBase64 = pdf.output('datauristring');
                 }
 
-                // 4. 上傳 GAS
+                // 上傳 GAS
                 const response = await fetch(GAS_APP_URL, {
                     method: "POST",
                     redirect: "follow",
@@ -248,18 +242,47 @@
 
                 const textResponse = await response.text();
                 let result;
-                try { result = JSON.parse(textResponse); } catch(e) { throw new Error("伺服器回應非 JSON"); }
+                try { result = JSON.parse(textResponse); } catch(e) { throw new Error("伺服器回應錯誤"); }
 
                 if (result.status === "success") {
                     const downloadLink = result.url;
                     
-                    // 5. 透過 LIFF 回傳文字
+                    // --- 成功後的處理 ---
                     if (liff.isInClient()) {
+                        // 手機版 (LIFF)：傳送文字 + 漂亮成功動畫
                         const msgText = `✅ 線上簽約完成！\n\n📄 旅客：${name}\n🏠 館別：${house}\n\n📥 合約下載連結：\n${downloadLink}\n\n(此連結由 Google Drive 提供，永久有效)`;
+                        
                         await liff.sendMessages([{ type: "text", text: msgText }]);
+                        
+                        // 漂亮的成功提示
+                        await Swal.fire({
+                            icon: 'success',
+                            title: '簽署完成！',
+                            text: '合約已傳送至您的 LINE 聊天室',
+                            confirmButtonColor: '#06C755',
+                            timer: 3000,
+                            timerProgressBar: true
+                        });
                         liff.closeWindow();
+                        
                     } else {
-                        alert("✅ 上傳成功！\n檔案連結：" + downloadLink);
+                        // 電腦版：漂亮的下載卡片
+                        Swal.fire({
+                            icon: 'success',
+                            title: '🎉 簽約成功！',
+                            html: `
+                                <div style="text-align:left; margin-top:10px; color:#555;">
+                                    <p>檔案已加密上傳至雲端。</p>
+                                    <p style="font-size:0.9rem; color:#888;">您可以點擊下方按鈕下載留存：</p>
+                                </div>
+                                <a href="${downloadLink}" target="_blank" style="display:block; background:#C5A065; color:white; padding:15px; border-radius:50px; text-decoration:none; font-weight:bold; margin-top:20px; box-shadow:0 4px 15px rgba(197,160,101,0.4); transition:0.3s;">
+                                    <i class="fa-solid fa-cloud-arrow-down"></i> 下載合約 PDF
+                                </a>
+                            `,
+                            showConfirmButton: false, // 隱藏原本醜醜的按鈕
+                            showCloseButton: true,
+                            width: '450px'
+                        });
                     }
                 } else {
                     throw new Error(result.msg || "上傳失敗");
@@ -267,21 +290,32 @@
 
             } catch (err) {
                 console.error(err);
-                alert("上傳失敗！\n原因：" + err.message);
+                Swal.fire({
+                    icon: 'error',
+                    title: '上傳失敗',
+                    text: err.message,
+                    confirmButtonColor: '#d33'
+                });
             } finally {
                 btn.disabled = false;
-                btn.innerText = "✅ 確認簽署並回傳";
+                btnText.innerHTML = "✅ 確認簽署並回傳";
             }
         }
 
         function alertAndFocus(msg, id) {
-            alert(msg);
-            const el = document.getElementById(id);
-            if(el) {
-                el.scrollIntoView({behavior: "smooth", block: "center"});
-                el.classList.add('highlight-error');
-                setTimeout(() => el.classList.remove('highlight-error'), 1500);
-            }
+            Swal.fire({
+                icon: 'warning',
+                title: '請檢查欄位',
+                text: msg,
+                confirmButtonColor: '#C5A065'
+            }).then(() => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.scrollIntoView({behavior: "smooth", block: "center"});
+                    el.classList.add('highlight-error');
+                    setTimeout(() => el.classList.remove('highlight-error'), 1500);
+                }
+            });
         }
     </script>
 </body>
