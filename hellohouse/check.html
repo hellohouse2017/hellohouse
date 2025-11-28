@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>即時房況與報價 | 你好哇寓所 & 溝頂民宿</title>
+<title>房況查詢與報價 | 你好哇寓所 & 溝頂民宿</title>
 <meta name="robots" content="noindex, nofollow">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,9 +16,9 @@
 <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh_tw.js"></script>
-<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
     :root { 
@@ -31,14 +31,6 @@
     
     body { margin: 0; font-family: var(--font-sans); background-color: #F5F5F5; color: var(--c-dark); line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; padding-top: 60px; }
 
-    /* 全屏 Loading 遮罩 (給自動傳送用) */
-    #auto-send-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: #fff; z-index: 9999; display: none;
-        flex-direction: column; justify-content: center; align-items: center;
-        text-align: center;
-    }
-
     .navbar { background: var(--c-dark); height: 60px; display: flex; align-items: center; justify-content: center; position: fixed; top: 0; width: 100%; z-index: 999; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
     .nav-logo { color: var(--c-gold); font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; letter-spacing: 2px; text-decoration: none; }
 
@@ -50,6 +42,7 @@
     .inquiry-card { background-color: var(--c-white); padding: 40px; border-radius: 4px; box-shadow: var(--shadow-card); border-top: 6px solid var(--c-gold); }
 
     .section-title { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-dark); margin: 30px 0 20px; padding-left: 15px; border-left: 4px solid var(--c-gold); display: flex; align-items: center; justify-content: space-between; }
+    
     .form-group { margin-bottom: 20px; }
     .form-label { display: block; font-size: 0.85rem; color: var(--c-gray); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
     .form-input { width: 100%; padding: 12px; font-size: 1rem; color: var(--c-dark); font-family: var(--font-serif); border: 1px solid #DDD; border-radius: 4px; background: #FAFAFA; transition: 0.3s; }
@@ -110,12 +103,6 @@
 </head>
 <body>
 
-    <div id="auto-send-overlay">
-        <i class="fa-solid fa-paper-plane fa-3x" style="color:var(--c-gold); margin-bottom:20px;"></i>
-        <h2 style="color:var(--c-dark); margin:0;">正在傳送詢價單...</h2>
-        <p style="color:#888;">系統正在處理您的需求，請稍候</p>
-    </div>
-
     <nav class="navbar"><a href="#" class="nav-logo">你好哇寓所 | 溝頂民宿</a></nav>
     <div class="header-section"><h1>房況查詢與報價</h1><p>Check Availability & Price</p></div>
 
@@ -127,21 +114,17 @@
                     <span>01. 查詢檔期</span>
                     <i class="fa-regular fa-calendar" style="color:var(--c-gold)"></i>
                 </div>
-                
                 <div class="form-group">
                     <label class="form-label">入住 - 退房日期</label>
                     <input type="text" id="date-range" class="form-input readonly" placeholder="請點擊選擇日期..." readonly>
                 </div>
-                
                 <button class="btn-submit btn-search" onclick="startQuery()">
                     <span>查詢即時房況</span> <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-                
                 <div id="loading-box" class="loading-box">
                     <i class="fa-solid fa-circle-notch fa-spin fa-2x"></i>
                     <div style="margin-top:10px; font-weight:bold;">系統正在確認即時房況...</div>
                 </div>
-
                 <div id="venue-results" class="venue-grid" style="display:none;"></div>
                 <div id="recommendation-area" class="recommendation-box"></div>
             </div>
@@ -160,7 +143,6 @@
                     <span>03. 獲取優惠報價</span>
                     <i class="fa-solid fa-pen-nib" style="color:var(--c-gold)"></i>
                 </div>
-                
                 <div style="background: #FAFAFA; padding: 25px; border-radius: 8px; border: 1px solid #EEE;">
                     <div class="form-group">
                         <label class="form-label">您的稱呼 (Name)</label>
@@ -170,11 +152,9 @@
                         <label class="form-label">聯絡電話 (Phone)</label>
                         <input type="tel" id="user-phone" class="form-input" placeholder="09xxxxxxxx" maxlength="10">
                     </div>
-                    
                     <button id="btn-submit" class="btn-submit" onclick="handleSend()">
                         <span>傳送詢價單給管家</span> <i class="fa-brands fa-line" style="font-size:1.2rem;"></i>
                     </button>
-                    
                     <p style="text-align:center; font-size:0.85rem; color:#999; margin-top:15px;">
                         <i class="fa-solid fa-shield-halved"></i> 電腦版將自動生成 QR Code 供手機掃描
                     </p>
@@ -187,11 +167,10 @@
     <footer class="footer">© 2025 你好哇寓所 & 溝頂民宿. All Rights Reserved.</footer>
 
     <script>
-        // --- 設定區 ---
         const LIFF_ID = "2008582194-wrJ4dqXq"; 
         const GAS_URL = "https://script.google.com/macros/s/AKfycbxsFEJ9ubWMY9Y6xqBZ-3-KgSrYQnC9D3zwuKUL66HvKJdN5S1HTNeahhWlV6hcixbx0A/exec";
+        const LINE_OFFICIAL_ID = "@575tprig"; 
         
-        // --- 房型與定價資料庫 ---
         const ROOM_PLANS = {
             'hello': [
                 { title: "3房包棟 (8人)", price_weekday: 16000, price_weekend: 20000, capacity: "8人", detail: "配置：3房 (2/2/4)" },
@@ -209,37 +188,7 @@
         let selectedStart, selectedEnd;
         let currentVenue = "", currentPlan = "", currentPrice = "";
 
-        // --- 初始化 ---
         document.addEventListener('DOMContentLoaded', () => {
-            // 1. 先檢查是不是掃描 QR Code 進來的 (如果有 auto=yes)
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('auto') === 'yes') {
-                // 是掃描進來的 -> 啟動隱形模式
-                document.getElementById('main-content').style.display = 'none';
-                document.getElementById('auto-send-overlay').style.display = 'flex';
-                
-                // 還原資料
-                selectedStart = new Date(urlParams.get('start'));
-                selectedEnd = new Date(urlParams.get('end'));
-                currentVenue = urlParams.get('venue');
-                currentPlan = urlParams.get('plan');
-                currentPrice = urlParams.get('price');
-                const name = urlParams.get('name');
-                const phone = urlParams.get('phone');
-
-                // 初始化 LIFF 並執行自動發送
-                liff.init({ liffId: LIFF_ID }).then(() => {
-                    if(!liff.isLoggedIn()) {
-                        liff.login(); // 強制登入才能發送
-                    } else {
-                        // 延遲 1 秒發送，讓用戶看到處理中
-                        setTimeout(() => { sendFlexMessage(name, phone); }, 1000);
-                    }
-                });
-                return; // 終止後續初始化，專注於自動發送
-            }
-
-            // 2. 正常瀏覽模式
             flatpickr("#date-range", {
                 mode: "range", locale: "zh_tw", dateFormat: "Y-m-d", minDate: "today",
                 onClose: (dates) => {
@@ -253,7 +202,6 @@
                     }
                 }
             });
-            
             liff.init({ liffId: LIFF_ID }).then(() => console.log("LIFF Ready"));
         });
 
@@ -301,15 +249,8 @@
                 div.className = `venue-card ${v.available ? 'available' : 'disabled'}`;
                 const icon = v.available ? '<i class="fa-solid fa-circle-check"></i>' : '<i class="fa-solid fa-circle-xmark"></i>';
                 const statusText = v.available ? '立即預訂' : '已滿房';
-                
-                div.innerHTML = `
-                    <h4>${v.name}</h4>
-                    <span>${v.sub}</span>
-                    <div class="status-badge">${icon} ${statusText}</div>
-                `;
-                if(v.available) {
-                    div.onclick = () => showPlans(v.key, v.name);
-                }
+                div.innerHTML = `<h4>${v.name}</h4><span>${v.sub}</span><div class="status-badge">${icon} ${statusText}</div>`;
+                if(v.available) { div.onclick = () => showPlans(v.key, v.name); }
                 container.appendChild(div);
             });
         }
@@ -392,7 +333,6 @@
             let weekends = 0;
             let cur = new Date(start);
             const stop = new Date(end);
-            
             while(cur < stop) {
                 const day = cur.getDay();
                 if (day === 5 || day === 6) weekends++; else weekdays++;
@@ -401,74 +341,43 @@
             return { weekdays, weekends };
         }
 
-        // --- 發送控制中心 ---
-        // --- 發送控制中心 (修正手機瀏覽器問題) ---
+        // --- 傳送邏輯 (最簡化文字版) ---
         function handleSend() {
             const name = document.getElementById('user-name').value.trim();
             const phone = document.getElementById('user-phone').value.trim();
 
             if(!name || !phone) { Swal.fire({ icon: 'warning', title: '資料不完整', text: '請輸入姓名與電話', confirmButtonColor: '#BFA15F' }); return; }
 
-            // 準備資料參數
-            const params = new URLSearchParams({
-                start: formatDate(selectedStart),
-                end: formatDate(selectedEnd),
-                venue: currentVenue,
-                plan: currentPlan,
-                price: currentPrice,
-                name: name,
-                phone: phone,
-                auto: "yes"
-            });
-            const liffUrl = `https://liff.line.me/${LIFF_ID}?${params.toString()}`;
+            // 組合文字訊息
+            const message = `你好！我想詢問訂房 💰\n--------------------------\n📅 日期：${formatDate(selectedStart)} ~ ${formatDate(selectedEnd)}\n🏨 館別：${currentVenue}\n🛏️ 方案：${currentPlan}\n💰 系統算價：${currentPrice}\n--------------------------\n👤 姓名：${name}\n📱 電話：${phone}\n--------------------------\n請問是否有空房？謝謝！`;
+            
+            // 產生 Deep Link (一鍵跳轉)
+            const lineUrl = `https://line.me/R/oaMessage/${LINE_OFFICIAL_ID}/?text=${encodeURIComponent(message)}`;
 
-            // 情況 1: 已經在 LINE App 內 -> 直接發送
-            if (liff.isInClient()) {
-                autoParams = {
-                    sDate: formatDate(selectedStart),
-                    eDate: formatDate(selectedEnd),
-                    venue: currentVenue,
-                    plan: currentPlan,
-                    price: currentPrice,
-                    name: name,
-                    phone: phone
-                };
-                forceSend();
-            } 
-            // 情況 2: 在手機瀏覽器 (Chrome/Safari) -> 跳轉喚醒 LINE App
-            else if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                // 顯示跳轉提示，提升體驗
-                Swal.fire({
-                    title: '正在開啟 LINE...',
-                    text: '將為您自動帶入資料並傳送',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                
-                // 延遲一點點讓使用者看到提示，然後跳轉
-                setTimeout(() => {
-                    window.location.href = liffUrl;
-                }, 800);
-            } 
-            // 情況 3: 電腦版 -> 顯示 QR Code
-            else {
-                generateLiffQrCode(liffUrl);
+            // 判斷是否為手機 (LIFF 或 手機瀏覽器)
+            const isMobile = liff.isInClient() || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                // 手機版：直接跳轉
+                window.location.href = lineUrl;
+            } else {
+                // 電腦版：顯示 QR Code (QR Code 內容就是上面那個連結)
+                generateQrCode(lineUrl);
             }
         }
 
-        // 修改後的 QR Code 函式 (配合上面的邏輯)
-        function generateLiffQrCode(url) {
+        function generateQrCode(url) {
             Swal.fire({
-                title: '📱 請用手機掃描傳送',
+                title: '請用手機掃描傳送',
                 html: `
                     <div style="font-size:0.9rem; color:#666; margin-bottom:20px;">
                         請開啟手機 LINE 掃描下方 QR Code<br>即可快速發送詢價單給管家
                     </div>
                     <div id="qrcode" style="display:flex; justify-content:center; margin:10px auto;"></div>
                 `,
-                showConfirmButton: false, 
-                showCloseButton: true,
+                showConfirmButton: true, 
+                confirmButtonText: '已掃描傳送',
+                confirmButtonColor: '#2C3E50',
                 width: 400,
                 didOpen: () => {
                     new QRCode(document.getElementById("qrcode"), {
@@ -476,105 +385,6 @@
                     });
                 }
             });
-        }
-
-        // 電腦版：生成 "自動發送模式" 的 QR Code
-        function generateLiffQrCode(name, phone) {
-            // 這裡將所有資料打包進 URL，並加上 auto=yes
-            const params = new URLSearchParams({
-                start: formatDate(selectedStart),
-                end: formatDate(selectedEnd),
-                venue: currentVenue,
-                plan: currentPlan,
-                price: currentPrice,
-                name: name,
-                phone: phone,
-                auto: "yes" // 關鍵參數
-            });
-            
-            // 手機掃描後會開啟這個網址
-            const liffUrl = `https://liff.line.me/${LIFF_ID}?${params.toString()}`;
-            
-            Swal.fire({
-                title: '📱 請用手機掃描傳送',
-                html: `
-                    <div style="font-size:0.9rem; color:#666; margin-bottom:20px;">
-                        請開啟手機 LINE 掃描下方 QR Code<br>即可快速發送詢價單給管家
-                    </div>
-                    <div id="qrcode" style="display:flex; justify-content:center; margin:10px auto;"></div>
-                `,
-                showConfirmButton: false, 
-                showCloseButton: true,
-                width: 400,
-                didOpen: () => {
-                    new QRCode(document.getElementById("qrcode"), {
-                        text: liffUrl, width: 200, height: 200, colorDark : "#2C3E50", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.M
-                    });
-                }
-            });
-        }
-
-        // 執行發送 Flex Message
-        // --- 最終發送函式 (含失敗自動救援) ---
-        function sendFlexMessage(name, phone) {
-            const btn = document.getElementById('btn-submit');
-            if(btn) { btn.disabled = true; btn.innerHTML = '<span>傳送中...</span> <i class="fa-solid fa-spinner fa-spin"></i>'; }
-            
-            // 準備 Flex Message (精美小卡)
-            const flexMessage = {
-                "type": "flex", "altText": "📋 來自網站的訂房詢價單",
-                "contents": {
-                    "type": "bubble", "size": "mega",
-                    "header": {
-                        "type": "box", "layout": "vertical", "backgroundColor": "#2C3E50", "paddingAll": "lg",
-                        "contents": [
-                            { "type": "text", "text": "訂房詢價單", "color": "#BFA15F", "weight": "bold", "size": "xl" },
-                            { "type": "text", "text": "BOOKING INQUIRY", "color": "#95A5A6", "size": "xs", "margin": "sm", "letterSpacing": "1px" }
-                        ]
-                    },
-                    "body": {
-                        "type": "box", "layout": "vertical", "paddingAll": "lg",
-                        "contents": [
-                            { "type": "text", "text": "客戶詢價內容：", "size": "sm", "color": "#888888", "margin": "md" },
-                            { "type": "separator", "margin": "lg" },
-                            {
-                                "type": "box", "layout": "vertical", "margin": "lg", "spacing": "sm",
-                                "contents": [
-                                    { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "📅 日期", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": `${formatDate(selectedStart)} ~ ${formatDate(selectedEnd)}`, "wrap": true, "color": "#333333", "size": "sm", "flex": 5 }] },
-                                    { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "🏨 館別", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": currentVenue, "wrap": true, "color": "#333333", "size": "sm", "flex": 5, "weight": "bold" }] },
-                                    { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "🛏️ 方案", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": currentPlan, "wrap": true, "color": "#333333", "size": "sm", "flex": 5 }] },
-                                    { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "💰 預算", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": currentPrice, "wrap": true, "color": "#BFA15F", "size": "sm", "flex": 5, "weight": "bold" }] },
-                                    { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "👤 姓名", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": name, "wrap": true, "color": "#333333", "size": "sm", "flex": 5 }] },
-                                    { "type": "box", "layout": "baseline", "contents": [{ "type": "text", "text": "📱 電話", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": phone, "wrap": true, "color": "#333333", "size": "sm", "flex": 5 }] }
-                                ]
-                            },
-                            { "type": "separator", "margin": "xl" },
-                            { "type": "text", "text": "請管家協助確認並回覆", "size": "xs", "color": "#BFA15F", "margin": "lg", "align": "center" }
-                        ]
-                    }
-                }
-            };
-
-            // 嘗試發送
-            liff.sendMessages([flexMessage])
-                .then(() => { 
-                    liff.closeWindow(); // 成功：關閉視窗
-                })
-                .catch((err) => {
-                    console.error("LIFF Send Failed:", err);
-                    
-                    // ★★★ 自動補救機制 ★★★
-                    // 如果 sendMessages 失敗 (例如沒加好友、權限不足)，
-                    // 則改用 "跳轉聊天室並帶入文字" 的方式 (保證 100% 能送出)
-                    
-                    const textMsg = `你好！我想詢問訂房 💰\n--------------------------\n📅 日期：${formatDate(selectedStart)} ~ ${formatDate(selectedEnd)}\n🏨 館別：${currentVenue}\n🛏️ 方案：${currentPlan}\n💰 系統算價：${currentPrice}\n--------------------------\n👤 姓名：${name}\n📱 電話：${phone}\n--------------------------\n請問是否有空房？謝謝！`;
-                    
-                    // 跳轉到官方帳號聊天室，並填好文字
-                    window.location.href = `https://line.me/R/oaMessage/${LINE_OFFICIAL_ID}/?text=${encodeURIComponent(textMsg)}`;
-                    
-                    // 恢復按鈕
-                    if(btn) { btn.disabled = false; btn.innerText = "傳送詢價單給管家"; }
-                });
         }
 
         function formatDate(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
