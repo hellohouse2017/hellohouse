@@ -4,929 +4,430 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>即時房況查詢 | 溝頂民宿 (Godin B&B)</title>
-<meta name="description" content="溝頂民宿 (Godin B&B) 線上房況查詢。輸入日期與人數，系統自動試算包棟優惠價格，並可直接連結 LINE 預約。">
+<title>房況查詢與報價 | 你好哇寓所 & 溝頂民宿</title>
 <meta name="robots" content="noindex, nofollow">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh_tw.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
-/* ---------------------------------------------------- */
-/* --- 1. 全局變數 & 核心設定 (Godin System) --- */
-/* ---------------------------------------------------- */
-:root {
-    --primary-color: #3A6A8C;   /* 沈穩藍 */
-    --accent-warm: #C69C6D;     /* 大地金 */
-    --cta-bg: #B07D62;          /* 磚紅 */
-    
-    --bg-light: #F9F7F5;        /* 頁面背景 */
-    --bg-white: #FFFFFF;        /* 卡片背景 */
-    --text-main: #2C3E50;       
-    --text-sub: #5D5D5D;
-    
-    --line-green: #06C755;
-    --nav-height: 70px;
-    --footer-bg: #4A3B32;
-    --shadow-card: 0 10px 30px rgba(0,0,0,0.06);
-    --border-radius: 12px;
-    --error-color: #E53E3E;
-    --success-color: #38a169;
-}
-
-* { box-sizing: border-box; }
-
-body {
-    margin: 0; padding: 0;
-    font-family: 'Noto Sans TC', sans-serif;
-    background-color: var(--bg-light);
-    color: var(--text-main);
-    line-height: 1.7;
-    padding-top: var(--nav-height);
-    display: flex; flex-direction: column; min-height: 100vh;
-}
-
-a { text-decoration: none; color: inherit; transition: 0.3s; cursor: pointer; }
-ul { list-style: none; padding: 0; margin: 0; }
-img { max-width: 100%; display: block; }
-
-/* ---------------------------------------------------- */
-/* --- 2. 導覽列 (Navbar) - Godin 標準版 --- */
-/* ---------------------------------------------------- */
-.navbar {
-    position: fixed; top: 0; left: 0; width: 100%;
-    height: var(--nav-height);
-    background: rgba(255, 255, 255, 0.98);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    z-index: 1000;
-    display: flex; justify-content: center;
-}
-.nav-container {
-    width: 100%; max-width: 1200px;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 20px;
-}
-.nav-logo {
-    font-size: 22px; font-weight: 700; color: var(--primary-color);
-    letter-spacing: 1px; display: flex; align-items: center; gap: 8px;
-}
-.nav-menu { display: flex; gap: 5px; align-items: center; }
-.nav-link {
-    display: flex; align-items: center; gap: 6px;
-    padding: 10px 15px; font-size: 15px; font-weight: 500;
-    color: var(--text-main); border-radius: 6px;
-}
-.nav-link:hover { color: var(--cta-bg); background-color: #fdf5e6; }
-.nav-link.active { color: var(--cta-bg); font-weight: 700; }
-
-/* Dropdown Menu */
-.nav-item { position: relative; }
-.dropdown-menu {
-    position: absolute; top: 100%; left: 0;
-    background: white; min-width: 180px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    border-radius: 8px; padding: 10px 0;
-    opacity: 0; visibility: hidden; transform: translateY(10px);
-    transition: all 0.3s ease; text-align: left;
-}
-.nav-item:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
-.dropdown-link { display: block; padding: 10px 20px; font-size: 14px; color: var(--text-sub); }
-.dropdown-link:hover { background-color: #fdf5e6; color: var(--cta-bg); }
-
-.nav-btn-booking {
-    background-color: var(--primary-color); color: white !important;
-    padding: 8px 20px; border-radius: 50px; margin-left: 10px;
-}
-.nav-btn-booking:hover { background-color: #2c5370; }
-.menu-toggle { display: none; cursor: pointer; }
-.bar { display: block; width: 25px; height: 3px; background: var(--text-main); margin: 5px auto; transition: 0.3s; }
-
-/* ---------------------------------------------------- */
-/* --- 3. Hero Header --- */
-/* ---------------------------------------------------- */
-.hero-header {
-    position: relative;
-    min-height: 400px;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    text-align: center; color: white;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
-                url('images/cover-bg.jpg');
-    background-size: cover; 
-    background-position: center; 
-    background-attachment: fixed;
-    margin-bottom: 40px;
-}
-.hero-title {
-    font-size: 42px; font-weight: 900; 
-    margin: 0 0 10px 0; letter-spacing: 3px;
-    text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
-}
-.hero-subtitle {
-    font-size: 20px; font-weight: 300;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    opacity: 0.9;
-}
-
-/* ---------------------------------------------------- */
-/* --- 4. 查詢頁面樣式 (Booking Styles) --- */
-/* ---------------------------------------------------- */
-.container { max-width: 1000px; margin: 0 auto; padding: 0 20px 80px; flex: 1; position: relative; z-index: 10; }
-
-/* 查詢主卡片 */
-.inquiry-box {
-    background: var(--bg-white); padding: 40px;
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-card);
-    margin-top: -60px; /* 上移覆蓋 Hero */
-    border-top: 5px solid var(--accent-warm);
-}
-
-/* 表單網格 */
-.form-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 20px; }
-.form-group label { display: block; font-size: 15px; color: var(--primary-color); margin-bottom: 8px; font-weight: bold; }
-.form-control {
-    width: 100%; padding: 12px; border: 1px solid #CBD5E0; border-radius: 8px;
-    font-size: 16px; background: #fff; transition: 0.3s; font-family: inherit;
-}
-.form-control:focus { border-color: var(--accent-warm); outline: none; box-shadow: 0 0 0 3px rgba(198, 156, 109, 0.2); }
-
-/* 人數選擇按鈕 */
-.guest-selector { display: flex; gap: 10px; width: 100%; margin-bottom: 5px; }
-.guest-btn {
-    flex: 1; padding: 12px 5px; background: #F8FAFC; border: 1px solid #E2E8F0;
-    border-radius: 8px; cursor: pointer; color: var(--text-sub);
-    font-size: 16px; font-weight: 500; transition: 0.2s;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    line-height: 1.3; text-align: center;
-}
-.guest-btn:hover { background: #fff; border-color: var(--accent-warm); }
-.guest-btn.active {
-    background-color: var(--accent-warm); color: white;
-    border-color: var(--accent-warm);
-    box-shadow: 0 4px 10px rgba(198, 156, 109, 0.3);
-}
-.guest-btn small { font-size: 12px; font-weight: normal; opacity: 0.9; }
-
-/* 查詢按鈕 */
-.btn {
-    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 14px 30px; border-radius: 50px; font-weight: bold; cursor: pointer;
-    border: none; font-size: 16px; width: 100%; transition: 0.3s;
-}
-.btn-search {
-    background-color: var(--primary-color); color: white;
-    box-shadow: 0 4px 15px rgba(58, 106, 140, 0.3);
-}
-.btn-search:hover { background-color: #2c5370; transform: translateY(-2px); }
-
-/* 載入中狀態 */
-.status-loading {
-    margin-top: 30px; padding: 20px; background: #EBF8FF;
-    color: var(--primary-color); text-align: center; border-radius: 12px; display: none;
-}
-
-/* 館別結果卡片 */
-.venue-results { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; display: none; }
-.venue-card {
-    border: 2px solid #eee; border-radius: 12px; padding: 25px;
-    text-align: center; cursor: pointer; transition: 0.3s;
-    position: relative; background: #fff;
-    display: flex; flex-direction: column; justify-content: space-between;
-}
-.venue-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-.venue-card.disabled { opacity: 0.6; cursor: not-allowed; background: #f9f9f9; border-color: #eee; }
-.venue-card.available { border-color: var(--success-color); background: #F0FFF4; }
-.venue-card.available:hover { background: #E6FFFA; }
-
-.venue-name { font-size: 18px; font-weight: bold; color: var(--primary-color); margin-bottom: 5px; }
-.venue-status { font-size: 15px; font-weight: bold; margin: 10px 0; }
-.status-ok { color: var(--success-color); }
-.status-full { color: var(--error-color); }
-
-.venue-btn {
-    display: inline-block; font-size: 14px; padding: 8px 20px;
-    border-radius: 50px; border: 1px solid; margin-top: 10px; font-weight: bold;
-}
-.btn-select { background: var(--success-color); color: white; border-color: var(--success-color); }
-.btn-full { background: transparent; color: var(--error-color); border-color: var(--error-color); }
-.btn-external {
-    display: block; width: 100%; text-align: center; padding: 8px 10px;
-    margin-top: auto; margin-bottom: 10px; border: 1px solid var(--primary-color);
-    color: var(--primary-color); border-radius: 8px; font-size: 13px;
-    background: #fff; transition: 0.2s; font-weight: bold;
-}
-.btn-external:hover { background: #F0F4F8; }
-
-/* 推薦檔期 */
-.recommendation-area { margin-top: 30px; border-top: 1px dashed #ddd; padding-top: 20px; text-align: left; display: none; }
-.rec-title { color: var(--cta-bg); font-weight: bold; margin-bottom: 15px; font-size: 15px; display:flex; gap:8px; align-items:center;}
-.suggestion-item {
-    display: flex; justify-content: space-between; align-items: center;
-    background: #fff; border: 1px solid #e2e2e2; padding: 15px;
-    margin-bottom: 10px; border-radius: 8px; cursor: pointer; transition: 0.2s;
-}
-.suggestion-item:hover { border-color: var(--accent-warm); background-color: #FFFCF5; }
-.tag-hot { background: #FFF9F0; color: #975A16; font-size:12px; padding:3px 8px; border-radius:4px; border:1px solid #F6E05E; }
-.tag-week { background: #E6FFFA; color: #285E61; font-size:12px; padding:3px 8px; border-radius:4px; }
-.sugg-date { font-weight:bold; color: var(--text-main); margin-left:10px;}
-
-/* 步驟區域 */
-.step-section { margin-top: 40px; border-top: 2px dashed #eee; padding-top: 40px; display: none; animation: fadeIn 0.5s ease; }
-.step-section.active { display: block; }
-.step-title {
-    font-size: 20px; font-weight: 700; margin-bottom: 10px;
-    color: var(--primary-color); border-left: 5px solid var(--accent-warm); padding-left: 15px;
-}
-.step-subtitle { font-size: 15px; color: var(--cta-bg); margin-bottom: 20px; padding-left: 20px; font-weight: 500; }
-
-/* 方案卡片 */
-.plan-options { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-.plan-card {
-    border: 2px solid #eee; border-radius: 12px; padding: 25px;
-    cursor: pointer; transition: 0.2s; position: relative; background: #fff;
-}
-.plan-card:hover { border-color: #ccc; transform: translateY(-2px); }
-.plan-card.selected {
-    border-color: var(--accent-warm); background-color: #FFFCF5;
-    box-shadow: 0 5px 15px rgba(198, 156, 109, 0.2);
-}
-.plan-card h4 { margin: 0 0 8px 0; font-size: 18px; color: var(--primary-color); }
-.plan-price { font-size: 18px; color: var(--accent-warm); font-weight: bold; margin-bottom: 10px; }
-.plan-price.event-price { color: var(--error-color); }
-.plan-desc { font-size: 14px; color: var(--text-sub); margin: 0; line-height: 1.6; border-top: 1px solid #eee; padding-top: 10px; margin-top: 10px; }
-.plan-capacity {
-    position: absolute; top: 20px; right: 20px; background: #EDF2F7;
-    padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: bold; color: var(--text-sub);
-}
-.plan-card.selected .plan-capacity { background: var(--accent-warm); color: white; }
-
-/* 聯絡表單 */
-.contact-form {
-    background: #F8FAFC; padding: 30px; border-radius: 12px;
-    border: 1px solid #E2E8F0; margin-top: 20px;
-}
-.btn-line {
-    background-color: var(--line-green); color: white;
-    font-size: 18px; padding: 15px; width: 100%;
-    box-shadow: 0 4px 15px rgba(6, 199, 85, 0.3);
-}
-.btn-line:hover { background-color: #05b64d; transform: translateY(-2px); }
-.input-error { border-color: var(--error-color) !important; background-color: #FFF5F5 !important; }
-.error-msg { color: var(--error-color); font-size: 13px; display: none; margin-top: 5px; }
-
-/* 日曆 */
-.calendar-toggle-btn {
-    display: flex; align-items: center; gap: 8px; margin: 40px auto 20px;
-    background: white; border: 1px solid var(--accent-warm);
-    padding: 10px 25px; border-radius: 50px; cursor: pointer;
-    color: var(--accent-warm); font-weight: bold; transition: 0.3s;
-}
-.calendar-toggle-btn:hover { background: var(--accent-warm); color: white; }
-
-.calendars-area { display: none; grid-template-columns: 1fr 1fr; gap: 30px; }
-.calendars-area.show { display: grid; animation: fadeIn 0.5s ease; }
-.calendar-card {
-    background: #fff; padding: 20px; border-radius: 12px;
-    box-shadow: var(--shadow-card); border-top: 4px solid var(--primary-color);
-}
-.calendar-card h3 { margin-top:0; color:var(--primary-color); font-size:18px; display:flex; align-items:center; justify-content:space-between; }
-.calendar-container {
-    position: relative; padding-bottom: 75%; height: 0; overflow: hidden;
-    border-radius: 8px; background: #f9f9f9; border:1px solid #eee;
-}
-.calendar-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-
-/* ---------------------------------------------------- */
-/* --- 5. Footer (完整還原版) --- */
-/* ---------------------------------------------------- */
-footer { background-color: var(--footer-bg); color: #d7ccc8; padding: 60px 20px 20px; margin-top: auto;}
-.footer-grid {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px;
-}
-.footer-title {
-    color: white; font-size: 19px; font-weight: 600;
-    border-bottom: 2px solid var(--cta-bg); padding-bottom: 10px; margin-bottom: 20px; display: inline-block;
-}
-.footer-link {
-    display: flex; align-items: center; gap: 10px; color: #d7ccc8;
-    margin-bottom: 12px; transition: 0.3s;
-}
-.footer-link:hover { color: var(--cta-bg); transform: translateX(5px); }
-
-/* Footer Tags */
-.keyword-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
-.seo-tag {
-    background: rgba(255,255,255,0.1); color: #d7ccc8; font-size: 13px;
-    padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15);
-    transition: 0.3s; cursor: default;
-}
-.seo-tag:hover { background: var(--cta-bg); color: white; border-color: var(--cta-bg); }
-
-/* RWD */
-@media (max-width: 768px) {
-    .menu-toggle { display: block; }
-    .nav-menu {
-        position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
-        background: white; flex-direction: column; padding-top: 80px;
-        transition: 0.4s; box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-        align-items: flex-start;
+    :root { 
+        --c-dark: #2C3E50; --c-gold: #BFA15F; --c-gold-light: #F9F5EB; 
+        --c-red: #A94442; --c-gray: #7F8C8D; --c-white: #FFFFFF; 
+        --font-serif: 'Noto Serif TC', serif; --font-sans: 'Noto Sans TC', sans-serif; 
+        --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.06); 
     }
-    .nav-menu.active { right: 0; }
-    .nav-link { width: 100%; padding: 15px 30px; border-bottom: 1px solid #eee; }
-    .dropdown-menu { position: static; box-shadow: none; display: none; opacity: 1; visibility: visible; transform: none; padding-left: 20px; background: #f9f9f9; }
-    .nav-item.active .dropdown-menu { display: block; }
+    *, *::before, *::after { box-sizing: border-box; }
     
-    .hero-title { font-size: 32px; }
-    .hero-subtitle { font-size: 16px; letter-spacing: 2px; }
-    
-    .venue-results { grid-template-columns: 1fr; }
-    .calendars-area { grid-template-columns: 1fr; }
-    .guest-selector { flex-direction: column; }
-}
+    body { margin: 0; font-family: var(--font-sans); background-color: #F5F5F5; color: var(--c-dark); line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; padding-top: 60px; }
 
-/* Animation */
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.fade-in { animation: fadeIn 0.8s ease-out forwards; opacity: 0; } 
-.fade-in.visible { opacity: 1; }
+    .navbar { background: var(--c-dark); height: 60px; display: flex; align-items: center; justify-content: center; position: fixed; top: 0; width: 100%; z-index: 999; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .nav-logo { color: var(--c-gold); font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; letter-spacing: 2px; text-decoration: none; }
+
+    .header-section { padding: 40px 20px; text-align: center; background: var(--c-dark); color: white; margin-bottom: 30px; }
+    .header-section h1 { margin: 0; font-family: var(--font-serif); font-size: 1.8rem; letter-spacing: 3px; font-weight: 500; }
+    .header-section p { margin: 5px 0 0; font-size: 0.8rem; color: var(--c-gold); text-transform: uppercase; letter-spacing: 2px; }
+
+    .container { width: 95%; max-width: 800px; margin: -50px auto 40px; position: relative; z-index: 10; }
+    .inquiry-card { background-color: var(--c-white); padding: 40px; border-radius: 4px; box-shadow: var(--shadow-card); border-top: 6px solid var(--c-gold); }
+
+    .section-title { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-dark); margin: 30px 0 20px; padding-left: 15px; border-left: 4px solid var(--c-gold); display: flex; align-items: center; justify-content: space-between; }
+    
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 0.85rem; color: var(--c-gray); margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+    .form-input { width: 100%; padding: 12px; font-size: 1rem; color: var(--c-dark); font-family: var(--font-serif); border: 1px solid #DDD; border-radius: 4px; background: #FAFAFA; transition: 0.3s; }
+    .form-input:focus { outline: none; border-color: var(--c-gold); background: #FFF; box-shadow: 0 0 0 3px rgba(191, 161, 95, 0.1); }
+    .form-input.readonly { background: #fff; cursor: pointer; background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23BFA15F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>'); background-repeat: no-repeat; background-position: right 15px center; }
+
+    .btn-submit { background-color: var(--c-dark); color: var(--c-gold); border: 1px solid var(--c-dark); padding: 15px 40px; font-size: 1rem; font-weight: bold; letter-spacing: 1px; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 10px rgba(44, 62, 80, 0.2); }
+    .btn-submit:hover { background-color: var(--c-gold); color: white; border-color: var(--c-gold); transform: translateY(-2px); }
+    .btn-submit:disabled { background-color: #BDC3C7; border-color: #BDC3C7; color: white; cursor: not-allowed; transform: none; box-shadow: none; }
+    
+    .btn-search { background-color: var(--c-gold); color: white; border-color: var(--c-gold); }
+    .btn-search:hover { background-color: #A68550; border-color: #A68550; }
+
+    .venue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
+    .venue-card { padding: 15px; border: 1px solid #DDD; border-radius: 6px; background: #FAFAFA; cursor: pointer; transition: 0.3s; text-align: center; position: relative; }
+    .venue-card h4 { margin: 0; font-size: 1rem; color: var(--c-dark); font-weight: bold; font-family: var(--font-serif); }
+    .venue-card span { font-size: 0.8rem; color: #999; display: block; margin-top: 5px; }
+    .venue-card.available { border-color: var(--c-gold); background: #FFF; }
+    .venue-card.available:hover { background: var(--c-gold-light); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(191, 161, 95, 0.15); }
+    .venue-card.available .status-badge { color: var(--c-gold); font-weight: bold; font-size: 0.8rem; margin-top: 5px; }
+    .venue-card.disabled { opacity: 0.6; cursor: not-allowed; background: #EEE; border-style: dashed; }
+    .venue-card.disabled .status-badge { color: var(--c-red); margin-top: 5px; font-size: 0.8rem; font-weight: bold; }
+
+    .recommendation-box { margin-top: 25px; border: 1px dashed #A68550; background: #FFFCF5; padding: 20px; border-radius: 6px; display: none; animation: fadeIn 0.5s; }
+    .rec-title { font-size: 0.95rem; color: #A68550; font-weight: bold; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed #E0D6C3; padding-bottom: 8px;}
+    .rec-item { display: flex; justify-content: space-between; align-items: center; padding: 12px; background: white; border: 1px solid #EED; margin-bottom: 8px; border-radius: 4px; cursor: pointer; transition: 0.2s; }
+    .rec-item:hover { border-color: var(--c-gold); transform: translateX(3px); box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+    .rec-tag { background: #E74C3C; color: white; font-size: 0.7rem; padding: 3px 8px; border-radius: 3px; margin-right: 8px; font-weight: bold; }
+    .rec-tag.part { background: #F39C12; }
+
+    .plan-grid { display: grid; gap: 15px; }
+    .plan-card { border: 1px solid #DDD; background-color: #FFF; padding: 20px; border-radius: 6px; position: relative; cursor: pointer; transition: 0.3s; }
+    .plan-card:hover { border-color: var(--c-gold); background: #FFFCF5; }
+    .plan-card.selected { border: 2px solid var(--c-gold); background-color: var(--c-gold-light); box-shadow: 0 4px 15px rgba(191, 161, 95, 0.2); }
+    .plan-card.selected::after { content: '\f00c'; font-family: "Font Awesome 6 Free"; font-weight: 900; position: absolute; top: -10px; right: -5px; background: var(--c-gold); color: white; width: 24px; height: 24px; border-radius: 50%; font-size: 0.8rem; display: flex; align-items: center; justify-content: center; }
+    .plan-capacity { position: absolute; top: 15px; right: 15px; background: #EDF2F7; padding: 3px 8px; border-radius: 3px; font-size: 0.75rem; color: #555; font-weight: bold; }
+    .plan-title { font-weight: bold; color: var(--c-dark); font-size: 1.1rem; font-family: var(--font-serif); margin-bottom: 5px; }
+    .plan-detail { font-size: 0.85rem; color: #7F8C8D; margin-bottom: 10px; border-top: 1px solid #EEE; padding-top: 8px; margin-top: 8px; }
+    .plan-price { font-size: 1.1rem; color: var(--c-gold); font-weight: bold; display: flex; align-items: center; gap: 8px; }
+    .plan-price small { font-size: 0.75rem; color: #999; font-weight: normal; }
+
+    .step-section { display: none; opacity: 0; transition: opacity 0.5s ease; border-top: 1px dashed #EEE; margin-top: 30px; padding-top: 10px; }
+    .step-section.active { display: block; opacity: 1; animation: fadeIn 0.6s ease forwards; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .loading-box { text-align: center; padding: 30px; color: var(--c-gold); display: none; background: var(--c-gold-light); border-radius: 8px; margin-top: 20px; }
+    .footer { text-align: center; color: #999; font-size: 0.8rem; padding: 40px 0; margin-top: auto; }
+
+    div:where(.swal2-container) h2:where(.swal2-title) { font-family: var(--font-serif) !important; color: var(--c-dark) !important; }
+    div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm { background-color: var(--c-gold) !important; box-shadow: 0 4px 15px rgba(191, 161, 95, 0.4) !important; }
+
+    @media (max-width: 768px) {
+        .container { margin-top: -30px; }
+        .inquiry-card { padding: 30px 20px; }
+        .venue-grid { grid-template-columns: 1fr; }
+        .header-section h1 { font-size: 1.5rem; }
+    }
 </style>
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <i class="fa-solid fa-house-chimney" style="color:var(--cta-bg);"></i>
-                溝頂民宿
-            </div>
-            
-            <div class="menu-toggle" id="mobile-menu-btn">
-                <span class="bar"></span><span class="bar"></span><span class="bar"></span>
-            </div>
-            
-            <ul class="nav-menu" id="nav-menu">
-                <li class="nav-item"><a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> 首頁</a></li>
-                <li class="nav-item"><a href="rooms.html" class="nav-link"><i class="fa-solid fa-bed"></i> 房型介紹</a></li>
-                
-                <li class="nav-item dropdown">
-                    <a href="agreement.html" class="nav-link dropdown-toggle">
-                        <i class="fa-solid fa-file-signature"></i> 入住須知 <i class="fa-solid fa-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="signature.html" class="dropdown-link"><i class="fa-solid fa-pen-nib"></i> 線上簽署</a></li>
-                    </ul>
-                </li>
-                
-                <li class="nav-item"><a href="traffic.html" class="nav-link"><i class="fa-solid fa-car"></i> 交通停車</a></li>
-                
-                <li class="nav-item dropdown">
-                    <a href="travel.html" class="nav-link dropdown-toggle">
-                        <i class="fa-solid fa-map-location-dot"></i> 旅遊行程 <i class="fa-solid fa-angle-down"></i>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="attractions.html" class="dropdown-link">周邊景點</a></li>
-                        <li><a href="food.html" class="dropdown-link">鹽埕美食地圖</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a href="check.html" class="nav-link nav-btn-booking active">
-                        <i class="fa-solid fa-calendar-check"></i> 查詢空房
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
-    <header class="hero-header">
-        <h1 class="hero-title">即時房況查詢</h1>
-        <div class="hero-subtitle">CHECK AVAILABILITY</div>
-    </header>
+    <nav class="navbar"><a href="#" class="nav-logo">你好哇寓所 | 溝頂民宿</a></nav>
+    <div class="header-section"><h1>房況查詢與報價</h1><p>Check Availability & Price</p></div>
 
     <div class="container">
-        <div class="inquiry-box fade-in">
+        <div class="inquiry-card">
             
-            <div id="step-1-query">
-                <h2 style="font-size:22px; margin-bottom:25px; color:var(--primary-color); border-bottom:1px solid #eee; padding-bottom:15px;">
-                    <i class="fa-solid fa-calendar-days" style="color:var(--accent-warm)"></i> 1. 查詢檔期
-                </h2>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>1. 預計人數 (請選擇區間)</label>
-                        <div class="guest-selector">
-                            <div class="guest-btn active" onclick="selectGuestRange('range1', this)">
-                                12人內
-                                <small>你好哇 / 溝頂</small>
-                            </div>
-                            <div class="guest-btn" onclick="selectGuestRange('range2', this)">
-                                13-26人
-                                <small>你好哇寓所</small>
-                            </div>
-                            <div class="guest-btn" onclick="selectGuestRange('range3', this)">
-                                26-38人
-                                <small>雙館包棟</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>2. 入住 - 退房日期</label>
-                        <input type="text" id="date-range" class="form-control" placeholder="點擊選擇日期範圍..." readonly>
-                    </div>
-                    
-                    <button class="btn btn-search" onclick="startQuery()">
-                        <i class="fa-solid fa-magnifying-glass"></i> 查詢空房狀況
-                    </button>
+            <div id="step-1">
+                <div class="section-title">
+                    <span>01. 查詢檔期</span>
+                    <i class="fa-regular fa-calendar" style="color:var(--c-gold)"></i>
                 </div>
-                
-                <div id="loading-box" class="status-loading">
-                    <i class="fa-solid fa-spinner fa-spin"></i> 正在連線確認即時檔期...
+                <div class="form-group">
+                    <label class="form-label">入住 - 退房日期</label>
+                    <input type="text" id="date-range" class="form-input readonly" placeholder="請點擊選擇日期..." readonly>
                 </div>
-
-                <div id="venue-results" class="venue-results"></div>
-
-                <div id="recommendation-area" class="recommendation-area"></div>
+                <button class="btn-submit btn-search" onclick="startQuery()">
+                    <span>查詢即時房況</span> <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <div id="loading-box" class="loading-box">
+                    <i class="fa-solid fa-circle-notch fa-spin fa-2x"></i>
+                    <div style="margin-top:10px; font-weight:bold;">系統正在確認即時房況...</div>
+                </div>
+                <div id="venue-results" class="venue-grid" style="display:none;"></div>
+                <div id="recommendation-area" class="recommendation-box"></div>
             </div>
 
-            <div id="step-2-plan" class="step-section">
-                <div class="step-title">2. 選擇包棟房型方案</div>
-                <div id="step-2-subtitle" class="step-subtitle"></div>
-                <div id="plan-container" class="plan-options"></div>
-                <p style="text-align:right; font-size:13px; color:#999; margin-top:10px;">* 價格僅供參考，實際價格以管家報價為準。</p>
+            <div id="step-2" class="step-section">
+                <div class="section-title">
+                    <span>02. 選擇包棟方案</span>
+                    <i class="fa-solid fa-hotel" style="color:var(--c-gold)"></i>
+                </div>
+                <div id="plan-container" class="plan-grid"></div>
+                <div style="text-align:right; font-size:0.8rem; color:#999; margin-top:10px;">* 價格為系統依平假日預估，實際金額以管家最終報價為準</div>
             </div>
 
-            <div id="step-3-contact" class="step-section">
-                <div class="step-title">3. 填寫聯絡資料，獲取優惠報價</div>
-                <div class="contact-form">
-                    <div class="form-group" style="margin-bottom:15px;">
-                        <label>聯絡人姓名</label>
-                        <input type="text" id="user-name" class="form-control" placeholder="請輸入您的稱呼">
+            <div id="step-3" class="step-section">
+                <div class="section-title">
+                    <span>03. 獲取優惠報價</span>
+                    <i class="fa-solid fa-pen-nib" style="color:var(--c-gold)"></i>
+                </div>
+                <div style="background: #FAFAFA; padding: 25px; border-radius: 8px; border: 1px solid #EEE;">
+                    <div class="form-group">
+                        <label class="form-label">您的稱呼 (Name)</label>
+                        <input type="text" id="user-name" class="form-input" placeholder="請輸入姓名">
                     </div>
-                    <div class="form-group" style="margin-bottom:25px;">
-                        <label>手機號碼</label>
-                        <input type="tel" id="user-phone" class="form-control" placeholder="09xxxxxxxx" maxlength="10">
-                        <div id="phone-error" class="error-msg">請輸入正確的 10 碼手機號碼</div>
+                    <div class="form-group">
+                        <label class="form-label">聯絡電話 (Phone)</label>
+                        <input type="tel" id="user-phone" class="form-input" placeholder="09xxxxxxxx" maxlength="10">
                     </div>
-                    
-                    <button id="btn-submit" class="btn btn-line" onclick="sendToLine()">
-                        <i class="fa-brands fa-line" style="font-size:24px;"></i> 傳送給管家詢問優惠
+                    <button id="btn-submit" class="btn-submit" onclick="handleSend()">
+                        <span>傳送詢價單給管家</span> <i class="fa-brands fa-line" style="font-size:1.2rem;"></i>
                     </button>
-                    
-                    <div id="manual-line-btn" style="display:none; margin-top:15px; text-align:center;">
-                        <a id="force-line-link" href="#" class="btn" style="background:#06C755; color:white;">
-                            <i class="fa-brands fa-line"></i> 開啟 LINE App
-                        </a>
-                    </div>
-                    <p style="text-align:center; font-size:13px; color:#888; margin-top:15px;">💡 系統已自動複製訂房資訊，開啟 LINE 後請在對話框「長按貼上」即可。</p>
+                    <p style="text-align:center; font-size:0.85rem; color:#999; margin-top:15px;">
+                        <i class="fa-solid fa-shield-halved"></i> 電腦版將自動生成 QR Code 供手機掃描
+                    </p>
                 </div>
             </div>
 
         </div>
-
-        <button class="calendar-toggle-btn" onclick="toggleCalendarVisibility()">
-            <i class="fa-solid fa-calendar-days"></i> 查看詳細日曆
-        </button>
-
-        <div id="calendars-wrapper" class="calendars-area fade-in">
-            <div class="calendar-card" id="cal-hello">
-                <h3>你好哇寓所 <span style="font-size:12px; background:#eee; padding:2px 8px; border-radius:4px; color:#555;">主館</span></h3>
-                <div class="calendar-container"><iframe src="https://calendar.google.com/calendar/embed?src=a77a451f0a645261b0202f6faf810082df31f92d20fe20c19cbb10945d9714f4%40group.calendar.google.com&ctz=Asia%2FTaipei" scrolling="no"></iframe></div>
-            </div>
-            <div class="calendar-card" id="cal-gouding">
-                <h3>溝頂民宿 <span style="font-size:12px; background:var(--accent-warm); padding:2px 8px; border-radius:4px; color:#fff;">二館</span></h3>
-                <div class="calendar-container"><iframe src="https://calendar.google.com/calendar/embed?src=56feb65c62285b41fe4c97af783991d9710832f223bf2a85919bb60c04be3603%40group.calendar.google.com&ctz=Asia%2FTaipei&color=%23795548" scrolling="no"></iframe></div>
-            </div>
-        </div>
-        
     </div>
 
-    <footer>
-        <div class="footer-grid">
-            <div>
-                <div class="footer-title">關於 溝頂民宿</div>
-                <p style="line-height: 1.8; text-align: justify; color: #d7ccc8;">
-                    溝頂民宿 (Godin B&B) 位於高雄市鹽埕區大公路巷弄內，致力於提供像家一樣溫暖的包棟住宿體驗。我們結合了老屋的復古風情與現代化的便利設施，是您探索高雄港灣的最佳落腳處。
-                </p>
-            </div>
-            <div>
-                <div class="footer-title">聯絡我們</div>
-                <a href="https://goo.gl/maps/placeholder" target="_blank" class="footer-link">
-                    <i class="fa-solid fa-location-dot"></i> 高雄市鹽埕區大公路70巷6-2號
-                </a>
-                <a href="tel:0932828922" class="footer-link">
-                    <i class="fa-solid fa-phone"></i> 0932-828-922
-                </a>
-                <a href="javascript:void(0)" onclick="sendToLine()" class="footer-link">
-                    <i class="fa-brands fa-line"></i> LINE 官方帳號聯繫
-                </a>
-                <div style="margin-top: 15px; font-size: 14px; color: #a1887f;">
-                    <i class="fa-solid fa-clock"></i> 客服時間: 09:00 - 21:00
-                </div>
-            </div>
-            
-            <div>
-                <div class="footer-title">熱門關鍵字</div>
-                <div class="keyword-cloud">
-                    <span class="seo-tag">高雄包棟</span>
-                    <span class="seo-tag">高雄包棟民宿</span>
-                    <span class="seo-tag">高雄10人包棟</span>
-                    <span class="seo-tag">鹽埕區民宿</span>
-                    <span class="seo-tag">駁二住宿</span>
-                    <span class="seo-tag">高雄麻將民宿</span>
-                    <span class="seo-tag">親子友善包棟</span>
-                    <span class="seo-tag">捷運站住宿</span>
-                </div>
-            </div>
-        </div>
-        <div style="text-align: center; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 50px; padding-top: 20px; font-size: 13px; color: #a1887f;">
-            © 2025 Godin B&B 溝頂民宿. All Rights Reserved.
-        </div>
-    </footer>
+    <footer class="footer">© 2025 你好哇寓所 & 溝頂民宿. All Rights Reserved.</footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://npmcdn.com/flatpickr/dist/l10n/zh-tw.js"></script>
-    
     <script>
-        // 核心設定
-        const GAS_APP_URL = "https://script.google.com/macros/s/AKfycbxsFEJ9ubWMY9Y6xqBZ-3-KgSrYQnC9D3zwuKUL66HvKJdN5S1HTNeahhWlV6hcixbx0A/exec";
-        const LINE_DEEP_LINK = "line://ti/p/@575tprig"; 
-
-        let selectedStart = null;
-        let selectedEnd = null;
-        let selectedGuestRange = 'range1'; 
-        let currentSelectedPlan = null;
-        let currentEstimatedPrice = null;
-        let currentVenueName = null;
+        // --- 設定區 ---
+        const LIFF_ID = "2008582194-wrJ4dqXq"; 
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbxsFEJ9ubWMY9Y6xqBZ-3-KgSrYQnC9D3zwuKUL66HvKJdN5S1HTNeahhWlV6hcixbx0A/exec";
+        const LINE_OFFICIAL_ID = "@575tprig"; 
+        // 假設你的入住須知網址 (如果有不同請修改這裡)
+        const RULES_URL = "agreement.html"; 
         
-        const WEEKDAYS = ["週日", "週一", "週二", "週三", "週四", "週五", "週六"];
-        function getWeekday(dateStr) {
-            const d = new Date(dateStr);
-            return WEEKDAYS[d.getDay()];
-        }
-
-        // 特殊節日與連假設定 (Mock Data)
-        const SPECIAL_EVENTS = ["2025-03-29", "2025-03-30", "2025-04-04", "2025-04-05", "2025-12-31"];
-        const NATIONAL_HOLIDAYS = ["2025-01-01", "2025-02-28", "2025-04-04", "2025-04-05"];
-
+        // --- 房型與定價資料庫 ---
         const ROOM_PLANS = {
             'hello': [
                 { title: "3房包棟 (8人)", price_weekday: 16000, price_weekend: 20000, capacity: "8人", detail: "配置：3房 (2/2/4)" },
                 { title: "4房包棟 (14人)", price_weekday: 20000, price_weekend: 24000, capacity: "14人", detail: "配置：4房 (2/2/4/6)" },
                 { title: "5房包棟 (16人)", price_weekday: 22000, price_weekend: 26000, capacity: "16人", detail: "配置：5房 (2/2/2/4/6)" },
                 { title: "5+1房包棟 (22人)", price_weekday: 26000, price_weekend: 30000, capacity: "22人", detail: "配置：5+1房 (2/2/2/4/6/6)" },
-                { title: "5+1房+加床 (26人)", price_weekday: 30000, price_weekend: 36000, capacity: "26人", detail: "配置：2/2/2/4/6+2/6+2" }
+                { title: "5+1房+加床 (26人)", price_weekday: 30000, price_weekend: 36000, capacity: "26人", detail: "配置：全棟加床使用" }
             ],
             'gouding': [
                 { title: "3房包棟 (10人)", price_weekday: 10000, price_weekend: 14000, capacity: "10人", detail: "配置：3房 (2/4/4)" },
                 { title: "4房包棟 (12人)", price_weekday: 12000, price_weekend: 16000, capacity: "12人", detail: "配置：4房 (2/4/4/2)" }
-            ],
-            'double': [
-                { title: "你好哇+溝頂民宿 雙包棟 (27-38人)", price_weekday: 42000, price_weekend: 50000, capacity: "38人", detail: "包含：你好哇(26人) + 溝頂(12人)" }
             ]
         };
 
-        // 初始化日期選擇器
-        const fp = flatpickr("#date-range", {
-            mode: "range", locale: "zh_tw", dateFormat: "Y-m-d", minDate: "today",
-            onOpen: function() { resetSteps(); },
-            onChange: function(dates) { resetSteps(); },
-            onClose: function(dates) { 
-                if (dates.length === 2) { 
-                    selectedStart = dates[0]; 
-                    selectedEnd = dates[1]; 
-                } 
-            }
-        });
+        let selectedStart, selectedEnd;
+        let currentVenue = "", currentPlan = "", currentPrice = "";
 
-        // 初始化與選單邏輯
         document.addEventListener('DOMContentLoaded', () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-            }, { threshold: 0.1 });
-            document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-            const mobileMenu = document.getElementById('mobile-menu-btn');
-            const navMenu = document.getElementById('nav-menu');
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-
-            mobileMenu.addEventListener('click', () => {
-                mobileMenu.classList.toggle('active');
-                navMenu.classList.toggle('active');
-            });
-
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 768) {
-                        e.preventDefault();
-                        const parent = toggle.parentElement;
-                        parent.classList.toggle('active');
+            flatpickr("#date-range", {
+                mode: "range", locale: "zh_tw", dateFormat: "Y-m-d", minDate: "today",
+                onClose: (dates) => {
+                    if (dates.length === 2) {
+                        selectedStart = dates[0];
+                        selectedEnd = dates[1];
+                        document.getElementById('step-2').classList.remove('active');
+                        document.getElementById('step-3').classList.remove('active');
+                        document.getElementById('venue-results').style.display = 'none';
+                        document.getElementById('recommendation-area').style.display = 'none';
                     }
-                });
-            });
-
-            document.addEventListener('click', (e) => {
-                if (!navMenu.contains(e.target) && !mobileMenu.contains(e.target)) {
-                    navMenu.classList.remove('active');
-                    mobileMenu.classList.remove('active');
                 }
             });
+            liff.init({ liffId: LIFF_ID }).then(() => console.log("LIFF Ready"));
         });
 
-        function selectGuestRange(range, btn) {
-            selectedGuestRange = range;
-            document.querySelectorAll('.guest-btn').forEach(el => el.classList.remove('active'));
-            btn.classList.add('active');
-            resetSteps();
-        }
-
+        // --- 核心邏輯 ---
         function startQuery() {
-            resetSteps();
-            if (!selectedStart || !selectedEnd) { alert("請先選擇入住與退房日期"); fp.open(); return; }
-            document.getElementById('loading-box').style.display = 'block';
+            if (!selectedStart || !selectedEnd) { Swal.fire({icon:'warning', title:'請先選擇日期', confirmButtonColor:'#BFA15F'}); return; }
+            
+            const loadBox = document.getElementById('loading-box');
+            loadBox.style.display = 'block';
+            document.getElementById('venue-results').style.display = 'none';
+            document.getElementById('recommendation-area').style.display = 'none';
+            document.getElementById('step-2').classList.remove('active');
+            
             const startStr = formatDate(selectedStart);
             const endStr = formatDate(selectedEnd);
-            const url = `${GAS_APP_URL}?start=${startStr}&end=${endStr}&venue=all`;
 
-            fetch(url).then(r => r.json()).then(data => {
-                document.getElementById('loading-box').style.display = 'none';
-                renderVenueCards(data.status);
-                
-                // 推薦邏輯
-                let needRec = false;
-                if (selectedGuestRange === 'range1' && !data.status.hello.available && !data.status.gouding.available) needRec = true;
-                if (selectedGuestRange === 'range2' && !data.status.hello.available) needRec = true;
-                if (selectedGuestRange === 'range3' && (!data.status.hello.available || !data.status.gouding.available)) needRec = true;
-                if (needRec) renderRecommendations(data.suggestions);
-            }).catch(e => {
-                console.error(e);
-                document.getElementById('loading-box').style.display = 'none';
-                alert("連線失敗，請稍後再試或直接聯繫管家。");
+            fetch(`${GAS_URL}?start=${startStr}&end=${endStr}`)
+            .then(res => res.json())
+            .then(data => {
+                loadBox.style.display = 'none';
+                renderVenues(data.status);
+                if (data.suggestions && data.suggestions.length > 0) {
+                    renderRecommendations(data.suggestions);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                loadBox.style.display = 'none';
+                Swal.fire({icon:'error', title:'連線錯誤', text: '請檢查網路或稍後再試', confirmButtonColor:'#2C3E50'});
             });
         }
 
-        function renderVenueCards(status) {
+        function renderVenues(status) {
             const container = document.getElementById('venue-results');
-            container.innerHTML = '';
             container.style.display = 'grid';
-            let cardsToShow = [];
+            container.innerHTML = '';
 
-            if (selectedGuestRange === 'range3') {
-                const isDoubleAvailable = status.hello.available && status.gouding.available;
-                cardsToShow.push({ key: 'double', name: '你好哇+溝頂民宿 雙包棟', available: isDoubleAvailable, desc: '適合 27-38 人大團體' });
-            } else if (selectedGuestRange === 'range2') {
-                cardsToShow.push({ key: 'hello', name: '你好哇寓所 (主館)', available: status.hello.available, desc: '適合 13-26 人' });
-            } else {
-                cardsToShow.push({ key: 'hello', name: '你好哇寓所 (主館)', available: status.hello.available, desc: '適合 6-26 人' });
-                cardsToShow.push({ key: 'gouding', name: '溝頂民宿 (二館)', available: status.gouding.available, desc: '適合 6-12 人' });
-            }
+            const venues = [
+                { key: 'hello', name: '你好哇寓所 (主館)', available: status.hello.available, sub: 'Hello House' },
+                { key: 'gouding', name: '溝頂民宿 (二館)', available: status.gouding.available, sub: 'Godin House' }
+            ];
 
-            cardsToShow.forEach(card => {
+            venues.forEach(v => {
                 const div = document.createElement('div');
-                const statusClass = card.available ? 'available' : 'disabled';
-                const statusText = card.available ? '<span class="status-ok"><i class="fa-solid fa-circle-check"></i> 可預訂</span>' : '<span class="status-full">❌ 已滿房</span>';
-                const btnClass = card.available ? 'btn-select' : 'btn-full';
-                const btnText = card.available ? '選擇此館' : '不可預訂';
-                
-                let extraBtn = '';
-                // 溝頂專屬外連按鈕移除，因為這就是溝頂網站
-
-                div.className = `venue-card ${statusClass}`;
-                div.innerHTML = `
-                    <div>
-                        <div class="venue-name">${card.name}</div>
-                        <div style="font-size:14px; color:#666; margin-bottom:5px;">${card.desc}</div>
-                        <div class="venue-status">${statusText}</div>
-                    </div>
-                    <div>
-                        <div class="venue-btn ${btnClass}">${btnText}</div>
-                    </div>
-                `;
-                
-                if (card.available) {
-                    div.onclick = () => selectVenue(card.key, card.name);
-                }
+                div.className = `venue-card ${v.available ? 'available' : 'disabled'}`;
+                const icon = v.available ? '<i class="fa-solid fa-circle-check"></i>' : '<i class="fa-solid fa-circle-xmark"></i>';
+                const statusText = v.available ? '立即預訂' : '已滿房';
+                div.innerHTML = `<h4>${v.name}</h4><span>${v.sub}</span><div class="status-badge">${icon} ${statusText}</div>`;
+                if(v.available) { div.onclick = () => showPlans(v.key, v.name); }
                 container.appendChild(div);
             });
         }
 
-        function selectVenue(key, name) {
-            currentVenueName = name;
-            renderRoomOptions(key);
-        }
-
-        // 推薦演算法
-        function processBestRecommendations(rawSuggestions) {
-            if (!rawSuggestions || rawSuggestions.length === 0) return [];
-            let best5 = [];
-            const partial = rawSuggestions.find(s => s.tag === 'part');
-            if (partial) best5.push(partial);
-            const days = rawSuggestions.filter(s => s.tag !== 'part' && s.tag !== 'week').slice(0, 2);
-            best5 = best5.concat(days);
-            const weeks = rawSuggestions.filter(s => s.tag === 'week').slice(0, 2);
-            best5 = best5.concat(weeks);
-            if (best5.length < 5) {
-                const others = rawSuggestions.filter(s => !best5.includes(s));
-                best5 = best5.concat(others.slice(0, 5 - best5.length));
-            }
-            return best5;
-        }
-
-        function renderRecommendations(suggestions) {
-            const area = document.getElementById('recommendation-area');
-            area.innerHTML = '';
-            const finalSuggestions = processBestRecommendations(suggestions);
-            if (finalSuggestions.length === 0) return;
-
-            area.style.display = 'block';
-            let html = `<div class="rec-title"><i class="fa-solid fa-bell"></i> 很抱歉，您選擇的日期已滿。為您推薦最佳檔期：</div>`;
-            
-            finalSuggestions.forEach(s => {
-                let tagClass = 'tag-hot';
-                let icon = 'fa-calendar-day';
-                let label = s.label || '推薦檔期';
-                let subLabel = '';
-
-                const sDate = new Date(s.start);
-                const diffTime = sDate - selectedStart;
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                
-                if (s.tag === 'part') {
-                    tagClass = 'tag-week'; 
-                    icon = 'fa-scissors'; 
-                    label = '縮短天數';
-                } else if (Math.abs(diffDays) >= 7) {
-                    tagClass = 'tag-week';
-                    const weeks = Math.round(diffDays / 7);
-                    const direction = weeks > 0 ? "往後" : "提前";
-                    label = `${direction} ${Math.abs(weeks)} 週`;
-                    const startW = getWeekday(s.start);
-                    const endW = getWeekday(s.end);
-                    subLabel = `(${startW} - ${endW})`;
-                } else {
-                    const direction = diffDays > 0 ? "往後" : "提前";
-                    label = `${direction} ${Math.abs(diffDays)} 天`;
-                }
-                
-                html += `<div class="suggestion-item" onclick="applyDate('${s.start}', '${s.end}')">`;
-                html += `  <div style="display:flex; align-items:center;">`;
-                html += `    <span class="${tagClass}"><i class="fa-solid ${icon}"></i> ${label}</span>`;
-                html += `    <span class="sugg-date">${s.start} ~ ${s.end} ${subLabel}</span>`;
-                html += `  </div>`;
-                html += `  <span style="font-size:13px; color:var(--accent-warm); font-weight:bold;">選擇 <i class="fa-solid fa-angle-right"></i></span></div>`;
+        function renderRecommendations(list) {
+            const box = document.getElementById('recommendation-area');
+            box.style.display = 'block';
+            let html = `<div class="rec-title"><i class="fa-solid fa-bell"></i> 本檔期已滿，為您推薦：</div>`;
+            list.forEach(item => {
+                const tagClass = item.tag === 'part' ? 'rec-tag part' : 'rec-tag';
+                const tagName = item.tag === 'part' ? '縮短天數' : '推薦空檔';
+                html += `
+                    <div class="rec-item" onclick="applyDate('${item.start}', '${item.end}')">
+                        <div>
+                            <span class="${tagClass}">${tagName}</span>
+                            <span style="font-weight:bold; color:#555;">${item.start} ~ ${item.end}</span>
+                            <span style="font-size:0.8rem; color:#888;">(${item.label})</span>
+                        </div>
+                        <i class="fa-solid fa-angle-right" style="color:#CCC;"></i>
+                    </div>
+                `;
             });
-            area.innerHTML = html;
+            box.innerHTML = html;
         }
 
-        function resetSteps() {
-            document.getElementById('step-2-plan').classList.remove('active');
-            document.getElementById('step-3-contact').classList.remove('active');
-            document.getElementById('venue-results').style.display = 'none';
-            document.getElementById('recommendation-area').style.display = 'none';
-            currentSelectedPlan = null;
+        function applyDate(s, e) {
+            const fp = document.querySelector("#date-range")._flatpickr;
+            fp.setDate([s, e]);
+            selectedStart = new Date(s);
+            selectedEnd = new Date(e);
+            startQuery(); 
         }
 
-        function isWeekendOrHoliday(date) {
-            const dateStr = formatDate(date);
-            if (NATIONAL_HOLIDAYS.includes(dateStr)) return true;
-            const day = date.getDay();
-            if (day === 5 || day === 6) return true; // Fri, Sat
-            return false;
-        }
+        function showPlans(key, name) {
+            currentVenue = name;
+            document.querySelectorAll('.venue-card').forEach(el => el.style.opacity = '0.5');
+            event.currentTarget.style.opacity = '1';
+            event.currentTarget.style.borderColor = 'var(--c-gold)';
 
-        function isSpecialEvent(date) {
-            return SPECIAL_EVENTS.includes(formatDate(date));
-        }
-
-        function calculateTotalPrice(plan, start, end, venueKey) {
-            let total = 0;
-            let current = new Date(start);
-            let endD = new Date(end);
-            let weekdayCount = 0;
-            let holidayCount = 0;
-            let hasSpecialEvent = false;
-
-            let checkDate = new Date(start);
-            while (checkDate < endD) {
-                if (isSpecialEvent(checkDate)) {
-                    hasSpecialEvent = true;
-                    break;
-                }
-                checkDate.setDate(checkDate.getDate() + 1);
-            }
-
-            if (hasSpecialEvent) {
-                let eventPrice = 0;
-                if (venueKey === 'hello') eventPrice = 34800;
-                else if (venueKey === 'gouding') eventPrice = 18400;
-                else if (venueKey === 'double') eventPrice = 53200; 
-
-                return { 
-                    totalPrice: eventPrice.toLocaleString(), 
-                    desc: "🔥 高雄重大活動・原價檔期",
-                    isEvent: true
-                };
-            }
-
-            while (current < endD) {
-                if (isWeekendOrHoliday(current)) { total += plan.price_weekend; holidayCount++; } 
-                else { total += plan.price_weekday; weekdayCount++; }
-                current.setDate(current.getDate() + 1);
-            }
-            
-            let descParts = [];
-            if (weekdayCount > 0) descParts.push(`${weekdayCount}平日`);
-            if (holidayCount > 0) descParts.push(`${holidayCount}假日`);
-            return { totalPrice: total.toLocaleString(), desc: descParts.join('+'), isEvent: false };
-        }
-
-        function renderRoomOptions(venueKey) {
             const container = document.getElementById('plan-container');
             container.innerHTML = '';
-            const plans = ROOM_PLANS[venueKey] || [];
-            const daysDiff = Math.round((selectedEnd - selectedStart)/(1000*60*60*24));
-            document.getElementById('step-2-subtitle').innerText = `已選擇：${formatDate(selectedStart)} 至 ${formatDate(selectedEnd)} (共 ${daysDiff} 晚) - ${currentVenueName}`;
+            
+            const plans = ROOM_PLANS[key] || [];
+            const calc = calculatePrice(selectedStart, selectedEnd);
 
-            plans.forEach((plan) => {
-                const calc = calculateTotalPrice(plan, selectedStart, selectedEnd, venueKey);
-                const totalStr = `$${calc.totalPrice}`;
-                const detailStr = `(${calc.desc})`;
-                const priceClass = calc.isEvent ? 'plan-price event-price' : 'plan-price';
-
+            plans.forEach(p => {
+                const total = (calc.weekdays * p.price_weekday) + (calc.weekends * p.price_weekend);
+                const avgPrice = Math.round(total / (calc.weekdays + calc.weekends));
+                
                 const div = document.createElement('div');
                 div.className = 'plan-card';
                 div.innerHTML = `
-                    <span class="plan-capacity">${plan.capacity}</span>
-                    <h4>${plan.title}</h4>
-                    <div class="${priceClass}">預估總價 ${totalStr} <span style="font-size:13px;font-weight:normal;color:#666;">${detailStr}</span></div>
-                    <p class="plan-desc">${plan.detail}</p>
+                    <span class="plan-capacity">${p.capacity}</span>
+                    <div class="plan-title">${p.title}</div>
+                    <div class="plan-detail">${p.detail}</div>
+                    <div class="plan-price">
+                        $${total.toLocaleString()} 
+                        <small>(${calc.weekdays}平日+${calc.weekends}假日)</small>
+                    </div>
                 `;
-                div.onclick = () => selectPlan(div, plan.title, totalStr + " " + detailStr);
+                div.onclick = () => {
+                    document.querySelectorAll('.plan-card').forEach(e => e.classList.remove('selected'));
+                    div.classList.add('selected');
+                    currentPlan = p.title;
+                    currentPrice = `$${total.toLocaleString()}`;
+                    const step3 = document.getElementById('step-3');
+                    step3.classList.add('active');
+                    setTimeout(() => step3.scrollIntoView({ behavior: 'smooth', block: 'start' }), 300);
+                };
                 container.appendChild(div);
             });
             
-            const section = document.getElementById('step-2-plan');
-            section.classList.add('active');
-            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const step2 = document.getElementById('step-2');
+            step2.classList.add('active');
+            step2.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        function selectPlan(cardDiv, planTitle, priceInfo) {
-            document.querySelectorAll('.plan-card').forEach(el => el.classList.remove('selected'));
-            cardDiv.classList.add('selected');
-            currentSelectedPlan = planTitle;
-            currentEstimatedPrice = priceInfo.replace(/<[^>]*>/g, '');
-            const step3 = document.getElementById('step-3-contact');
-            if (!step3.classList.contains('active')) {
-                step3.classList.add('active');
-                setTimeout(() => step3.scrollIntoView({ behavior: 'smooth', block: 'start' }), 200);
+        function calculatePrice(start, end) {
+            let weekdays = 0;
+            let weekends = 0;
+            let cur = new Date(start);
+            const stop = new Date(end);
+            while(cur < stop) {
+                const day = cur.getDay();
+                if (day === 5 || day === 6) weekends++; else weekdays++;
+                cur.setDate(cur.getDate() + 1);
             }
+            return { weekdays, weekends };
         }
 
-        function sendToLine() {
+        // --- 發送邏輯 ---
+        function handleSend() {
             const name = document.getElementById('user-name').value.trim();
             const phone = document.getElementById('user-phone').value.trim();
-            const phoneRegex = /^09\d{8}$/;
 
-            document.getElementById('phone-error').style.display = 'none';
-            document.getElementById('user-phone').classList.remove('input-error');
+            if(!name || !phone) { Swal.fire({ icon: 'warning', title: '資料不完整', text: '請輸入姓名與電話', confirmButtonColor: '#BFA15F' }); return; }
 
-            if (!name) { alert("請輸入聯絡人姓名"); document.getElementById('user-name').focus(); return; }
-            if (!phoneRegex.test(phone)) {
-                document.getElementById('user-phone').classList.add('input-error');
-                document.getElementById('phone-error').style.display = 'block';
-                document.getElementById('user-phone').focus();
-                return;
+            // 1. 組合訊息 (客人傳給管家，口吻要對)
+            const message = `【訂房詢價單】\n--------------------------\n📅 日期：${formatDate(selectedStart)} ~ ${formatDate(selectedEnd)}\n🏨 館別：${currentVenue}\n🛏️ 方案：${currentPlan}\n💰 系統算價：${currentPrice}\n--------------------------\n👤 姓名：${name}\n📱 電話：${phone}\n--------------------------\n您好，以上是我的預約資訊。\n請問是否有空房？謝謝！`;
+            
+            // 2. 製作連結
+            const lineUrl = `https://line.me/R/oaMessage/${LINE_OFFICIAL_ID}/?text=${encodeURIComponent(message)}`;
+
+            // 3. 準備 Web 端的「成功提示彈窗」 (這是管家對客人說的話)
+            const showSuccessAlert = (confirmCallback) => {
+                Swal.fire({
+                    title: `${name} 您好！`,
+                    html: `
+                        <div style="text-align:left; font-size:0.95rem; line-height:1.6; color:#555;">
+                            <p>感謝您的詢問，詢價單已準備就緒。<br>
+                            請點擊下方按鈕將資訊傳送給我們。</p>
+                            <hr style="border:0; border-top:1px dashed #ddd; margin:10px 0;">
+                            <p style="font-size:0.85rem; color:#888;">
+                                <i class="fa-solid fa-bell" style="color:var(--c-gold)"></i> 
+                                管家收到訊息後將盡快回覆您。<br>
+                                建議您可先詳閱：<a href="${RULES_URL}" target="_blank" style="color:var(--c-primary); font-weight:bold; text-decoration:underline;">入住須知與生活公約</a>
+                            </p>
+                        </div>
+                    `,
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: '立即傳送 LINE',
+                    cancelButtonText: '稍後再傳',
+                    confirmButtonColor: '#06C755'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        confirmCallback();
+                    }
+                });
+            };
+
+            // 4. 執行邏輯 (分流)
+            const isMobile = liff.isInClient() || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                // 手機版：先跳彈窗確認，按確定後跳轉 LINE
+                showSuccessAlert(() => {
+                    window.location.href = lineUrl;
+                });
+            } else {
+                // 電腦版：顯示 QR Code (QR Code 下方也可以加註警語)
+                generateQrCode(lineUrl, name);
             }
+        }
 
-            const message = `你好！我想詢問優惠價 💰\n--------------------------\n📅 入住：${formatDate(selectedStart)}\n📅 退房：${formatDate(selectedEnd)}\n🏨 館別：${currentVenueName}\n🛏️ 方案：${currentSelectedPlan}\n💵 預估：${currentEstimatedPrice}\n--------------------------\n👤 姓名：${name}\n📱 電話：${phone}\n--------------------------\n請問此方案是否有空房或優惠？謝謝！`;
-
-            navigator.clipboard.writeText(message).then(() => {
-                if (confirm("✅ 訂房資料已複製！\n\n請點擊「確定」開啟 LINE，並在對話框按「貼上」(或 Ctrl+V) 傳送即可。")) {
-                    window.location.href = LINE_DEEP_LINK;
-                    document.getElementById('manual-line-btn').style.display = 'block';
-                    document.getElementById('force-line-link').href = LINE_DEEP_LINK;
+        function generateQrCode(url, name) {
+            Swal.fire({
+                title: `${name} 您好！`,
+                html: `
+                    <div style="font-size:0.9rem; color:#666; margin-bottom:15px; line-height:1.5;">
+                        感謝您的詢問！請開啟手機 LINE 掃描下方 QR Code<br>
+                        即可快速發送詢價單給管家。
+                    </div>
+                    <div id="qrcode" style="display:flex; justify-content:center; margin:15px auto;"></div>
+                    <div style="font-size:0.8rem; color:#888; margin-top:10px;">
+                        <i class="fa-solid fa-circle-info"></i> 傳送後管家將盡快回覆。<br>
+                        建議您先撥空閱讀 <a href="${RULES_URL}" target="_blank" style="color:#BFA15F;">入住須知</a>
+                    </div>
+                `,
+                showConfirmButton: true, 
+                confirmButtonText: '已掃描傳送',
+                confirmButtonColor: '#2C3E50',
+                width: 420,
+                didOpen: () => {
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: url, width: 200, height: 200, colorDark : "#2C3E50", colorLight : "#ffffff", correctLevel : QRCode.CorrectLevel.M
+                    });
                 }
-            }).catch(() => {
-                alert("⚠️ 瀏覽器阻擋自動複製，請手動複製以下資訊：\n\n" + message);
-                document.getElementById('manual-line-btn').style.display = 'block';
-                document.getElementById('force-line-link').href = LINE_DEEP_LINK;
             });
         }
 
         function formatDate(d) { return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
-        function applyDate(s, e) { fp.setDate([s, e]); selectedStart = new Date(s); selectedEnd = new Date(e); startQuery(); }
-        function toggleCalendarVisibility() {
-            const wrapper = document.getElementById('calendars-wrapper');
-            wrapper.classList.toggle('show');
-            if(wrapper.classList.contains('show')) wrapper.scrollIntoView({behavior: "smooth", block: "start"});
-        }
     </script>
 </body>
 </html>
