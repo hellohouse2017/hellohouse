@@ -55,7 +55,7 @@
         /* Footer */
         .footer { background-color: var(--theme-dark-bg); color: #aaa; padding: 40px 0; text-align: center; margin-top: auto; }
         
-        /* SweetAlert 自訂樣式 (讓按鈕更有質感) */
+        /* SweetAlert Style */
         .swal2-styled.swal2-confirm { background-color: var(--c-accent) !important; border-radius: 50px !important; box-shadow: 0 4px 15px rgba(197, 160, 101, 0.4) !important; font-size: 1.1em !important; padding: 12px 30px !important; }
         .swal2-popup { border-radius: 20px !important; }
 
@@ -134,6 +134,7 @@
     </footer>
 
     <script>
+        // 設定區
         const GAS_APP_URL = "https://script.google.com/macros/s/AKfycbzfqpbILo5s6P0593PcdpYVie5cbyYGhxe83-Xbzs5QHymN6uNwo37ziT0As6zj1tZk1w/exec";
         const MY_LIFF_ID = "2008582194-vLLGoM4M"; 
 
@@ -188,7 +189,7 @@
             hasSigned = false;
         }
 
-        // ★★★ 核心上傳功能 (含 SweetAlert 美化) ★★★
+        // ★★★ 核心上傳功能 (含雙檔名邏輯 + 高級感卡片) ★★★
         async function submitContract() {
             const name = document.getElementById('booker-name').value.trim();
             const phone = document.getElementById('booker-phone').value.trim();
@@ -206,17 +207,18 @@
             const btnText = document.getElementById('btn-text');
             
             btn.disabled = true;
-            btnText.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 加密上傳中...';
+            btnText.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> 生成高解析合約中...';
 
             try {
-                // 生成 PDF
                 const dateVal = document.getElementById('date-range-picker').value;
                 const cleanDate = dateVal.split(' 至 ')[0].replace(/-/g, '');
-                const fileName = `${cleanDate}_${house}_${name}.pdf`;
+                
+                // 傳給 GAS 的原始檔名 (管家看的)
+                const fileName = `${cleanDate}_${house}_${name}_${phone}.pdf`;
 
                 const captureArea = document.getElementById("capture-area");
-                const canvasData = await html2canvas(captureArea, { scale: 1, useCORS: true, backgroundColor: "#ffffff" });
-                const imgData = canvasData.toDataURL('image/jpeg', 0.6);
+                const canvasData = await html2canvas(captureArea, { scale: 2, useCORS: true, backgroundColor: "#ffffff", logging: false });
+                const imgData = canvasData.toDataURL('image/jpeg', 0.7); // 70% 品質平衡大小與畫質
                 
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
@@ -232,7 +234,8 @@
                     var pdfBase64 = pdf.output('datauristring');
                 }
 
-                // 上傳 GAS
+                btnText.innerHTML = '<i class="fa-solid fa-cloud-arrow-up fa-spin"></i> 加密上傳雲端...';
+
                 const response = await fetch(GAS_APP_URL, {
                     method: "POST",
                     redirect: "follow",
@@ -247,39 +250,100 @@
                 if (result.status === "success") {
                     const downloadLink = result.url;
                     
-                    // --- 成功後的處理 ---
                     if (liff.isInClient()) {
-                        // 手機版 (LIFF)：傳送文字 + 漂亮成功動畫
-                        const msgText = `✅ 線上簽約完成！\n\n📄 旅客：${name}\n🏠 館別：${house}\n\n📥 合約下載連結：\n${downloadLink}\n\n(此連結由 Google Drive 提供，永久有效)`;
+                        // ★★★ 高級感 Flex Message 設計 ★★★
+                        const flexMessage = {
+                            "type": "flex",
+                            "altText": "✅ 您的住宿契約書已簽署完成",
+                            "contents": {
+                                "type": "bubble",
+                                "size": "mega",
+                                "header": {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "backgroundColor": "#2D3748",
+                                    "paddingAll": "xl",
+                                    "contents": [
+                                        { "type": "text", "text": "✅ 簽約完成確認", "color": "#C5A065", "weight": "bold", "size": "lg", "align": "center" },
+                                        { "type": "text", "text": "CONTRACT SIGNED", "color": "#718096", "size": "xxs", "align": "center", "margin": "xs", "letterSpacing": "1px" }
+                                    ]
+                                },
+                                "body": {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "paddingAll": "xl",
+                                    "contents": [
+                                        { "type": "text", "text": `感謝您，${name} 貴賓`, "weight": "bold", "size": "lg", "color": "#1A202C" },
+                                        { "type": "text", "text": "您的入住合約已完成簽署並歸檔。", "size": "sm", "color": "#718096", "margin": "sm" },
+                                        
+                                        { "type": "separator", "margin": "xl" },
+                                        
+                                        // 資訊表格
+                                        {
+                                            "type": "box", "layout": "vertical", "margin": "xl", "spacing": "sm",
+                                            "contents": [
+                                                {
+                                                    "type": "box", "layout": "baseline", "spacing": "sm",
+                                                    "contents": [
+                                                        { "type": "text", "text": "🏠 館別", "color": "#A0AEC0", "size": "sm", "flex": 2 },
+                                                        { "type": "text", "text": house, "wrap": true, "color": "#2D3748", "size": "sm", "flex": 5, "weight": "bold" }
+                                                    ]
+                                                },
+                                                {
+                                                    "type": "box", "layout": "baseline", "spacing": "sm",
+                                                    "contents": [
+                                                        { "type": "text", "text": "📅 入住", "color": "#A0AEC0", "size": "sm", "flex": 2 },
+                                                        { "type": "text", "text": dateVal.split(' 至 ')[0], "color": "#2D3748", "size": "sm", "flex": 5 }
+                                                    ]
+                                                }
+                                            ]
+                                        },
+                                        
+                                        { "type": "separator", "margin": "xl" },
+                                        
+                                        // 按鈕區域
+                                        { "type": "text", "text": "📥 您的合約副本檔案", "size": "xs", "color": "#A0AEC0", "margin": "xl", "align": "center" },
+                                        {
+                                            "type": "button",
+                                            "style": "primary",
+                                            "height": "sm",
+                                            "color": "#C5A065",
+                                            "margin": "md",
+                                            "action": { "type": "uri", "label": "點此下載契約書 PDF", "uri": downloadLink }
+                                        },
+                                        { "type": "text", "text": "⚠️ 連結有效期限約 15 天\n如有需要請把握時間下載留存。", "size": "xxs", "color": "#E53E3E", "margin": "md", "wrap": true, "align": "center" }
+                                    ]
+                                }
+                            }
+                        };
+
+                        await liff.sendMessages([flexMessage]);
                         
-                        await liff.sendMessages([{ type: "text", text: msgText }]);
-                        
-                        // 漂亮的成功提示
                         await Swal.fire({
                             icon: 'success',
-                            title: '簽署完成！',
-                            text: '合約已傳送至您的 LINE 聊天室',
-                            confirmButtonColor: '#06C755',
+                            title: '簽署完成',
+                            text: '合約與下載連結已傳送至 LINE',
+                            confirmButtonColor: '#2D3748',
                             timer: 3000,
                             timerProgressBar: true
                         });
                         liff.closeWindow();
                         
                     } else {
-                        // 電腦版：漂亮的下載卡片
+                        // 電腦版
                         Swal.fire({
                             icon: 'success',
-                            title: '🎉 簽約成功！',
+                            title: '簽約成功！',
                             html: `
                                 <div style="text-align:left; margin-top:10px; color:#555;">
-                                    <p>檔案已加密上傳至雲端。</p>
-                                    <p style="font-size:0.9rem; color:#888;">您可以點擊下方按鈕下載留存：</p>
+                                    <p>感謝您，${name}！</p>
+                                    <p style="font-size:0.9rem; color:#888;">檔案已加密上傳。請於 15 天內下載留存。</p>
                                 </div>
                                 <a href="${downloadLink}" target="_blank" style="display:block; background:#C5A065; color:white; padding:15px; border-radius:50px; text-decoration:none; font-weight:bold; margin-top:20px; box-shadow:0 4px 15px rgba(197,160,101,0.4); transition:0.3s;">
                                     <i class="fa-solid fa-cloud-arrow-down"></i> 下載合約 PDF
                                 </a>
                             `,
-                            showConfirmButton: false, // 隱藏原本醜醜的按鈕
+                            showConfirmButton: false,
                             showCloseButton: true,
                             width: '450px'
                         });
@@ -290,12 +354,7 @@
 
             } catch (err) {
                 console.error(err);
-                Swal.fire({
-                    icon: 'error',
-                    title: '上傳失敗',
-                    text: err.message,
-                    confirmButtonColor: '#d33'
-                });
+                Swal.fire({ icon: 'error', title: '上傳失敗', text: err.message, confirmButtonColor: '#d33' });
             } finally {
                 btn.disabled = false;
                 btnText.innerHTML = "✅ 確認簽署並回傳";
