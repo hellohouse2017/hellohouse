@@ -198,7 +198,7 @@
     </footer>
 
     <script>
-        // ★★★ 請設定您的 GAS 網址 與 LIFF ID ★★★
+        // ★★★ 已更新為您的最新 GAS 網址 ★★★
         const GAS_APP_URL = "https://script.google.com/macros/s/AKfycbzfqpbILo5s6P0593PcdpYVie5cbyYGhxe83-Xbzs5QHymN6uNwo37ziT0As6zj1tZk1w/exec";
         const MY_LIFF_ID = "2008582194-vLLGoM4M"; 
 
@@ -209,7 +209,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // 1. 初始化 LIFF
             if (typeof liff !== 'undefined') {
-                liff.init({ liffId: MY_LIFF_ID }).catch(err => console.error(err));
+                liff.init({ liffId: MY_LIFF_ID }).catch(err => console.error("LIFF Error:", err));
             }
 
             // 2. 日期選擇器
@@ -233,7 +233,6 @@
 
         function initSignaturePad() {
             const wrapper = document.getElementById('sign-wrapper');
-            
             function resize() {
                 const ratio = Math.max(window.devicePixelRatio || 1, 1);
                 canvas.width = wrapper.offsetWidth * ratio;
@@ -245,7 +244,6 @@
             resize();
 
             let isDrawing = false;
-            
             const start = (e) => { isDrawing = true; hasSigned = true; hint.style.display = 'none'; ctx.beginPath(); draw(e); };
             const end = () => { isDrawing = false; ctx.beginPath(); };
             const draw = (e) => {
@@ -261,7 +259,6 @@
                 }
                 ctx.lineTo(x, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x, y);
             };
-
             canvas.addEventListener('mousedown', start);
             canvas.addEventListener('mousemove', draw);
             canvas.addEventListener('mouseup', end);
@@ -276,21 +273,25 @@
             hasSigned = false;
         }
 
-        // ★★★ 核心功能：生成 PDF 並上傳 ★★★
-        // ★★★ 輕量化穩定版：生成 PDF 並上傳 ★★★
+        // ★★★ 核心功能：生成 PDF 並上傳 (含除錯模式) ★★★
         async function submitContract() {
-            const name = document.getElementById('booker-name').value.trim();
-            const phone = document.getElementById('booker-phone').value.trim();
+            // --- 自動填入測試資料 (若留空) ---
+            let name = document.getElementById('booker-name').value.trim();
+            let phone = document.getElementById('booker-phone').value.trim();
             const house = document.getElementById('house-select').value;
-            const phoneRegex = /^09\d{8}$/;
+            
+            // 測試用：如果沒填，自動補上
+            if (!name) { name = "測試人員"; document.getElementById('booker-name').value = name; }
+            if (!phone) { phone = "0900000000"; document.getElementById('booker-phone').value = phone; }
+            if (datePicker.selectedDates.length !== 2) {
+                // 自動設為今天到明天
+                datePicker.setDate([new Date(), new Date(new Date().getTime() + 86400000)]);
+            }
+            
+            // 標記簽名 (即使沒簽也讓他過，為了測試連線)
+            hasSigned = true; 
 
-            // 1. 驗證
-            if (!datePicker || datePicker.selectedDates.length !== 2) return alertAndFocus("請選擇「入住與退房日期」", "date-range-picker");
-            if (!name) return alertAndFocus("請輸入訂房人姓名", "booker-name");
-            if (!phoneRegex.test(phone)) return alertAndFocus("請輸入正確的手機號碼 (09xxxxxxxx)", "booker-phone");
-            if (!hasSigned) return alertAndFocus("請在下方簽名欄完成簽名", "signature-canvas");
-
-            // 2. 更新時間與鎖定
+            // 更新時間與鎖定按鈕
             const now = new Date();
             document.getElementById('date-display').innerText = "簽署時間：" + now.toLocaleString('zh-TW');
             
@@ -298,25 +299,28 @@
             const btnText = btn.querySelector('.btn-text');
             btn.disabled = true;
             btn.classList.add('generating');
-            btnText.innerText = "正在壓縮並上傳 PDF..."; // 提示文字改一下
+            
+            let pdfBase64 = "";
+            let fileName = "";
 
+            // --- 階段一：生成 PDF ---
             try {
-                const checkInDate = document.getElementById('date-range-picker').value.split(' 至 ')[0].replace(/-/g, '');
-                const fileName = `${checkInDate}_${house}_${name}_${phone}.pdf`;
+                btnText.innerText = "1/2 生成 PDF 中...";
+                const dateVal = document.getElementById('date-range-picker').value;
+                const checkInDate = dateVal ? dateVal.split(' 至 ')[0].replace(/-/g, '') : "20250101";
+                fileName = `${checkInDate}_${house}_${name}_${phone}.pdf`;
 
-                // 3. ★★★ 關鍵修改：降低解析度以確保上傳成功 ★★★
                 const captureArea = document.getElementById("capture-area");
                 
-                // scale: 1 (原尺寸即可，手機螢幕其實夠清楚)
+                // 使用較低解析度以確保成功
                 const canvasData = await html2canvas(captureArea, { 
                     scale: 1, 
-                    useCORS: true, 
-                    backgroundColor: "#ffffff" 
+                    useCORS: true, // 允許跨域圖片
+                    backgroundColor: "#ffffff",
+                    logging: false
                 });
                 
-                // 圖片壓縮品質改為 0.6 (大幅縮小檔案體積)
                 const imgData = canvasData.toDataURL('image/jpeg', 0.6);
-                
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const imgProps = pdf.getImageProperties(imgData);
@@ -325,105 +329,109 @@
                 if (imgHeight > pdf.internal.pageSize.getHeight()) {
                     const longPdf = new jsPDF('p', 'mm', [pdfWidth, imgHeight + 10]);
                     longPdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, imgHeight);
-                    var pdfBase64 = longPdf.output('datauristring');
+                    pdfBase64 = longPdf.output('datauristring');
                 } else {
                     pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, imgHeight);
-                    var pdfBase64 = pdf.output('datauristring');
+                    pdfBase64 = pdf.output('datauristring');
                 }
+                
+                console.log("PDF 生成成功，長度:", pdfBase64.length);
 
-                // 4. 上傳到 GAS (增加 redirect 參數)
+            } catch (err) {
+                console.error("生成 PDF 失敗", err);
+                alert("❌ 生成 PDF 失敗！\n原因：" + err.message);
+                resetBtn();
+                return;
+            }
+
+            // --- 階段二：上傳至 GAS ---
+            try {
+                btnText.innerText = "2/2 上傳雲端中...";
+                
+                // 使用 text/plain 避免 CORS Preflight 問題
                 const response = await fetch(GAS_APP_URL, {
                     method: "POST",
-                    redirect: "follow", // 確保跟隨 GAS 的轉址
+                    redirect: "follow",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
                     body: JSON.stringify({
                         type: "UPLOAD_IMG",
                         image: pdfBase64,
                         filename: fileName,
                         user: name
-                    }),
-                    // 避免發送額外的 Preflight 請求
-                    headers: { "Content-Type": "text/plain;charset=utf-8" }
+                    })
                 });
-                
-                // ★★★ 錯誤偵錯：如果回傳不是 JSON，拋出文字內容以便除錯 ★★★
-                const textResponse = await response.text();
+
+                // 取得原始回傳文字 (方便除錯)
+                const responseText = await response.text();
+                console.log("GAS 回傳:", responseText);
+
                 let result;
                 try {
-                    result = JSON.parse(textResponse);
+                    result = JSON.parse(responseText);
                 } catch (e) {
-                    throw new Error("GAS 回傳錯誤 (非 JSON): " + textResponse.substring(0, 100));
+                    // 如果解析失敗，通常是因為 GAS 回傳了錯誤網頁 (HTML)
+                    throw new Error("GAS 回傳格式錯誤 (非 JSON)。\n內容：" + responseText.substring(0, 150));
                 }
 
                 if (result.status === "success") {
                     const downloadLink = result.url;
+                    
                     if (liff.isInClient()) {
-                        await liff.sendMessages([
-                            {
-                                type: "flex",
-                                altText: "📄 您有一份簽署完成的合約",
-                                contents: {
-                                    "type": "bubble",
-                                    "size": "mega",
-                                    "body": {
-                                        "type": "box",
-                                        "layout": "vertical",
-                                        "contents": [
-                                            { "type": "text", "text": "✅ 線上簽署完成", "weight": "bold", "color": "#1DB446", "size": "sm" },
-                                            { "type": "text", "text": "住宿契約書", "weight": "bold", "size": "xl", "margin": "md" },
-                                            { "type": "text", "text": fileName, "size": "xxs", "color": "#aaaaaa", "wrap": true, "margin": "xs" },
-                                            { "type": "separator", "margin": "lg" },
-                                            {
-                                                "type": "box", "layout": "vertical", "margin": "lg", "spacing": "sm",
-                                                "contents": [
-                                                    { "type": "box", "layout": "baseline", "spacing": "sm", "contents": [ { "type": "text", "text": "簽署人", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": name, "wrap": true, "color": "#666666", "size": "sm", "flex": 5 } ] },
-                                                    { "type": "box", "layout": "baseline", "spacing": "sm", "contents": [ { "type": "text", "text": "館別", "color": "#aaaaaa", "size": "sm", "flex": 2 }, { "type": "text", "text": house, "wrap": true, "color": "#666666", "size": "sm", "flex": 5 } ] }
-                                                ]
-                                            }
-                                        ]
-                                    },
-                                    "footer": {
-                                        "type": "box", "layout": "vertical", "spacing": "sm",
-                                        "contents": [
-                                            { "type": "button", "style": "primary", "height": "sm", "color": "#C5A065", "action": { "type": "uri", "label": "📥 下載/查看合約 PDF", "uri": downloadLink } },
-                                            { "type": "text", "text": "此連結由 Google Drive 提供，永久有效。", "size": "xxs", "color": "#bbbbbb", "align": "center", "margin": "sm" }
-                                        ]
-                                    }
+                        await liff.sendMessages([{
+                            type: "flex",
+                            altText: "📄 您有一份簽署完成的合約",
+                            contents: {
+                                "type": "bubble",
+                                "size": "mega",
+                                "body": {
+                                    "type": "box", "layout": "vertical",
+                                    "contents": [
+                                        { "type": "text", "text": "✅ 線上簽署完成", "weight": "bold", "color": "#1DB446", "size": "sm" },
+                                        { "type": "text", "text": "住宿契約書", "weight": "bold", "size": "xl", "margin": "md" },
+                                        { "type": "text", "text": fileName, "size": "xxs", "color": "#aaaaaa", "wrap": true, "margin": "xs" },
+                                        { "type": "separator", "margin": "lg" },
+                                        { "type": "text", "text": "請點擊下方按鈕下載留存", "size": "xs", "color": "#666", "margin": "lg", "align": "center" }
+                                    ]
+                                },
+                                "footer": {
+                                    "type": "box", "layout": "vertical", "spacing": "sm",
+                                    "contents": [
+                                        { "type": "button", "style": "primary", "height": "sm", "color": "#C5A065", "action": { "type": "uri", "label": "📥 下載合約 PDF", "uri": downloadLink } }
+                                    ]
                                 }
                             }
-                        ]);
+                        }]);
                         liff.closeWindow();
                     } else {
-                        alert("✅ 簽約成功！\n檔案已上傳至雲端，請點擊確定跳轉回 LINE。");
-                        window.location.href = LINE_DEEP_LINK;
+                        alert("✅ 上傳成功！\n\n檔案連結：" + downloadLink);
                     }
                 } else {
-                    throw new Error(result.msg || "Unknown GAS error");
+                    throw new Error("GAS 執行錯誤: " + (result.msg || "未知原因"));
                 }
 
             } catch (err) {
-                console.error(err);
-                // 這裡會把具體的錯誤顯示出來
-                alert("上傳失敗！\n原因：" + err.message);
-                btn.disabled = false;
-                btn.classList.remove('generating');
-                btnText.innerText = "✅ 確認簽署並回傳";
+                console.error("上傳失敗", err);
+                alert("❌ 上傳失敗！\n原因：" + err.message);
+            } finally {
+                resetBtn();
             }
         }
 
-        function alertAndFocus(msg, id) {
-            alert(msg);
-            const el = document.getElementById(id);
-            el.scrollIntoView({behavior: "smooth", block: "center"});
-            el.classList.add('highlight-error');
-            setTimeout(() => el.classList.remove('highlight-error'), 1500);
+        function resetBtn() {
+            const btn = document.getElementById('btn-submit');
+            btn.disabled = false;
+            btn.classList.remove('generating');
+            btn.querySelector('.btn-text').innerText = "✅ 確認簽署並回傳";
         }
 
         function alertAndFocus(msg, id) {
             alert(msg);
             const el = document.getElementById(id);
-            el.scrollIntoView({behavior: "smooth", block: "center"});
-            el.classList.add('highlight-error');
-            setTimeout(() => el.classList.remove('highlight-error'), 1500);
+            if(el) {
+                el.scrollIntoView({behavior: "smooth", block: "center"});
+                el.classList.add('highlight-error');
+                setTimeout(() => el.classList.remove('highlight-error'), 1500);
+            }
         }
     </script>
 </body>
