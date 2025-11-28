@@ -417,12 +417,34 @@
                                 }
                             };
                             await liff.sendMessages([flexMessage]);
-                        } catch (msgErr) {
-                            // 降級方案：如果漂亮卡片失敗，傳送純文字
-                            console.error("Flex failed, sending text instead", msgErr);
-                            const textMsg = `✅ 線上簽約完成！\n\n📄 旅客：${name}\n🏠 館別：${house}\n\n📥 下載合約：\n${downloadLink}\n\n(此連結由 Google Drive 提供，永久有效)`;
-                            await liff.sendMessages([{ type: "text", text: textMsg }]);
-                        }
+                        // ... (前略)
+
+} catch (msgErr) {
+    console.error("Flex failed, sending text instead", msgErr);
+    
+    // ★★★ 美化版純文字訊息 ★★★
+    const msgText = `【住宿契約簽署完成】
+
+感謝您，${name} 貴賓！
+您的入住合約已完成簽署並歸檔。
+
+──────────────
+🏠 館別｜${house}
+📅 入住｜${dateVal.split(' 至 ')[0]}
+📱 電話｜${phone}
+──────────────
+
+📥 您的合約副本 (PDF)
+請點擊下方連結下載留存：
+${downloadLink}
+
+⚠️ 連結有效期限約 15 天
+如有需要請把握時間下載。`;
+
+    await liff.sendMessages([{ type: "text", text: msgText }]);
+}
+
+// ... (後略)
 
                         await Swal.fire({ icon: 'success', title: '簽署完成', text: '合約已傳送至 LINE', confirmButtonColor: '#2C3E50', timer: 3000, timerProgressBar: true });
                         liff.closeWindow();
