@@ -1,183 +1,506 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-  <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>住宿資訊指南</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
-    :root { --primary: #BFA15F; --dark: #2C3E50; --light: #F9F5EB; --white: #ffffff; }
-    body { font-family: 'Noto Sans TC', sans-serif; background: #F5F5F5; margin: 0; padding: 0; color: #333; line-height: 1.6; }
-    
-    /* 頂部導航 */
-    .header { background: var(--dark); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-    .header h1 { margin: 0; font-size: 1.1rem; letter-spacing: 1px; }
-    
-    /* 內容容器 */
-    .container { max-width: 600px; margin: 20px auto; padding: 0 15px; }
-    
-    /* 卡片樣式 */
-    .card { background: white; border-radius: 12px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); animation: fadeIn 0.4s ease; border-top: 5px solid var(--primary); display: none; }
+    /* === 核心變數：高級配色 (愛馬仕橘金 + 午夜藍) === */
+    :root {
+      --primary: #BFA15F;       
+      --primary-dark: #9e854b;
+      --dark: #2C3E50;          
+      --text: #4a4a4a;          
+      --light-bg: #F9F9F9;      
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: var(--light-bg);
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    /* === 頂部導航 === */
+    .header {
+      background: var(--white);
+      text-align: center;
+      padding: 20px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header h1 {
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+      color: var(--dark);
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+    .header span {
+      display: block;
+      font-family: 'Noto Sans TC', sans-serif;
+      font-size: 0.8rem;
+      color: var(--primary);
+      margin-top: 5px;
+      letter-spacing: 1px;
+    }
+
+    /* === 容器與卡片 === */
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 0 20px;
+      padding-bottom: 50px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 25px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(0,0,0,0.02);
+      display: none; /* 預設隱藏 */
+      animation: fadeInUp 0.6s ease;
+    }
     .card.active { display: block; }
 
-    h2 { color: var(--dark); font-size: 1.3rem; margin-top: 0; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
-    h3 { color: var(--primary); font-size: 1.1rem; margin-bottom: 5px; margin-top: 20px; }
-    p { margin-bottom: 10px; color: #555; }
+    /* === 排版細節 === */
+    h2 {
+      color: var(--dark);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-top: 0;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 15px;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    h3 {
+      color: var(--dark);
+      font-size: 1.1rem;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      padding-left: 10px;
+      border-left: 4px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    p { margin-bottom: 15px; font-weight: 400; font-size: 0.95rem; text-align: justify; }
+
+    /* === 特殊元件 === */
+    .highlight-box {
+      background: #F4F6F7;
+      border-left: 4px solid var(--dark);
+      padding: 20px;
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0;
+    }
     
-    .highlight { background: var(--light); padding: 15px; border-radius: 8px; color: var(--dark); font-weight: bold; text-align: center; margin: 15px 0; border: 1px dashed var(--primary); }
-    .big-text { font-size: 1.8rem; color: #2980b9; display: block; margin-top: 5px; }
+    .wifi-code {
+      text-align: center;
+      background: var(--dark);
+      color: var(--primary);
+      padding: 20px;
+      border-radius: 12px;
+      margin: 20px 0;
+    }
+    .wifi-code .code {
+      display: block;
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: monospace;
+      margin-top: 5px;
+      letter-spacing: 2px;
+    }
+
+    .qa-item {
+      border-bottom: 1px solid #eee;
+      padding: 20px 0;
+    }
+    .qa-item:last-child { border-bottom: none; }
+    .qa-title { font-weight: 600; color: var(--dark); margin-bottom: 8px; font-size: 1.05rem; }
+    .qa-content { color: #666; font-size: 0.9rem; }
     
-    .btn { display: block; width: 100%; padding: 12px; margin: 10px 0; border-radius: 50px; text-align: center; text-decoration: none; font-weight: bold; transition: 0.2s; }
-    .btn-primary { background: var(--primary); color: white; }
-    .btn-secondary { background: #eee; color: #555; }
-    .btn-map { background: #fff; border: 1px solid #ddd; color: #333; text-align: left; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
-    .btn-map:hover { border-color: var(--primary); background: var(--light); }
+    /* 列表樣式 */
+    ul.check-list { list-style: none; padding-left: 0; margin: 10px 0; }
+    ul.check-list li { position: relative; padding-left: 25px; margin-bottom: 8px; font-size: 0.9rem; color: #555; }
+    ul.check-list li::before {
+      content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+      position: absolute; left: 0; top: 2px; color: var(--primary);
+    }
+
+    /* === 停車場列表樣式 === */
+    .parking-list { display: flex; flex-direction: column; gap: 15px; }
+    .parking-item {
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: 0.2s;
+      background: #fff;
+      text-decoration: none;
+      color: inherit;
+    }
+    .parking-item:hover {
+      border-color: var(--primary);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transform: translateY(-2px);
+    }
+    .parking-info { flex: 1; }
+    .parking-name { font-weight: 600; color: var(--dark); margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+    .parking-tag { font-size: 0.7rem; background: var(--primary); color: white; padding: 2px 6px; border-radius: 4px; }
+    .parking-detail { font-size: 0.85rem; color: #666; display: flex; flex-direction: column; gap: 2px; }
+    .parking-price { color: #d35400; font-weight: 500; font-size: 0.8rem; margin-top: 3px; }
+    .parking-action { color: var(--primary); font-size: 1.2rem; margin-left: 15px; }
+
+    /* === 按鈕樣式 === */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border-radius: 50px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 500;
+      transition: 0.3s;
+      margin-top: 15px;
+      box-sizing: border-box;
+      cursor: pointer;
+      border: none;
+      font-size: 1rem;
+    }
+    .btn-primary {
+      background: var(--dark);
+      color: var(--white);
+      box-shadow: 0 4px 15px rgba(44, 62, 80, 0.3);
+    }
+    .btn-primary:active { transform: scale(0.98); }
+
+    .btn-map {
+      background: var(--white);
+      border: 1px solid #ddd;
+      color: #555;
+      text-align: left;
+      padding: 12px 20px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.9rem;
+    }
+    .btn-map:hover { border-color: var(--primary); background: #fdfdfd; color: var(--primary); }
     
-    .alert { color: #c0392b; font-size: 0.9rem; background: #fff5f5; padding: 10px; border-radius: 5px; margin-top: 5px; }
-    
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    /* === 圖片放大功能 (Lightbox) === */
+    .zoom-img {
+      width: 100%;
+      border-radius: 12px;
+      margin-top: 15px;
+      cursor: zoom-in;
+      transition: 0.3s;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .zoom-img:hover { opacity: 0.9; }
+
+    /* 遮罩層 */
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .lightbox.show { display: flex; opacity: 1; }
+    .lightbox img {
+      max-width: 95%;
+      max-height: 95%;
+      border-radius: 5px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
 
-  <div class="header"><h1 id="page-title">住宿指南</h1></div>
+  <div class="header">
+    <h1 id="page-title">HELLO STAY</h1>
+    <span id="page-subtitle">Accommodation Guide</span>
+  </div>
 
   <div class="container">
     
-    <div id="page-wifi" class="card">
-      <h2><i class="fa-solid fa-wifi"></i> WiFi 連線資訊</h2>
-      <div class="highlight">
-        ID: Hellohouse
-        <span class="big-text">kao828922</span>
-      </div>
-      <p style="text-align:center; font-size:0.9rem;">(全館通用，請區分大小寫)</p>
-      <button class="btn btn-primary" onclick="copyText('kao828922')">點擊複製密碼</button>
-    </div>
-
     <div id="page-traffic" class="card">
-      <h2><i class="fa-solid fa-map-location-dot"></i> 迷路指南 & 停車</h2>
+      <h2><i class="fa-solid fa-person-walking"></i> 迷路指南 (步行路線)</h2>
+      <p>我們的民宿位於靜謐巷弄內，車輛無法直接駛入。以下為前往民宿的<strong>三條主要路徑</strong>，請依您的位置選擇：</p>
       
-      <h3>🚗 你好哇寓所 (Hello House)</h3>
-      <div class="alert"><i class="fa-solid fa-triangle-exclamation"></i> 巷弄狹窄無法開車進入，請先停好車再步行進入。</div>
-      
-      <p><strong>路線 1：七福便當 (大公路)</strong></p>
-      <p>面對便當店走「左手邊」巷子，直走30公尺右手邊抵達。</p>
+      <div class="highlight-box" style="margin-top: 0; margin-bottom: 25px;">
+        <i class="fa-solid fa-map"></i> <strong>步行路線示意圖</strong><br>
+        <span style="font-size: 0.8rem; color: #888;">(點擊圖片可放大查看細節)</span>
+        <img src="https://www.hello-stay.com/hellohouse/images/traffic.jpg" class="zoom-img" onclick="openLightbox(this.src)" alt="步行路線圖">
+      </div>
+
+      <h3>🏠 你好哇寓所 - 路線 1 (大公路)</h3>
+      <p>請找到「七福便當」，面對店面走<strong>左手邊</strong>的巷子，直走約 30 公尺，右手邊即可抵達。</p>
       <a href="https://goo.gl/maps/YOUR_MAP_1" target="_blank" class="btn btn-map">
         <span>📍 導航至七福便當</span> <i class="fa-solid fa-location-arrow"></i>
       </a>
 
-      <p><strong>路線 2：阿英排骨 (富野路)</strong></p>
-      <p>面對店面走「左手邊」巷子，直走左前方80公尺抵達。</p>
+      <h3>🏠 你好哇寓所 - 路線 2 (富野路)</h3>
+      <p>請找到「阿英排骨」，面對店面走<strong>左手邊</strong>的巷子，直走左前方約 80 公尺即可抵達。</p>
       <a href="https://goo.gl/maps/YOUR_MAP_2" target="_blank" class="btn btn-map">
         <span>📍 導航至阿英排骨</span> <i class="fa-solid fa-location-arrow"></i>
       </a>
 
-      <hr style="margin:20px 0; border:0; border-top:1px dashed #ddd;">
+      <hr style="border: 0; border-top: 1px dashed #ddd; margin: 30px 0;">
 
       <h3>🏚️ 溝頂民宿 (Godin B&B)</h3>
-      <div class="alert">⚠️ 位置隱密，車輛請停於瀨南街。</div>
-      <p><strong>唯一路線：老蔡虱目魚</strong></p>
-      <p>面對虱目魚店面走「右手邊」巷子，進來右手邊第六間。</p>
+      <p>請找到「老蔡虱目魚」，面對店面走<strong>右手邊</strong>的巷子，進來右手邊第六間即是。</p>
       <a href="https://goo.gl/maps/YOUR_MAP_3" target="_blank" class="btn btn-map">
         <span>📍 導航至老蔡虱目魚</span> <i class="fa-solid fa-location-arrow"></i>
       </a>
     </div>
 
+    <div id="page-parking" class="card">
+      <h2><i class="fa-solid fa-square-parking"></i> 停車場資訊</h2>
+      <p>民宿位於巷弄內，以下為周邊停車建議 (已依距離排序)：</p>
+      
+      <div class="parking-list">
+        
+        <div class="parking-item">
+          <div class="parking-info">
+            <div class="parking-name">1. 路邊停車格 <span class="parking-tag">距離 20-100m</span></div>
+            <div class="parking-detail">位置：大公路與七賢三路周邊</div>
+            <div class="parking-price">💰 20:00 - 08:00 免費</div>
+          </div>
+        </div>
+
+        <a href="https://www.google.com/maps/search/?api=1&query=Ping+富野站停車場" target="_blank" class="parking-item">
+          <div class="parking-info">
+            <div class="parking-name">2. Ping 富野站停車場 <span class="parking-tag">距離 170m</span></div>
+            <div class="parking-detail">位置：富野路 78 號 (路口)</div>
+            <div class="parking-price">平日 $30/H，假日 $50/H</div>
+          </div>
+          <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
+        </a>
+
+        <a href="https://www.google.com/maps/search/?api=1&query=嘟嘟房+高雄富野站" target="_blank" class="parking-item">
+          <div class="parking-info">
+            <div class="parking-name">3. 嘟嘟房 (高雄富野站) <span class="parking-tag">距離 230m</span></div>
+            <div class="parking-detail">位置：富野路 27 號</div>
+            <div class="parking-price">平日 $40/H，假日 $50/H</div>
+          </div>
+          <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
+        </a>
+
+        <a href="https://www.google.com/maps/search/?api=1&query=高雄國際會議中心停車場" target="_blank" class="parking-item">
+          <div class="parking-info">
+            <div class="parking-name">4. 國際會議中心地下 <span class="parking-tag">距離 300m</span></div>
+            <div class="parking-detail">位置：中正四路 274 號 (室內)</div>
+            <div class="parking-price">🌞 免曬太陽，室內平面車位</div>
+          </div>
+          <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
+        </a>
+
+        <a href="https://www.google.com/maps/search/?api=1&query=文武聖殿停車場" target="_blank" class="parking-item">
+          <div class="parking-info">
+            <div class="parking-name">5. 文武聖殿停車場 <span class="parking-tag">距離 350m</span></div>
+            <div class="parking-detail">位置：富野路 170 號</div>
+            <div class="parking-price">⚠️ 06:00 - 22:00 (非24H)</div>
+          </div>
+          <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
+        </a>
+
+        <a href="https://www.google.com/maps/search/?api=1&query=鹽埕立體停車場" target="_blank" class="parking-item">
+          <div class="parking-info">
+            <div class="parking-name">6. 鹽埕立體停車場 <span class="parking-tag">距離 500m</span></div>
+            <div class="parking-detail">位置：大仁路 10 號</div>
+            <div class="parking-price">🏢 室內多層停車場</div>
+          </div>
+          <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
+        </a>
+
+      </div>
+    </div>
+
+    <div id="page-faq" class="card">
+      <h2><i class="fa-regular fa-comments"></i> 常見問題 Q&A</h2>
+      
+      <div class="qa-item">
+        <div class="qa-title">😋 早上有提供早餐嗎？</div>
+        <div class="qa-content">
+          為了讓大家能品嚐鹽埕區的在地美味，我們<strong>沒有提供早餐</strong>喔！我們準備了精選美食地圖，管家也可以推薦您好吃的私房名單。
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-title">🛌 我們想加人或加床可以嗎？</div>
+        <div class="qa-content">
+          部分房型提供加床服務（需額外收費）。為了維護住宿品質，請務必<strong>提前告知管家</strong>，現場無法臨時加床或增加人數喔。
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-title">🐶 可以帶毛小孩一起入住嗎？</div>
+        <div class="qa-content">
+          <p>我們可以接受<strong>小型貓犬</strong>入住 (每房最多2隻)，但請務必遵守以下約定：</p>
+          <ul class="check-list">
+            <li><strong>必須事前告知：</strong>需先經過管家同意，不可臨時攜帶。</li>
+            <li><strong>寵物禮儀：</strong>嚴禁上床、上沙發。</li>
+            <li><strong>自備用品：</strong>請自備寵物尿墊或貓砂盆。</li>
+            <li><strong>相關費用：</strong>需加收寵物清潔費；若造成髒污損壞，須照價賠償。</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-title">🚬 請問室內可以抽菸嗎？</div>
+        <div class="qa-content">
+          民宿全面<strong>嚴禁吸菸</strong>（包含浴室與陽台）。若有吸菸需求，請移步至一樓戶外空曠處，感謝您的配合。
+        </div>
+      </div>
+    </div>
+
+    <div id="page-wifi" class="card">
+      <h2><i class="fa-solid fa-wifi"></i> WiFi 連線</h2>
+      <p>全館提供高速無線網路，請盡情使用。</p>
+      <div class="wifi-code">
+        ID: Hellohouse
+        <span class="code">kao828922</span>
+      </div>
+      <button class="btn btn-primary" onclick="copyText('kao828922')">複製密碼</button>
+    </div>
+
+    <div id="page-early" class="card">
+      <h2><i class="fa-regular fa-clock"></i> 入住與行李寄放</h2>
+      
+      <h3>🕒 提早入住</h3>
+      <p>標準入住時間為 <strong>16:00</strong>。</p>
+      <p>若房務提早清掃完畢，我們會主動通知您可提早入內休息，不需在現場空等。</p>
+      
+      <h3>🧳 行李寄放 (請注意)</h3>
+      <p>若您提早抵達需要寄放行李，請務必先<strong>聯繫管家</strong>確認。</p>
+      <div class="highlight-box">
+        <strong style="color: #c0392b;">⚠️ 重要約定：</strong><br>
+        經管家同意後，請務必<strong>「統一在約定時間」</strong>前來寄放。<br>
+        <span style="font-size: 0.9rem;">(恕不接受同行親友分批、一組一組陸續前來置放行李，感謝您的體諒。)</span>
+      </div>
+
+      <a href="tel:0932828922" class="btn btn-primary">📞 聯繫管家</a>
+    </div>
+
     <div id="page-fun" class="card">
       <h2><i class="fa-solid fa-dice"></i> 娛樂設施</h2>
-      <p>我們提供以下設施供您使用：</p>
-      <ul>
-        <li>55吋 聯網電視</li>
-        <li>麻將 (含手動桌、牌具、牌尺)</li>
-        <li>撲克牌</li>
-      </ul>
-      <div class="alert">
-        <strong>🚫 關於 KTV</strong><br>
-        由於民宿位於住宅區，為了鄰里安寧，我們<b>不提供且禁止</b>使用麥克風或 KTV 設備，感謝您的配合。
-      </div>
+      <p>提供聯網電視、麻將組與撲克牌。</p>
+      <div class="highlight-box">🚫 住宅區請勿使用 KTV 設備或大聲喧嘩。</div>
     </div>
 
     <div id="page-items" class="card">
       <h2><i class="fa-solid fa-pump-soap"></i> 備品說明</h2>
-      <p>響應環保，我們提供與不提供的項目如下：</p>
-      <div style="display:flex; gap:10px; margin-top:10px;">
-        <div style="flex:1; background:#f0fff4; padding:10px; border-radius:8px;">
-          <strong style="color:green">✅ 提供</strong><br>
-          大浴巾、洗髮乳、沐浴乳、吹風機、室內拖鞋。
-        </div>
-        <div style="flex:1; background:#fff5f5; padding:10px; border-radius:8px;">
-          <strong style="color:red">❌ 不提供</strong><br>
-          牙刷、牙膏、刮鬍刀、浴帽、梳子等一次性備品。
-        </div>
+      <div class="qa-item">
+        <div class="qa-title">✅ 提供</div>
+        <div class="qa-content">大浴巾、洗髮乳、沐浴乳、吹風機、拖鞋。</div>
+      </div>
+      <div class="qa-item">
+        <div class="qa-title">❌ 不提供 (環保旅宿)</div>
+        <div class="qa-content">牙刷、牙膏、刮鬍刀、浴帽、梳子。</div>
       </div>
     </div>
 
     <div id="page-water" class="card">
-      <h2><i class="fa-solid fa-faucet"></i> 飲用水說明</h2>
-      <p>廚房水槽有兩個水龍頭，請留意用途：</p>
-      <div class="highlight" style="text-align:left; border-left:5px solid var(--primary); border-top:none; border-right:none; border-bottom:none;">
-        <i class="fa-solid fa-circle-check" style="color:green"></i> <b>小水龍頭 (左側)</b><br>
-        為 RO 過濾水，定期更換濾心，可直接飲用。
-      </div>
-      <div class="highlight" style="text-align:left; border-left:5px solid #c0392b; border-top:none; border-right:none; border-bottom:none; background:#fff5f5;">
-        <i class="fa-solid fa-circle-xmark" style="color:#c0392b"></i> <b>大水龍頭 (右側)</b><br>
-        為一般自來水，請勿生飲。
-      </div>
-    </div>
-    
-    <div id="page-cook" class="card">
-      <h2><i class="fa-solid fa-kitchen-set"></i> 廚房烹飪</h2>
-      <h3>你好哇寓所 (主館)</h3>
-      <p>✅ 歡迎開伙！提供大中島、鍋具與餐具。</p>
-      
-      <h3>溝頂民宿 (二館)</h3>
-      <p>❌ 僅提供微波爐與流理臺，無法開伙。</p>
-      
-      <div class="alert">
-        <strong>⚠️ 嚴禁明火</strong><br>
-        因無排煙設備，禁止使用瓦斯爐或自帶卡式爐、電烤盤，以免觸發煙霧警報。
-      </div>
-    </div>
-
-    <div id="page-early" class="card">
-      <h2><i class="fa-regular fa-clock"></i> 提早入住</h2>
-      <p>標準入住時間為 <strong>16:00</strong>。</p>
-      <p>若當日房務提早清潔完畢，我們很樂意通知您提早入內寄放行李或休息。</p>
-      <p>若您已抵達附近，可以先聯繫管家確認清潔進度。</p>
-      <a href="tel:0932828922" class="btn btn-primary"><i class="fa-solid fa-phone"></i> 打給管家確認</a>
+      <h2><i class="fa-solid fa-faucet"></i> 飲用水</h2>
+      <p>廚房水槽配有 <strong>RO 逆滲透濾水器</strong>（獨立小水龍頭），定期更換濾心，請安心生飲。</p>
     </div>
 
   </div>
 
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">×</span>
+    <img id="lightbox-img" src="">
+  </div>
+
   <script>
-    // 根據網址參數 (?page=xxx) 顯示對應卡片
+    // 網址路由邏輯
     window.onload = function() {
       const params = new URLSearchParams(window.location.search);
       const page = params.get('page');
       
-      // 預設隱藏所有卡片
       document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
       
-      // 顯示目標卡片，若無參數則預設顯示 WiFi (或您可以做一個目錄頁)
+      const titles = {
+        'traffic': ['迷路指南', 'Lost Guide'],
+        'parking': ['停車資訊', 'Parking Info'],
+        'faq': ['常見問題', 'Q&A'],
+        'wifi': ['WiFi 連線', 'Network'],
+        'fun': ['娛樂設施', 'Entertainment'],
+        'items': ['備品說明', 'Amenities'],
+        'water': ['飲用水', 'Drinking Water'],
+        'early': ['入住與寄放', 'Check-in & Luggage']
+      };
+
       if (page && document.getElementById('page-' + page)) {
         document.getElementById('page-' + page).classList.add('active');
-        // 更新標題
-        const titles = {
-          'wifi': 'WiFi 連線', 'traffic': '迷路指南', 'fun': '娛樂設施',
-          'items': '備品說明', 'water': '飲用水', 'cook': '廚房使用', 'early': '提早入住'
-        };
-        if(titles[page]) document.getElementById('page-title').innerText = titles[page];
+        if(titles[page]) {
+          document.getElementById('page-title').innerText = titles[page][0];
+          document.getElementById('page-subtitle').innerText = titles[page][1];
+        }
       } else {
-        // 如果沒有參數，顯示所有卡片 (或是做一個簡單的目錄)
-        document.querySelectorAll('.card').forEach(el => el.classList.add('active'));
+        document.getElementById('page-faq').classList.add('active');
       }
     };
 
     function copyText(text) {
-      navigator.clipboard.writeText(text).then(() => {
-        alert('密碼已複製：' + text);
-      });
+      navigator.clipboard.writeText(text).then(() => alert('密碼已複製'));
+    }
+
+    // Lightbox 功能
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('show');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('show');
     }
   </script>
 </body>
