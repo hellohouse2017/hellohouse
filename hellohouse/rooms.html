@@ -42,10 +42,10 @@
            Design System (全站統一)
            ========================================= */
         :root {
-            --c-primary: #1A202C;       
+            --c-primary: #1A202C;        
             --c-accent: #C5A065;        
             --c-accent-hover: #A68550;
-            --c-bg-body: #F9F9F7;       
+            --c-bg-body: #F9F9F7;        
             --c-bg-white: #FFFFFF;
             --c-bg-light: #EDF2F7;
             --c-text-gray: #555555; 
@@ -88,7 +88,7 @@
         img { display: block; max-width: 100%; height: auto; }
 
         /* =========================================
-           Navbar (標準版 - 修正手機選單)
+           Navbar (標準版 - Desktop)
            ========================================= */
         .navbar { background: rgba(26, 32, 44, 0.95); backdrop-filter: blur(10px); height: 70px; width: 100%; position: fixed; top: 0; left: 0; z-index: 9999; border-bottom: 1px solid rgba(197, 160, 101, 0.3); box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -117,120 +117,25 @@
         .arrow-icon { font-size: 12px; margin-left: 2px; transition: 0.3s; }
         .nav-item:hover .arrow-icon { transform: rotate(180deg); }
 
-        /* =========================================
-           🔥 Mobile Menu Fix (分流點擊版) 🔥
-           ========================================= */
-        @media (max-width: 960px) {
-            .menu-toggle { display: block; }
-            
-            .nav-menu { 
-                position: fixed; left: -100%; top: 70px; 
-                flex-direction: column; 
-                background-color: #1A202C; 
-                width: 100%; height: calc(100vh - 70px); 
-                text-align: center; transition: 0.3s; 
-                padding-top: 0; gap: 0; 
-                align-items: stretch; 
-                overflow-y: auto;
-            }
-            .nav-menu.active { left: 0; }
-            
-            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
-            .nav-link::after { display: none; }
-            
-            /* 主選單連結：靠左對齊 */
-            .nav-link { 
-                display: flex;
-                align-items: center;
-                justify-content: flex-start; 
-                padding: 0; 
-                font-size: 1.1rem; 
-                color: #ffffff !important; 
-                width: 100%;
-            }
-            
-            /* 文字區域：可點擊跳轉 */
-            .nav-link span {
-                flex-grow: 1;
-                padding: 20px 30px; 
-                text-align: left;
-                display: flex;
-                align-items: center;
-                gap: 12px;
-            }
-
-            /* 箭頭區域：獨立點擊開關 */
-            .arrow-icon { 
-                margin-left: 0; 
-                width: 60px; 
-                height: 65px; 
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-left: 1px solid rgba(255,255,255,0.1); 
-                background: rgba(0,0,0,0.1);
-                cursor: pointer;
-            }
-            
-            /* 下拉選單容器 */
-            .dropdown-menu { 
-                position: static !important; 
-                opacity: 1 !important; 
-                visibility: visible !important; 
-                transform: none !important; 
-                width: 100%; 
-                background-color: #0d1117 !important; 
-                box-shadow: inset 0 5px 10px rgba(0,0,0,0.5) !important; 
-                border-top: none !important; 
-                display: none; 
-                padding: 0 !important;
-            }
-            .dropdown.active .dropdown-menu { display: block; }
-            
-            /* 子選單連結 */
-            .dropdown-link { 
-                color: #e2e8f0 !important; 
-                padding: 18px 30px 18px 50px !important; /* 縮排 */
-                justify-content: flex-start !important; 
-                width: 100%;
-                border-bottom: 1px solid rgba(255,255,255,0.03);
-                font-size: 1rem !important;
-            }
-            .dropdown-link:hover { background-color: rgba(255,255,255,0.05) !important; color: #ffffff !important; }
-
-            /* 按鈕 */
-            .nav-link.nav-btn-booking { 
-                justify-content: center; background: var(--c-accent); border: none; 
-                margin: 20px auto; width: 80%; text-align: center; padding: 15px;
-            }
-            .nav-link.nav-btn-booking span { justify-content: center; padding: 0; }
-
-            /* Mobile Room Cards */
-            .room-card, .room-card:nth-child(even) { flex-direction: column; border-radius: 20px; }
-            .room-img-box { width: 100%; height: 280px; min-height: auto; }
-            .room-content { width: 100%; padding: 30px 20px; }
-            .amenity-grid { grid-template-columns: 1fr 1fr; }
-        }
 
         /* =========================================
-           🔥 Hero Header (修正版：與其他頁面一致) 🔥
+           Hero Header
            ========================================= */
         .hero { 
-            position: relative; height: 40vh; min-height: 300px; /* 修正高度 */
+            position: relative; height: 40vh; min-height: 300px; 
             display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; 
             color: white; background-color: var(--c-primary); overflow: hidden; margin-top: 70px;
         }
         .hero-bg {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('images/cover.jpg'); 
-            background-size: cover; background-position: center 30%; /* 優化聚焦位置 */
+            background-size: cover; background-position: center 30%;
             opacity: 0.6; z-index: 1;
             transform: scale(1.1); animation: zoomSlow 20s infinite alternate;
         }
         @keyframes zoomSlow { from { transform: scale(1); } to { transform: scale(1.1); } }
         .hero-content { position: relative; z-index: 2; padding: 0 20px; }
         
-        /* 修正標題大小 */
         .hero h1 { font-size: 2.2rem; margin-bottom: 0.5rem; text-shadow: 0 4px 20px rgba(0,0,0,0.3); }
         .hero p { font-size: 1rem; margin-bottom: 1rem; font-weight: 300; opacity: 0.9; letter-spacing: 1px; }
         
@@ -239,7 +144,7 @@
         .btn-line:hover { background-color: #05b64d; transform: translateY(-2px); }
 
         /* =========================================
-           Room Cards
+           Room Cards (Desktop Default)
            ========================================= */
         .container { width: 90%; max-width: 1100px; margin: 0 auto; }
         .section-padding { padding: 100px 0; }
@@ -253,6 +158,7 @@
             border: 1px solid rgba(255,255,255,0.8);
             margin-bottom: 80px;
             transition: all 0.4s ease;
+            flex-direction: row; /* Desktop 預設 */
         }
         .room-card:hover { transform: translateY(-8px); box-shadow: 0 20px 50px -10px rgba(0,0,0,0.08); }
         
@@ -302,7 +208,7 @@
         .amenity-item i { color: var(--c-accent); width: 20px; text-align: center; font-size: 0.9rem;}
 
         /* =========================================
-           Footer (標準版 - 與其他頁面一致)
+           Footer
            ========================================= */
         .footer { 
             background-color: var(--theme-dark-bg); 
@@ -362,8 +268,123 @@
         .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
+        
+        /* =========================================
+           🔥 Mobile Media Query (修復後：移至最下方) 🔥
+           ========================================= */
+        @media (max-width: 960px) {
+            .menu-toggle { display: block; }
+            
+            /* 導覽列設定 */
+            .nav-menu { 
+                position: fixed; left: -100%; top: 70px; 
+                flex-direction: column; 
+                background-color: #1A202C; 
+                width: 100%; height: calc(100vh - 70px); 
+                text-align: center; transition: 0.3s; 
+                padding-top: 0; gap: 0; 
+                align-items: stretch; 
+                overflow-y: auto;
+            }
+            .nav-menu.active { left: 0; }
+            
+            .nav-item { width: 100%; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .nav-link::after { display: none; }
+            
+            /* 主選單連結 */
+            .nav-link { 
+                display: flex;
+                align-items: center;
+                justify-content: flex-start; 
+                padding: 0; 
+                font-size: 1.1rem; 
+                color: #ffffff !important; 
+                width: 100%;
+            }
+            
+            .nav-link span {
+                flex-grow: 1;
+                padding: 20px 30px; 
+                text-align: left;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            /* 箭頭區域 */
+            .arrow-icon { 
+                margin-left: 0; 
+                width: 60px; 
+                height: 65px; 
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-left: 1px solid rgba(255,255,255,0.1); 
+                background: rgba(0,0,0,0.1);
+                cursor: pointer;
+            }
+            
+            /* 下拉選單 */
+            .dropdown-menu { 
+                position: static !important; 
+                opacity: 1 !important; 
+                visibility: visible !important; 
+                transform: none !important; 
+                width: 100%; 
+                background-color: #0d1117 !important; 
+                box-shadow: inset 0 5px 10px rgba(0,0,0,0.5) !important; 
+                border-top: none !important; 
+                display: none; 
+                padding: 0 !important;
+            }
+            .dropdown.active .dropdown-menu { display: block; }
+            
+            .dropdown-link { 
+                color: #e2e8f0 !important; 
+                padding: 18px 30px 18px 50px !important; 
+                justify-content: flex-start !important; 
+                width: 100%;
+                border-bottom: 1px solid rgba(255,255,255,0.03);
+                font-size: 1rem !important;
+            }
+            .dropdown-link:hover { background-color: rgba(255,255,255,0.05) !important; color: #ffffff !important; }
+
+            /* 查詢空房按鈕 */
+            .nav-link.nav-btn-booking { 
+                justify-content: center; background: var(--c-accent); border: none; 
+                margin: 20px auto; width: 80%; text-align: center; padding: 15px;
+            }
+            .nav-link.nav-btn-booking span { justify-content: center; padding: 0; }
+
+            /* =========================================
+               🔥 房型卡片修復 (Critical Fix) 🔥
+               ========================================= */
+            .room-card, 
+            .room-card:nth-child(even) { 
+                flex-direction: column !important; /* 強制直向 */
+                border-radius: 20px; 
+                height: auto;
+            }
+
+            .room-img-box { 
+                width: 100% !important; /* 強制全寬 */
+                height: 250px; 
+                min-height: auto; 
+            }
+
+            .room-content { 
+                width: 100% !important; /* 強制全寬 */
+                padding: 30px 20px; 
+            }
+
+            .room-card:hover .room-img-box img {
+                 transform: none; /* 手機版取消 hover 放大效果 */
+            }
+
+            .amenity-grid { grid-template-columns: 1fr 1fr; }
+            
+            /* Hero 文字調整 */
+            .hero h1 { font-size: 1.8rem; }
             .hero-tags { display: none; }
             .footer-grid { grid-template-columns: 1fr; gap: 40px; }
             .section-padding { padding: 60px 0; }
