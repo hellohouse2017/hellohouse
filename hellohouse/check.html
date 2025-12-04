@@ -400,11 +400,17 @@
 
             if(!name || !phone) { Swal.fire({ icon: 'warning', title: '資料不完整', text: '請輸入姓名與電話', confirmButtonColor: '#BFA15F' }); return; }
 
-            if (liff.isInClient()) {
-                autoParams = { sDate: formatDate(selectedStart), eDate: formatDate(selectedEnd), venue: currentVenue, plan: currentPlan, price: currentPrice, name: name, phone: phone };
-                forceSend();
+            // 1. 先把資料存好，給等一下的發送函式用
+            autoParams = { sDate: formatDate(selectedStart), eDate: formatDate(selectedEnd), venue: currentVenue, plan: currentPlan, price: currentPrice, name: name, phone: phone };
+
+            // 2. 判斷裝置類型
+            // 只要是在 LINE App 裡面 (liff.isInClient) 或者 是手機裝置 (isMobile)，都直接跳轉
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            
+            if (liff.isInClient() || isMobile) {
+                forceSend(); // 直接喚起 LINE APP
             } else {
-                generateLiffQrCode(name, phone);
+                generateLiffQrCode(name, phone); // 電腦版才顯示 QR Code
             }
         }
 
