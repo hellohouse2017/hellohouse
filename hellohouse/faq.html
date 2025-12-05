@@ -6,15 +6,15 @@
   <title>住宿資訊指南</title>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
+   
   <style>
     /* === 核心變數 === */
     :root {
-      --primary: #BFA15F;       
+      --primary: #BFA15F;        
       --primary-dark: #9e854b;
-      --dark: #2C3E50;          
-      --text: #4a4a4a;          
-      --light-bg: #F9F9F9;      
+      --dark: #2C3E50;           
+      --text: #4a4a4a;           
+      --light-bg: #F9F9F9;       
       --white: #ffffff;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
@@ -64,6 +64,7 @@
       padding-bottom: 50px;
     }
 
+    /* 卡片樣式 */
     .card {
       background: var(--white);
       border-radius: 16px;
@@ -71,7 +72,7 @@
       margin-bottom: 25px;
       box-shadow: var(--shadow);
       border: 1px solid rgba(0,0,0,0.02);
-      display: none; /* 預設隱藏 */
+      display: none; /* 預設隱藏，靠 JS 顯示 */
       animation: fadeInUp 0.6s ease;
     }
     .card.active { display: block; }
@@ -263,47 +264,81 @@
           <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
         </a>
         <a href="https://www.google.com/maps/search/?api=1&query=嘟嘟房+高雄富野站" target="_blank" class="parking-item">
-          <div class="parking-info">
-            <div class="parking-name">3. 嘟嘟房 (高雄富野站) <span class="parking-tag">距離 230m</span></div>
-            <div class="parking-detail">位置：富野路 27 號</div>
-            <div class="parking-price">平日 $40/H，假日 $50/H</div>
-          </div>
-          <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
-        </a>
-        <a href="https://www.google.com/maps/search/?api=1&query=高雄國際會議中心停車場" target="_blank" class="parking-item">
-          <div class="parking-info">
-            <div class="parking-name">4. 國際會議中心地下 <span class="parking-tag">距離 300m</span></div>
-            <div class="parking-detail">位置：中正四路 274 號 (室內)</div>
-            <div class="parking-price">🌞 免曬太陽，室內平面車位</div>
-          </div>
-          <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
-        </a>
-        <a href="https://www.google.com/maps/search/?api=1&query=文武聖殿停車場" target="_blank" class="parking-item">
-          <div class="parking-info">
-            <div class="parking-name">5. 文武聖殿停車場 <span class="parking-tag">距離 350m</span></div>
-            <div class="parking-detail">位置：富野路 170 號</div>
-            <div class="parking-price">⚠️ 06:00 - 22:00 (非24H)</div>
-          </div>
-          <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
-        </a>
-        <a href="https://www.google.com/maps/search/?api=1&query=鹽埕立體停車場" target="_blank" class="parking-item">
-          <div class="parking-info">
-            <div class="parking-name">6. 鹽埕立體停車場 <span class="parking-tag">距離 500m</span></div>
-            <div class="parking-detail">位置：大仁路 10 號</div>
-            <div class="parking-price">🏢 室內多層停車場</div>
-          </div>
-          <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
-        </a>
+            <div class="parking-info">
+              <div class="parking-name">3. 嘟嘟房 (高雄富野站) <span class="parking-tag">距離 230m</span></div>
+              <div class="parking-detail">位置：富野路 27 號</div>
+              <div class="parking-price">平日 $40/H，假日 $50/H</div>
+            </div>
+            <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
+          </a>
+          <a href="https://www.google.com/maps/search/?api=1&query=高雄國際會議中心停車場" target="_blank" class="parking-item">
+            <div class="parking-info">
+              <div class="parking-name">4. 國際會議中心地下 <span class="parking-tag">距離 300m</span></div>
+              <div class="parking-detail">位置：中正四路 274 號 (室內)</div>
+              <div class="parking-price">🌞 免曬太陽，室內平面車位</div>
+            </div>
+            <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
+          </a>
+          <a href="https://www.google.com/maps/search/?api=1&query=文武聖殿停車場" target="_blank" class="parking-item">
+            <div class="parking-info">
+              <div class="parking-name">5. 文武聖殿停車場 <span class="parking-tag">距離 350m</span></div>
+              <div class="parking-detail">位置：富野路 170 號</div>
+              <div class="parking-price">⚠️ 06:00 - 22:00 (非24H)</div>
+            </div>
+            <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
+          </a>
+          <a href="https://www.google.com/maps/search/?api=1&query=鹽埕立體停車場" target="_blank" class="parking-item">
+            <div class="parking-info">
+              <div class="parking-name">6. 鹽埕立體停車場 <span class="parking-tag">距離 500m</span></div>
+              <div class="parking-detail">位置：大仁路 10 號</div>
+              <div class="parking-price">🏢 室內多層停車場</div>
+            </div>
+            <div class="parking-action"><i class="fa-solid fa-location-arrow"></i></div>
+          </a>
       </div>
+    </div>
+    
+    <div id="page-breakfast" class="card">
+        <h2><i class="fa-solid fa-utensils"></i> 早餐供應說明</h2>
+        <div class="qa-item">
+            <div class="qa-title">😋 早上有提供早餐嗎？</div>
+            <div class="qa-content">為了讓大家能品嚐鹽埕區的在地美味，我們<strong>沒有提供早餐</strong>喔！我們準備了精選美食地圖，管家也可以推薦您好吃的私房名單。</div>
+        </div>
+        <div class="highlight-box">
+             💡 推薦您嘗試：大ㄎㄡ胖碳烤三明治、七賢鴨肉飯、或是巷口的傳統蛋餅。
+        </div>
+    </div>
+
+    <div id="page-add" class="card">
+        <h2><i class="fa-solid fa-bed"></i> 加人與加床規定</h2>
+        <div class="qa-item">
+            <div class="qa-title">🛌 我們想加人或加床可以嗎？</div>
+            <div class="qa-content">部分房型提供加床服務（需額外收費）。為了維護住宿品質，請務必<strong>提前告知管家</strong>，現場無法臨時加床或增加人數喔。</div>
+        </div>
+        <div class="highlight-box" style="color:#c0392b;">
+             ⚠️ 請注意：未提前告知而臨時增加人數，我們將保留拒絕入住的權利。
+        </div>
+        <a href="tel:0932828922" class="btn btn-primary">📞 聯繫管家確認</a>
+    </div>
+
+    <div id="page-pet" class="card">
+        <h2><i class="fa-solid fa-paw"></i> 寵物入住規範</h2>
+        <div class="qa-item">
+            <div class="qa-title">🐶 可以帶毛小孩一起入住嗎？</div>
+            <div class="qa-content">
+              <p style="margin-bottom:5px;">我們可以接受<strong>小型貓犬</strong>入住 (每房最多2隻)，但請務必遵守以下約定：</p>
+              <ul class="check-list">
+                <li><strong>必須事前告知：</strong>需先經過管家同意，不可臨時攜帶。</li>
+                <li><strong>寵物禮儀：</strong>嚴禁上床、上沙發。</li>
+                <li><strong>自備用品：</strong>請自備寵物尿墊或貓砂盆。</li>
+                <li><strong>相關費用：</strong>需加收寵物清潔費；若造成髒污損壞，須照價賠償。</li>
+              </ul>
+            </div>
+        </div>
     </div>
 
     <div id="page-faq" class="card">
-      <h2><i class="fa-regular fa-comments"></i> 常見問題 Q&A</h2>
-      
-      <div class="qa-item">
-        <div class="qa-title">😋 早上有提供早餐嗎？</div>
-        <div class="qa-content">為了讓大家能品嚐鹽埕區的在地美味，我們<strong>沒有提供早餐</strong>喔！我們準備了精選美食地圖，管家也可以推薦您好吃的私房名單。</div>
-      </div>
+      <h2><i class="fa-regular fa-comments"></i> 其他常見問題</h2>
 
       <div class="qa-item">
         <div class="qa-title">🛋️ 請問有客廳和沙發嗎？</div>
@@ -312,60 +347,7 @@
           <strong>溝頂民宿 (二館)：</strong>公共空間提供休閒的<strong>無靠背沙發凳</strong>。
         </div>
       </div>
-
-      <div class="qa-item">
-        <div class="qa-title">🍳 請問可以開伙烹飪嗎？</div>
-        <div class="qa-content">
-          <strong>你好哇寓所 (主館)：</strong>可以！提供開放式中島廚房、鍋具與餐具。<br>
-          <strong>溝頂民宿 (二館)：</strong>僅提供微波爐，不可開伙。<br>
-          <span style="color:#c0392b; font-size:0.85rem;">⚠️ 為了安全，兩館皆<strong>嚴禁使用明火</strong> (瓦斯爐/卡式爐)。</span>
-        </div>
-      </div>
-
-      <div class="qa-item">
-        <div class="qa-title">📶 WiFi 密碼是多少？</div>
-        <div class="qa-content">全館提供高速 WiFi。帳號：Hellohouse，密碼：<strong style="color:var(--primary-dark)">kao828922</strong> (小寫)。</div>
-      </div>
-
-      <div class="qa-item">
-        <div class="qa-title">🛌 我們想加人或加床可以嗎？</div>
-        <div class="qa-content">部分房型提供加床服務（需額外收費）。為了維護住宿品質，請務必<strong>提前告知管家</strong>，現場無法臨時加床或增加人數喔。</div>
-      </div>
-
-      <div class="qa-item">
-        <div class="qa-title">🐶 可以帶毛小孩一起入住嗎？</div>
-        <div class="qa-content">
-          <p style="margin-bottom:5px;">我們可以接受<strong>小型貓犬</strong>入住 (每房最多2隻)，但請務必遵守以下約定：</p>
-          <ul class="check-list">
-            <li><strong>必須事前告知：</strong>需先經過管家同意，不可臨時攜帶。</li>
-            <li><strong>寵物禮儀：</strong>嚴禁上床、上沙發。</li>
-            <li><strong>自備用品：</strong>請自備寵物尿墊或貓砂盆。</li>
-            <li><strong>相關費用：</strong>需加收寵物清潔費；若造成髒污損壞，須照價賠償。</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="qa-item">
-        <div class="qa-title">🧴 請問有提供哪些備品？</div>
-        <div class="qa-content">
-          <strong style="color:var(--primary-dark)">✅ 提供：</strong> 大浴巾、洗髮乳、沐浴乳、吹風機、室內拖鞋。<br>
-          <strong style="color:#c0392b">❌ 不提供：</strong> 牙刷、牙膏、刮鬍刀、浴帽、梳子 (響應環保)。
-        </div>
-      </div>
-
-      <div class="qa-item">
-        <div class="qa-title">🚰 廚房有飲用水嗎？</div>
-        <div class="qa-content">有的！廚房水槽配有 <strong>RO 逆滲透濾水器</strong>（獨立的小水龍頭），我們會定期更換濾心，請安心直接飲用。</div>
-      </div>
-
-      <div class="qa-item">
-        <div class="qa-title">🕒 可以提早入住或寄放行李嗎？</div>
-        <div class="qa-content">
-          標準入住時間為 16:00。若房務提早清掃完畢，我們會主動通知您。<br>
-          若需提早寄放行李，請務必<strong>先聯繫管家</strong>，並請<strong>統一在約定時間</strong>前來寄放 (不接受同行親友分批陸續前來)。
-        </div>
-      </div>
-
+      
       <div class="qa-item">
         <div class="qa-title">🎤 有提供 KTV 或娛樂設施嗎？</div>
         <div class="qa-content">我們提供 55 吋聯網電視、麻將組與撲克牌。但因位於住宅區，<strong>嚴禁使用 KTV 設備</strong>或大聲喧嘩。</div>
@@ -435,16 +417,20 @@
       
       document.querySelectorAll('.card').forEach(el => el.classList.remove('active'));
       
+      // 新增了 breakfast, add, pet 三個對應標題
       const titles = {
         'traffic': ['迷路指南', 'Lost Guide'],
         'parking': ['停車資訊', 'Parking Info'],
-        'faq': ['常見問題', 'Q&A'],
+        'faq': ['其他問題', 'Other Q&A'],
         'wifi': ['WiFi 連線', 'Network'],
         'fun': ['娛樂設施', 'Entertainment'],
         'items': ['備品說明', 'Amenities'],
         'water': ['飲用水', 'Drinking Water'],
         'cook': ['廚房烹飪', 'Kitchen'],
-        'early': ['入住與寄放', 'Check-in & Luggage']
+        'early': ['入住與寄放', 'Check-in & Luggage'],
+        'breakfast': ['早餐供應', 'Breakfast'],   // 新增
+        'add': ['加人加床', 'Extra Bed'],         // 新增
+        'pet': ['寵物規定', 'Pet Policy']         // 新增
       };
 
       if (page && document.getElementById('page-' + page)) {
@@ -454,6 +440,7 @@
           document.getElementById('page-subtitle').innerText = titles[page][1];
         }
       } else {
+        // 預設顯示迷路頁面，或您可以改成 page-faq
         document.getElementById('page-faq').classList.add('active');
       }
     };
