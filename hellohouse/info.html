@@ -11,14 +11,14 @@
     /* === 1. 核心變數 & 全域設定 === */
     :root {
       --primary: #BFA15F;
-      --primary-light: rgba(191, 161, 95, 0.1); /* 淡金色背景用 */
+      --primary-light: rgba(191, 161, 95, 0.1);
       --primary-dark: #9e854b;
       --dark: #2C3E50;
       --text: #4a4a4a;
       --text-light: #666666;
       --bg-color: #F8F9FA;
       --white: #ffffff;
-      --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); /* 更柔和的高級陰影 */
+      --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
       --radius: 16px;
     }
 
@@ -29,13 +29,13 @@
       margin: 0;
       padding: 0;
       -webkit-font-smoothing: antialiased;
-      line-height: 1.8; /* 增加行距提升閱讀感 */
+      line-height: 1.8;
     }
 
     /* === 2. Header (毛玻璃效果) === */
     .header {
       background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px); /* 現代感模糊效果 */
+      backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       text-align: center;
       padding: 18px 0;
@@ -74,10 +74,10 @@
     .card {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 32px 24px; /* 增加內距 */
+      padding: 32px 24px;
       margin-bottom: 25px;
       box-shadow: var(--card-shadow);
-      border: 1px solid rgba(0,0,0,0.01); /* 極細微邊框增加立體感 */
+      border: 1px solid rgba(0,0,0,0.01);
       display: none;
       animation: fadeInUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
@@ -128,7 +128,6 @@
 
     /* === 5. 元件設計 === */
     
-    /* 重點提示框 - 改用品牌色淡底 */
     .highlight-box {
       background: var(--primary-light);
       border-left: 4px solid var(--primary);
@@ -139,7 +138,6 @@
       font-size: 0.92rem;
     }
     
-    /* WiFi 代碼區塊 */
     .wifi-code {
       text-align: center;
       background: var(--dark);
@@ -160,7 +158,6 @@
       color: #fff;
     }
 
-    /* QA 問答列表 */
     .qa-item {
       border-bottom: 1px dashed #e0e0e0;
       padding: 20px 0;
@@ -179,7 +176,6 @@
       line-height: 1.7;
     }
     
-    /* 檢查清單 */
     ul.check-list { list-style: none; padding-left: 0; margin: 15px 0; }
     ul.check-list li { position: relative; padding-left: 28px; margin-bottom: 10px; font-size: 0.95rem; color: var(--text-light); }
     ul.check-list li::before {
@@ -188,7 +184,7 @@
       font-size: 1rem;
     }
 
-    /* === 6. 停車場列表 (卡片化) === */
+    /* === 6. 停車場列表 === */
     .parking-list { display: flex; flex-direction: column; gap: 16px; }
     .parking-item {
       border: 1px solid #f0f0f0;
@@ -220,7 +216,7 @@
       display: block;
       width: 100%;
       padding: 16px;
-      border-radius: 50px; /* 膠囊狀 */
+      border-radius: 50px;
       text-align: center;
       text-decoration: none;
       font-weight: 600;
@@ -390,9 +386,15 @@
     </div>
 
     <div id="page-water" class="card">
-      <h2><i class="fa-solid fa-faucet"></i> 飲用水</h2>
-      <div class="qa-item"><div class="qa-title">🚰 廚房有飲用水嗎？</div><div class="qa-content"></div></div>
-      <p>廚房水槽配有 <strong>RO 逆滲透濾水器</strong>（獨立小水龍頭），定期更換濾心，請安心生飲。</p>
+      <h2><i class="fa-solid fa-faucet"></i> 飲用水說明</h2>
+      <div class="qa-item">
+        <div class="qa-title">🚰 廚房有飲用水嗎？</div>
+        <div class="qa-content">
+          有的！廚房水槽配有 <strong>RO 逆滲透濾水器</strong>（獨立的小水龍頭），我們會定期更換濾心，確保水質純淨，請安心直接飲用（不需要煮沸）。
+          <br><br>
+          我們不再提供瓶裝礦泉水，歡迎使用我們準備的水壺或馬克杯盛裝。
+        </div>
+      </div>
     </div>
 
     <div id="page-early" class="card">
