@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>常見問題 | Q&A</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --primary-color: #B08D55; /* 大地金 */
+        --accent-color: #F4EFE6;  /* 米白背景 */
+        --bg-color: #F9F9F9;
+        --card-bg: #FFFFFF;
+        --text-main: #333333;
+        --text-sub: #666666;
+        --border-radius: 12px;
+      }
+
+      body {
+        font-family: 'Noto Sans TC', sans-serif;
+        background-color: var(--bg-color);
+        margin: 0;
+        padding: 0;
+        color: var(--text-main);
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        padding-bottom: 80px;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .header h1 {
+        color: var(--primary-color);
+        font-size: 24px;
+        font-weight: 700;
+        margin: 0;
+      }
+      .header p {
+        color: var(--text-sub);
+        font-size: 14px;
+        margin-top: 5px;
+      }
+
+      /* 手風琴卡片樣式 */
+      .faq-item {
+        background-color: var(--card-bg);
+        border-radius: var(--border-radius);
+        margin-bottom: 15px; /* 增加間距 */
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .faq-input { display: none; }
+
+      .faq-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--text-main);
+        font-size: 16px;
+        user-select: none;
+      }
+      
+      .faq-icon {
+        width: 10px;
+        height: 10px;
+        border-right: 2px solid var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        transform: rotate(45deg);
+        transition: transform 0.3s ease;
+        margin-left: 10px;
+      }
+
+      .faq-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease-out; /* 稍微放慢讓展開更滑順 */
+        background-color: var(--accent-color);
+      }
+      
+      .faq-content p, .faq-content ul {
+        margin: 0;
+        padding: 15px 20px 25px 20px;
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--text-sub);
+      }
+      
+      .faq-content ul {
+        padding-left: 40px;
+      }
+
+      /* 狀態變化 */
+      .faq-input:checked + .faq-label .faq-icon { transform: rotate(-135deg); }
+      .faq-input:checked + .faq-label { color: var(--primary-color); font-weight: bold; }
+      .faq-input:checked ~ .faq-content { max-height: 1000px; /* 足夠大的高度 */ }
+      
+      /* 高亮效果：當卡片被網址選中時，給一個邊框提示 */
+      .faq-item.highlight {
+        border: 2px solid var(--primary-color);
+      }
+
+      .footer-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: 30px;
+        padding: 15px 0;
+        background-color: var(--primary-color);
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="container">
+      <div class="header">
+        <h1>住宿常見問題</h1>
+        <p>Q & A</p>
+      </div>
+
+      <div class="faq-item">
+        <input type="checkbox" id="wifi" class="faq-input">
+        <label for="wifi" class="faq-label">
+          📶 WiFi 密碼是多少？
+          <div class="faq-icon"></div>
+        </label>
+        <div class="faq-content">
+          <p>全館提供免費無線網路。<br>
+          <strong>ID：</strong>HelloStay_Guest<br>
+          <strong>密碼：</strong>hello8888<br>
+          (入住時亦可參考房內桌上的立牌說明)</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <input type="checkbox" id="time" class="faq-input">
+        <label for="time" class="faq-label">
+          🕒 入住與退房時間？可以提早嗎？
+          <div class="faq-icon"></div>
+        </label>
+        <div class="faq-content">
+          <p><strong>入住時間 (Check-in)：</strong>16:00 以後<br>
+          <strong>退房時間 (Check-out)：</strong>11:00 以前<br><br>
+          若您有提早寄放行李的需求，請提前聯繫管家。若需提早進房或延後退房，需視當日房況而定，並可能產生額外費用。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <input type="checkbox" id="parking" class="faq-input">
+        <label for="parking" class="faq-label">
+          🚗 停車資訊 (有停車場嗎？)
+          <div class="faq-icon"></div>
+        </label>
+        <div class="faq-content">
+          <p>1. <strong>機車：</strong>民宿騎樓可停放機車。<br>
+          2. <strong>汽車：</strong>民宿周邊有路邊停車格。若無位子，步行約 3-5 分鐘處有「鹽埕立體停車場」及多處收費停車場。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <input type="checkbox" id="items" class="faq-input">
+        <label for="items" class="faq-label">
+          🚰 提供哪些備品？有飲用水嗎？
+          <div class="faq-icon"></div>
+        </label>
+        <div class="faq-content">
+          <p><strong>備品：</strong>提供大浴巾、洗髮乳、沐浴乳、吹風機。不提供一次性牙刷牙膏，請自備。<br>
+          <strong>飲水：</strong>公共區域設有賀眾牌飲水機（冰/溫/熱），為響應環保不提供瓶裝水，房內備有冷水壺可取用。</p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <input type="checkbox" id="cook" class="faq-input">
+        <label for="cook" class="faq-label">
+          🍳 可以使用廚房烹飪嗎？
+          <div class="faq-icon"></div>
+        </label>
+        <div class="faq-content">
+          <p>公共廚房備有電磁爐、微波爐、烤箱及基本鍋具餐具，歡迎簡單烹飪。<br>
+          <strong>注意：</strong>使用後請務必自行清洗並歸位，感謝您的配合！</p>
+        </div>
+      </div>
+      
+       <div class="faq-item">
+        <input type="checkbox" id="mahjong" class="faq-input">
+        <label for="mahjong" class="faq-label">
+          🀄 有麻將或其他娛樂設施嗎？
+          <div class="faq-icon"></div>
+        </label>
+        <div class="faq-content">
+          <p>交誼廳備有麻將桌與麻將牌供包棟或住客使用。請愛惜公物，並請於夜間 10 點後降低音量，避免影響鄰居安寧。</p>
+        </div>
+      </div>
+
+      <a href="?page=info" class="footer-btn">返回首頁</a>
+
+    </div>
+
+    <script>
+      window.onload = function() {
+        // 1. 取得網址中的 q 參數 (例如 ?page=faq&q=wifi)
+        const urlParams = new URLSearchParams(window.location.search);
+        const targetId = urlParams.get('q');
+        
+        if (targetId) {
+          // 2. 找到對應的 checkbox
+          const targetCheckbox = document.getElementById(targetId);
+          
+          if (targetCheckbox) {
+            // 3. 自動打勾 (展開內容)
+            targetCheckbox.checked = true;
+            
+            // 4. 加上高亮樣式 (選用)
+            targetCheckbox.closest('.faq-item').classList.add('highlight');
+
+            // 5. 稍微延遲後，平滑捲動到該區塊 (讓手機版有反應時間)
+            setTimeout(function() {
+              targetCheckbox.parentElement.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' // 捲動到畫面中間
+              });
+            }, 300);
+          }
+        }
+      };
+    </script>
+  </body>
+</html>
