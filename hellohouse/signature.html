@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -65,6 +65,23 @@
 
         .section-title { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-dark); margin: 40px 0 20px; padding-left: 15px; border-left: 4px solid var(--c-gold); display: flex; align-items: center; }
         
+        /* 新增：費用收取告知樣式 */
+        .payment-alert {
+            background: var(--c-dark);
+            color: white;
+            padding: 18px 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border-left: 6px solid var(--c-gold);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .payment-alert i { font-size: 1.6rem; color: var(--c-gold); }
+        .payment-alert strong { display: block; font-size: 1.05rem; color: var(--c-gold); margin-bottom: 4px; letter-spacing: 1px; }
+        .payment-alert p { margin: 0; font-size: 0.95rem; line-height: 1.5; font-weight: 500; }
+
         .contract-option-box { border: 2px solid var(--c-gold); background-color: var(--c-gold-light); padding: 20px; border-radius: 6px; position: relative; margin-bottom: 30px; }
         .contract-option-box.disabled { border: 1px dashed #DDD; background: #FAFAFA; opacity: 0.7; margin-bottom: 20px; }
         .option-badge { position: absolute; top: -12px; left: 15px; background: var(--c-gold); color: white; font-size: 0.75rem; padding: 2px 12px; border-radius: 20px; font-weight: bold; letter-spacing: 1px; }
@@ -112,6 +129,8 @@
             .form-grid { grid-template-columns: 1fr; }
             .header-section h1 { font-size: 1.5rem; }
             .house-selector { flex-direction: column; }
+            .payment-alert { flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; }
+            .payment-alert i { font-size: 1.4rem; }
         }
     </style>
 </head>
@@ -148,6 +167,14 @@
             </div>
 
             <div class="section-title">一、定型化契約條款 (解約與退費)</div>
+            
+            <div class="payment-alert">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <div>
+                    <strong>預收費用告知 (Payment Notice)</strong>
+                    <p>依據觀光旅館業與旅館業及民宿個別旅客直接訂房定型化契約應記載及不得記載事項規定，本民宿將於預定時依法<strong>「一次性收取全額住宿費用」</strong>。</p>
+                </div>
+            </div>
             <div class="contract-option-box disabled">
                 <div class="option-badge">本案不適用</div>
                 <div style="font-weight:bold; color:#A0AEC0; margin-bottom:5px;">□ 比例退還預收約定房價總金額：</div>
@@ -417,13 +444,12 @@
                                 }
                             };
                             await liff.sendMessages([flexMessage]);
-                        // ... (前略)
-
-} catch (msgErr) {
-    console.error("Flex failed, sending text instead", msgErr);
-    
-    // ★★★ 美化版純文字訊息 ★★★
-    const msgText = `【住宿契約簽署完成】
+                        
+                        } catch (msgErr) {
+                            console.error("Flex failed, sending text instead", msgErr);
+                            
+                            // ★★★ 美化版純文字訊息 ★★★
+                            const msgText = `【住宿契約簽署完成】
 
 感謝您，${name} 貴賓！
 您的入住合約已完成簽署並歸檔。
@@ -441,10 +467,8 @@ ${downloadLink}
 ⚠️ 連結有效期限約 15 天
 如有需要請把握時間下載。`;
 
-    await liff.sendMessages([{ type: "text", text: msgText }]);
-}
-
-// ... (後略)
+                            await liff.sendMessages([{ type: "text", text: msgText }]);
+                        }
 
                         await Swal.fire({ icon: 'success', title: '簽署完成', text: '合約已傳送至 LINE', confirmButtonColor: '#2C3E50', timer: 3000, timerProgressBar: true });
                         liff.closeWindow();
