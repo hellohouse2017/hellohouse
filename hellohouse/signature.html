@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-     
+      
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -42,10 +42,8 @@
         .contract-header h2 { margin: 0; font-family: var(--font-serif); color: var(--c-dark); font-size: 1.6rem; letter-spacing: 1px; }
         .contract-header span { display: block; margin-top: 5px; color: var(--c-gray); font-size: 0.8rem; letter-spacing: 1px; }
 
-        /* ★★★ 排版修復：Grid 系統 ★★★ */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
         .form-group { margin-bottom: 5px; }
-        /* 電腦版：強制館別與日期佔滿整行 */
         .col-full { grid-column: 1 / -1; } 
 
         .form-label { display: block; font-size: 0.85rem; color: var(--c-gray); margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -53,7 +51,6 @@
         .form-input:focus { outline: none; border-color: var(--c-gold); background: #FFF; box-shadow: 0 0 0 3px rgba(191, 161, 95, 0.1); }
         .form-input.readonly { background: #F9F5EB; border-color: #E0D6C3; color: #8A7A5B; font-weight: bold; cursor: default; }
 
-        /* 按鈕式館別選擇器 */
         .house-selector { display: flex; gap: 15px; }
         .house-btn { flex: 1; padding: 12px; border: 1px solid #DDD; border-radius: 6px; background: #FAFAFA; cursor: pointer; transition: 0.3s; text-align: center; position: relative; }
         .house-btn h4 { margin: 0; font-size: 1rem; color: var(--c-dark); font-weight: bold; }
@@ -65,27 +62,63 @@
 
         .section-title { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-dark); margin: 40px 0 20px; padding-left: 15px; border-left: 4px solid var(--c-gold); display: flex; align-items: center; }
         
-        /* 新增：費用收取告知樣式 */
+        /* 修正區域：統一費用告知與雙方合意的樣式 
+           原本 .payment-alert 是深色背景，現在改為與 .contract-option-box (金框淺底) 一致
+        */
         .payment-alert {
-            background: var(--c-dark);
-            color: white;
-            padding: 18px 20px;
+            /* 複製 contract-option-box 的樣式 */
+            border: 2px solid var(--c-gold);
+            background-color: var(--c-gold-light);
+            padding: 20px;
             border-radius: 6px;
             margin-bottom: 25px;
-            border-left: 6px solid var(--c-gold);
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* 對齊調整 */
             gap: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative; /* 為了放 Badge */
         }
-        .payment-alert i { font-size: 1.6rem; color: var(--c-gold); }
-        .payment-alert strong { display: block; font-size: 1.05rem; color: var(--c-gold); margin-bottom: 4px; letter-spacing: 1px; }
-        .payment-alert p { margin: 0; font-size: 0.95rem; line-height: 1.5; font-weight: 500; }
+        
+        /* 新增：為了讓「預收費用告知」看起來更像下面的選項，加一個 Badge */
+        .payment-alert::before {
+            content: "定型化契約規定";
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: var(--c-gold);
+            color: white;
+            font-size: 0.75rem;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
 
+        .payment-alert i { 
+            font-size: 1.6rem; 
+            color: var(--c-dark); /* 圖示改深色以對比淺底 */
+            margin-top: 5px;
+        }
+        .payment-alert strong { 
+            display: block; 
+            font-size: 1.05rem; 
+            color: var(--c-dark); /* 標題改深色 */
+            margin-bottom: 4px; 
+            letter-spacing: 1px; 
+        }
+        .payment-alert p { 
+            margin: 0; 
+            font-size: 0.95rem; 
+            line-height: 1.5; 
+            font-weight: 500; 
+            color: #555; /* 內文改深灰 */
+        }
+
+        /* 雙方合意區塊樣式 (維持不變) */
         .contract-option-box { border: 2px solid var(--c-gold); background-color: var(--c-gold-light); padding: 20px; border-radius: 6px; position: relative; margin-bottom: 30px; }
         .contract-option-box.disabled { border: 1px dashed #DDD; background: #FAFAFA; opacity: 0.7; margin-bottom: 20px; }
         .option-badge { position: absolute; top: -12px; left: 15px; background: var(--c-gold); color: white; font-size: 0.75rem; padding: 2px 12px; border-radius: 20px; font-weight: bold; letter-spacing: 1px; }
         .contract-option-box.disabled .option-badge { background: #CCC; }
+        
         .legal-text { font-size: 0.9rem; color: #555; text-align: justify; margin-top: 10px; }
         .legal-text p { margin: 5px 0; text-indent: -1.5em; padding-left: 1.5em; }
 
@@ -122,10 +155,8 @@
         div:where(.swal2-container) h2:where(.swal2-title) { font-family: var(--font-serif) !important; color: var(--c-dark) !important; }
         div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm { background-color: var(--c-gold) !important; box-shadow: 0 4px 15px rgba(191, 161, 95, 0.4) !important; }
 
-        /* ★★★ RWD 修正 ★★★ */
         @media (max-width: 768px) {
             #capture-area { padding: 30px 20px; }
-            /* 手機版強制單欄 */
             .form-grid { grid-template-columns: 1fr; }
             .header-section h1 { font-size: 1.5rem; }
             .house-selector { flex-direction: column; }
@@ -172,9 +203,10 @@
                 <i class="fa-solid fa-file-invoice-dollar"></i>
                 <div>
                     <strong>預收費用告知 (Payment Notice)</strong>
-                    <p>依據觀光旅館業與旅館業及民宿個別旅客直接訂房定型化契約應記載及不得記載事項規定，本民宿將於預定時依法<strong>「一次性收取全額住宿費用」</strong></p>
+                    <p>依據觀光旅館業與旅館業及民宿個別旅客直接訂房定型化契約應記載及不得記載事項規定，本民宿將於預定時依法<strong>「一次性收取全額住宿費用」</strong>。</p>
                 </div>
             </div>
+
             <div class="contract-option-box disabled">
                 <div class="option-badge">本案不適用</div>
                 <div style="font-weight:bold; color:#A0AEC0; margin-bottom:5px;">□ 比例退還預收約定房價總金額：</div>
@@ -368,7 +400,6 @@
 
                 const captureArea = document.getElementById("capture-area");
                 
-                // ★★★ 智慧偵測：手機用 scale 2 (防止失敗)，電腦用 scale 3 (高畫質) ★★★
                 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
                 const scale = isMobile ? 2 : 3;
                 const quality = isMobile ? 0.6 : 0.7;
@@ -407,7 +438,6 @@
                     const downloadLink = result.url;
                     
                     if (liff.isInClient()) {
-                        // ★★★ 嘗試 Flex Message，若失敗自動降級為純文字 ★★★
                         try {
                             const flexMessage = {
                                 "type": "flex",
@@ -448,7 +478,6 @@
                         } catch (msgErr) {
                             console.error("Flex failed, sending text instead", msgErr);
                             
-                            // ★★★ 美化版純文字訊息 ★★★
                             const msgText = `【住宿契約簽署完成】
 
 感謝您，${name} 貴賓！
