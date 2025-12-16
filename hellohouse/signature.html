@@ -24,7 +24,8 @@
         :root { --c-dark: #2C3E50; --c-gold: #BFA15F; --c-gold-light: #F9F5EB; --c-red: #A94442; --c-gray: #7F8C8D; --c-white: #FFFFFF; --font-serif: 'Noto Serif TC', serif; --font-sans: 'Noto Sans TC', sans-serif; --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.06); }
         *, *::before, *::after { box-sizing: border-box; }
         
-        body { margin: 0; font-family: var(--font-sans); background-color: #F5F5F5; color: var(--c-dark); line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; overscroll-behavior: none; }
+        /* 確保 body 沒有預設邊距 */
+        body { margin: 0; padding: 0; font-family: var(--font-sans); background-color: #F5F5F5; color: var(--c-dark); line-height: 1.7; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; overscroll-behavior: none; }
 
         .navbar { background: var(--c-dark); height: 60px; display: flex; align-items: center; justify-content: center; position: fixed; top: 0; width: 100%; z-index: 999; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .nav-logo { color: var(--c-gold); font-family: var(--font-serif); font-size: 1.2rem; font-weight: 600; letter-spacing: 2px; text-decoration: none; }
@@ -33,7 +34,7 @@
         .header-section h1 { margin: 0; font-family: var(--font-serif); font-size: 1.8rem; letter-spacing: 3px; font-weight: 500; }
         .header-section p { margin: 5px 0 0; font-size: 0.8rem; color: var(--c-gold); text-transform: uppercase; letter-spacing: 2px; }
 
-        /* 電腦版維持原本的卡片寬度與邊距 */
+        /* 電腦版預設容器 (手機版會在下面被覆寫) */
         .container { width: 95%; max-width: 800px; margin: -30px auto 40px; position: relative; z-index: 10; }
 
         #capture-area { background-color: var(--c-white); padding: 50px; border-radius: 4px; box-shadow: var(--shadow-card); border-top: 6px solid var(--c-gold); position: relative; }
@@ -133,24 +134,29 @@
         div:where(.swal2-container) h2:where(.swal2-title) { font-family: var(--font-serif) !important; color: var(--c-dark) !important; }
         div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm { background-color: var(--c-gold) !important; box-shadow: 0 4px 15px rgba(191, 161, 95, 0.4) !important; }
 
-        /* ★★★ RWD 關鍵修正區 ★★★ */
+        /* ★★★ 絕對滿版修正 (Mobile Full Width Fix) ★★★ */
         @media (max-width: 768px) {
-            /* 修正1：手機版容器強制 100% 寬度，去除左右邊距 */
+            
+            /* 1. 容器設定：強制寬度 100%，拿掉所有左右邊距，最大寬度無限制 */
             .container { 
                 width: 100% !important; 
-                margin-left: 0 !important; 
-                margin-right: 0 !important; 
-                max-width: 100% !important;
-                margin-top: -30px; /* 保持與上方 header 的重疊感，但左右滿版 */
+                max-width: none !important;
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                padding: 0 !important;
+                /* 保留上方位移，讓白色卡片壓在 header 下方，但左右要是滿的 */
+                margin-top: -30px !important; 
             }
 
-            /* 修正2：內容卡片去除圓角、去除陰影，讓它看起來像滿版紙張 */
+            /* 2. 內容卡片：變回直角 (原本有圓角會看到縫隙)，拿掉陰影 */
             #capture-area { 
-                padding: 30px 20px; 
+                width: 100% !important;
                 border-radius: 0 !important; 
-                box-shadow: none !important;
-                border-left: none;
-                border-right: none;
+                box-shadow: none !important; /* 變成平面 */
+                border-left: none !important;
+                border-right: none !important;
+                padding: 30px 20px; /* 內容保留內部留白 */
+                min-height: calc(100vh - 60px); /* 讓它至少佔滿剩下的畫面 */
             }
 
             .form-grid { grid-template-columns: 1fr; }
@@ -158,6 +164,9 @@
             .house-selector { flex-direction: column; }
             .payment-alert { flex-direction: column; align-items: flex-start; gap: 10px; text-align: left; }
             .payment-alert i { font-size: 1.4rem; }
+            
+            /* 修正 header 高度，因為容器往上拉，header可以稍微縮減 padding 讓畫面更緊湊 */
+            .header-section { padding-bottom: 50px; }
         }
     </style>
 </head>
@@ -199,7 +208,7 @@
                 <i class="fa-solid fa-file-invoice-dollar"></i>
                 <div>
                     <strong>預收費用告知 (Payment Notice)</strong>
-                    <p>依據觀光旅館業與旅館業及民宿個別旅客直接訂房定型化契約應記載及不得記載事項規定，本民宿將於預定時依法<strong>「一次性收取全額住宿費用」</strong></p>
+                    <p>依據觀光旅館業與旅館業及民宿個別旅客直接訂房定型化契約應記載及不得記載事項規定，本民宿將於預定時依法<strong>「一次性收取全額住宿費用」</strong>。</p>
                 </div>
             </div>
 
