@@ -33,6 +33,7 @@
         .header-section h1 { margin: 0; font-family: var(--font-serif); font-size: 1.8rem; letter-spacing: 3px; font-weight: 500; }
         .header-section p { margin: 5px 0 0; font-size: 0.8rem; color: var(--c-gold); text-transform: uppercase; letter-spacing: 2px; }
 
+        /* 電腦版維持原本的卡片寬度與邊距 */
         .container { width: 95%; max-width: 800px; margin: -30px auto 40px; position: relative; z-index: 10; }
 
         #capture-area { background-color: var(--c-white); padding: 50px; border-radius: 4px; box-shadow: var(--shadow-card); border-top: 6px solid var(--c-gold); position: relative; }
@@ -62,23 +63,18 @@
 
         .section-title { font-family: var(--font-serif); font-size: 1.2rem; color: var(--c-dark); margin: 40px 0 20px; padding-left: 15px; border-left: 4px solid var(--c-gold); display: flex; align-items: center; }
         
-        /* 修正區域：統一費用告知與雙方合意的樣式 
-           原本 .payment-alert 是深色背景，現在改為與 .contract-option-box (金框淺底) 一致
-        */
         .payment-alert {
-            /* 複製 contract-option-box 的樣式 */
             border: 2px solid var(--c-gold);
             background-color: var(--c-gold-light);
             padding: 20px;
             border-radius: 6px;
             margin-bottom: 25px;
             display: flex;
-            align-items: flex-start; /* 對齊調整 */
+            align-items: flex-start;
             gap: 15px;
-            position: relative; /* 為了放 Badge */
+            position: relative;
         }
         
-        /* 新增：為了讓「預收費用告知」看起來更像下面的選項，加一個 Badge */
         .payment-alert::before {
             content: "定型化契約規定";
             position: absolute;
@@ -93,27 +89,10 @@
             letter-spacing: 1px;
         }
 
-        .payment-alert i { 
-            font-size: 1.6rem; 
-            color: var(--c-dark); /* 圖示改深色以對比淺底 */
-            margin-top: 5px;
-        }
-        .payment-alert strong { 
-            display: block; 
-            font-size: 1.05rem; 
-            color: var(--c-dark); /* 標題改深色 */
-            margin-bottom: 4px; 
-            letter-spacing: 1px; 
-        }
-        .payment-alert p { 
-            margin: 0; 
-            font-size: 0.95rem; 
-            line-height: 1.5; 
-            font-weight: 500; 
-            color: #555; /* 內文改深灰 */
-        }
+        .payment-alert i { font-size: 1.6rem; color: var(--c-dark); margin-top: 5px; }
+        .payment-alert strong { display: block; font-size: 1.05rem; color: var(--c-dark); margin-bottom: 4px; letter-spacing: 1px; }
+        .payment-alert p { margin: 0; font-size: 0.95rem; line-height: 1.5; font-weight: 500; color: #555; }
 
-        /* 雙方合意區塊樣式 (維持不變) */
         .contract-option-box { border: 2px solid var(--c-gold); background-color: var(--c-gold-light); padding: 20px; border-radius: 6px; position: relative; margin-bottom: 30px; }
         .contract-option-box.disabled { border: 1px dashed #DDD; background: #FAFAFA; opacity: 0.7; margin-bottom: 20px; }
         .option-badge { position: absolute; top: -12px; left: 15px; background: var(--c-gold); color: white; font-size: 0.75rem; padding: 2px 12px; border-radius: 20px; font-weight: bold; letter-spacing: 1px; }
@@ -132,7 +111,6 @@
         .rule-content ul { padding-left: 20px; margin: 5px 0; }
         .highlight { color: var(--c-red); font-weight: bold; background: #FDEDEC; padding: 0 4px; border-radius: 2px;}
 
-        /* 簽名區 */
         .signature-section { margin-top: 50px; page-break-inside: avoid; }
         .sign-area-box { border: 2px dashed #BDC3C7; background: #FAFAFA; border-radius: 8px; position: relative; height: 220px; margin-top: 10px; cursor: crosshair; overflow: hidden; touch-action: none; }
         .sign-placeholder { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #BDC3C7; font-size: 1.5rem; font-family: var(--font-serif); pointer-events: none; opacity: 0.5; }
@@ -155,8 +133,26 @@
         div:where(.swal2-container) h2:where(.swal2-title) { font-family: var(--font-serif) !important; color: var(--c-dark) !important; }
         div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm { background-color: var(--c-gold) !important; box-shadow: 0 4px 15px rgba(191, 161, 95, 0.4) !important; }
 
+        /* ★★★ RWD 關鍵修正區 ★★★ */
         @media (max-width: 768px) {
-            #capture-area { padding: 30px 20px; }
+            /* 修正1：手機版容器強制 100% 寬度，去除左右邊距 */
+            .container { 
+                width: 100% !important; 
+                margin-left: 0 !important; 
+                margin-right: 0 !important; 
+                max-width: 100% !important;
+                margin-top: -30px; /* 保持與上方 header 的重疊感，但左右滿版 */
+            }
+
+            /* 修正2：內容卡片去除圓角、去除陰影，讓它看起來像滿版紙張 */
+            #capture-area { 
+                padding: 30px 20px; 
+                border-radius: 0 !important; 
+                box-shadow: none !important;
+                border-left: none;
+                border-right: none;
+            }
+
             .form-grid { grid-template-columns: 1fr; }
             .header-section h1 { font-size: 1.5rem; }
             .house-selector { flex-direction: column; }
