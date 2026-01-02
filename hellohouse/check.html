@@ -267,6 +267,9 @@
             if (selectedStart && selectedEnd) { startQuery(); }
         }
 
+        // ============================================
+        // 修改後的 startQuery：加入背景通知功能
+        // ============================================
         function startQuery() {
             if (!selectedGuestRange) { Swal.fire({icon:'warning', title:'請先選擇人數', confirmButtonColor:'#BFA15F'}); document.getElementById('step-1').scrollIntoView(); return; }
             if (!selectedStart || !selectedEnd) { Swal.fire({icon:'warning', title:'請先選擇日期', confirmButtonColor:'#BFA15F'}); return; }
@@ -279,6 +282,18 @@
             
             const startStr = formatDate(selectedStart);
             const endStr = formatDate(selectedEnd);
+
+            // ★★★ 新增：發送查詢紀錄給管理員 (Spy Mode) ★★★
+            // 嘗試獲取按鈕上的文字 (例如 "6 - 12 人")
+            let peopleLabel = "未知人數";
+            try {
+                const activeBtn = document.querySelector('.guest-btn.active h4');
+                if(activeBtn) peopleLabel = activeBtn.innerText;
+            } catch(e){}
+
+            // 執行背景傳送
+            sendCheckLog(startStr, endStr, peopleLabel);
+            // ★★★ 結束新增 ★★★
 
             fetch(`${GAS_URL}?start=${startStr}&end=${endStr}`)
             .then(res => res.json())
@@ -294,6 +309,43 @@
                 loadBox.style.display = 'none';
                 Swal.fire({icon:'error', title:'連線錯誤', text: '請檢查網路或稍後再試', confirmButtonColor:'#2C3E50'});
             });
+        }
+
+        // ============================================
+        // 新增函式：發送查詢紀錄 (背景執行，不打擾客人)
+        // ============================================
+        function sendCheckLog(sDate, eDate, people) {
+            // 嘗試抓取客人資料 (如果 LIFF 已登入)
+            let guestName = "訪客 (未登入)";
+            
+            // 檢查 LIFF 是否已初始化且已登入
+            if (liff && liff.isLoggedIn()) {
+                liff.getProfile().then(profile => {
+                    guestName = profile.displayName; // 抓取 LINE 暱稱
+                    doSendLog(sDate, eDate, people, guestName);
+                }).catch(err => {
+                    console.error('Profile Error:', err);
+                    doSendLog(sDate, eDate, people, guestName);
+                });
+            } else {
+                doSendLog(sDate, eDate, people, guestName);
+            }
+        }
+
+        function doSendLog(sDate, eDate, people, name) {
+            const payload = {
+                action: "check_log", // 告訴 GAS 這是「查詢紀錄」
+                name: name,
+                sDate: sDate,
+                eDate: eDate,
+                people: people
+            };
+
+            fetch(GAS_URL, {
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+            }).catch(e => console.log("Log error:", e));
         }
 
         function renderVenues(status) {
