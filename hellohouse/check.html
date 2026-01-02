@@ -187,9 +187,8 @@
         // ============================================
         // ⚠️ 請修改以下 3 個變數為您自己的設定
         // ============================================
-        const LIFF_ID = "2008582194-wrJ4dqXq"; // 您的 LIFF ID (這看起來已經填好了)
-        const GAS_URL = "https://script.google.com/macros/s/AKfycbxsFEJ9ubWMY9Y6xqBZ-3-KgSrYQnC9D3zwuKUL66HvKJdN5S1HTNeahhWlV6hcixbx0A/exec"; // 您的 GAS 網址 (請確認是否正確)
-        //const GAS_URL = "https://script.google.com/macros/s/AKfycbxsFEJ9ubWMY9Y6xqBZ-3-KgSrYQnC9D3zwuKUL66HvKJdN5S1HTNeahhWlV6hcixbx0A/exec"; // 您的 GAS 網址 (請確認是否正確)
+        const LIFF_ID = "2008582194-wrJ4dqXq"; // 您的 LIFF ID
+        const GAS_URL = "https://script.google.com/macros/s/AKfycbxsFEJ9ubWMY9Y6xqBZ-3-KgSrYQnC9D3zwuKUL66HvKJdN5S1HTNeahhWlV6hcixbx0A/exec"; // 您的 GAS 網址
         const LINE_OFFICIAL_ID = "@575tprig"; // 您的 LINE 官方帳號 ID (含@)
         // ============================================
         const RULES_URL = "agreement.html"; 
@@ -400,11 +399,15 @@
 
             if(!name || !phone) { Swal.fire({ icon: 'warning', title: '資料不完整', text: '請輸入姓名與電話', confirmButtonColor: '#BFA15F' }); return; }
 
-            // 1. 先把資料存好，給等一下的發送函式用
+            // 1. 準備資料
             autoParams = { sDate: formatDate(selectedStart), eDate: formatDate(selectedEnd), venue: currentVenue, plan: currentPlan, price: currentPrice, name: name, phone: phone };
 
+            // ==========================================
+            // [新功能] 傳送備份到 GAS (不論是否成功喚起LINE，這裡都會執行)
+            // ==========================================
+            sendBackupToGas(autoParams);
+
             // 2. 判斷裝置類型
-            // 只要是在 LINE App 裡面 (liff.isInClient) 或者 是手機裝置 (isMobile)，都直接跳轉
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
             if (liff.isInClient() || isMobile) {
@@ -412,6 +415,30 @@
             } else {
                 generateLiffQrCode(name, phone); // 電腦版才顯示 QR Code
             }
+        }
+
+        // [新功能] 獨立的備份發送函式
+        function sendBackupToGas(p) {
+            // 使用 POST 發送 JSON 字串，標註 action 為 inquiry_backup
+            const payload = {
+                action: "inquiry_backup",
+                name: p.name,
+                phone: p.phone,
+                sDate: p.sDate,
+                eDate: p.eDate,
+                venue: p.venue,
+                plan: p.plan,
+                price: p.price
+            };
+
+            // 使用 fetch 發送，不等待回應 (fire and forget)，避免影響使用者體驗
+            fetch(GAS_URL, {
+                method: "POST",
+                body: JSON.stringify(payload),
+                headers: { "Content-Type": "text/plain;charset=utf-8" }, // 使用 text/plain 避免 CORS 預檢請求問題
+            }).catch(err => {
+                console.error("Backup send failed:", err);
+            });
         }
 
         function generateLiffQrCode(name, phone) {
@@ -422,8 +449,6 @@
             });
             const liffUrl = `https://liff.line.me/${LIFF_ID}?${params.toString()}`;
             
-            // 讓 QR Code 顯示這個網址 (用 LIFF 網址)
-            // 當手機掃描時，會開啟 LIFF -> 執行 auto 邏輯 -> forceSend() -> 喚起 LINE 對話框
             Swal.fire({
                 title: `${name} 您好！`,
                 html: `<br>
@@ -448,10 +473,8 @@
             const p = autoParams;
             if (!p.name) return;
             
-            // --- 最終優化版訊息內容 (客人發給管家) ---
             const message = `【訂房詢價單】\n📅 日期：${p.sDate} ~ ${p.eDate}\n🏨 館別：${p.venue}\n🛏️ 方案：${p.plan}\n💰 系統算價：${p.price}\n--------------------------\n👤 訂房人：${p.name}\n📱 電話：${p.phone}\n--------------------------\n我是 ${p.name}，想預訂以上檔期，請問是否有空房？`;
             
-            // 使用 LINE Scheme 直接喚起對話框
             const lineUrl = `https://line.me/R/oaMessage/${LINE_OFFICIAL_ID}/?text=${encodeURIComponent(message)}`;
 
             Swal.fire({
