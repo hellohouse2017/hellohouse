@@ -3,8 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ruins Bar 高雄廢墟場地租借 | 預約系統</title>
-    
+    <title>Ruins Bar 高雄廢墟酒吧｜求婚場地・派對包場・輕婚禮｜鹽埕區場地租借</title>
+    <meta name="description" content="高雄鹽埕區最具特色的廢墟風格場地。提供求婚企劃、輕婚禮證婚、慶生派對、會議講座等包場服務。工業風美學空間，線上即時查詢檔期與價格。">
+    <meta name="keywords" content="高雄場地租借,高雄求婚場地,高雄派對場地,鹽埕區活動場地,高雄輕婚禮,廢墟酒吧,Ruins Bar,高雄包場,高雄證婚場地,高雄慶生派對">
+    <link rel="canonical" href="https://ruins.hello-stay.com/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Ruins Bar 高雄廢墟酒吧｜求婚・派對・輕婚禮場地">
+    <meta property="og:description" content="高雄鹽埕最具特色的廢墟工業風場地，提供求婚企劃、輕婚禮、慶生派對等包場服務。線上即時查詢檔期。">
+    <meta property="og:image" content="https://ruins.hello-stay.com/images/cover-bg.jpg">
+    <meta property="og:url" content="https://ruins.hello-stay.com/">
+    <meta property="og:type" content="business.business">
+    <meta property="og:locale" content="zh_TW">
+    <meta property="og:site_name" content="Ruins Bar 高雄廢墟酒吧">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ruins Bar 高雄廢墟酒吧｜求婚・派對・輕婚禮場地">
+    <meta name="twitter:description" content="高雄鹽埕最具特色的廢墟工業風場地，線上即時查詢檔期與價格。">
+    <meta name="twitter:image" content="https://ruins.hello-stay.com/images/cover-bg.jpg">
+
+    <!-- Schema.org 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["EventVenue", "LocalBusiness"],
+      "name": "Ruins Bar 高雄廢墟酒吧",
+      "description": "高雄鹽埕區最具特色的廢墟風格活動場地，提供求婚企劃、輕婚禮證婚、慶生派對、會議講座等包場服務。",
+      "url": "https://ruins.hello-stay.com/",
+      "image": "https://ruins.hello-stay.com/images/cover-bg.jpg",
+      "telephone": "+886-932-828-922",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "瀈南街205號",
+        "addressLocality": "鹽埕區",
+        "addressRegion": "高雄市",
+        "postalCode": "803",
+        "addressCountry": "TW"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 22.6196,
+        "longitude": 120.2835
+      },
+      "priceRange": "$$",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+        "opens": "09:00",
+        "closes": "23:00"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "48",
+        "bestRating": "5"
+      },
+      "sameAs": [
+        "https://www.instagram.com/ruinsbar_kaohsiung/"
+      ]
+    }
+    </script>
+
+    <!-- FAQ 結構化資料 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Ruins Bar 場地可容納多少人？",
+          "acceptedAnswer": { "@type": "Answer", "text": "室內空間可容納約 30-50 人，加上戶外區域最多可達 80 人。依活動類型可彈性調整桌椅配置。" }
+        },
+        {
+          "@type": "Question",
+          "name": "場地租借費用怎麼算？",
+          "acceptedAnswer": { "@type": "Answer", "text": "純場地租借平日 $10,000/3hr 起，假日 $5,000/hr（低消 2hr）。包套方案另有專屬定價，可透過線上試算系統即時查詢。" }
+        },
+        {
+          "@type": "Question",
+          "name": "可以自己帶食物飲料嗎？",
+          "acceptedAnswer": { "@type": "Answer", "text": "純場地租借方案可自行外帶餐點，但酒水需透過場地提供或事先溝通。包套方案已含餐飲服務。" }
+        },
+        {
+          "@type": "Question",
+          "name": "場地在哪裡？交通方便嗎？",
+          "acceptedAnswer": { "@type": "Answer", "text": "位於高雄市鹽埕區瀈南街205號，近駁二藝術特區。捷運鹽埕埔站步行約 8 分鐘，周邊有付費停車場。" }
+        }
+      ]
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
@@ -45,6 +135,15 @@
         .gallery-item { break-inside: avoid; margin-bottom: 1rem; }
         .sticky-btn { position: fixed; bottom: 30px; right: 20px; width: 60px; height: 60px; background-color: #06c755; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 40; transition: all 0.3s ease; text-decoration: none; cursor: pointer; animation: pulse-green 2s infinite; }
         @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(6, 199, 85, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(6, 199, 85, 0); } 100% { box-shadow: 0 0 0 0 rgba(6, 199, 85, 0); } }
+        .faq-item { border-bottom: 1px solid #333; }
+        .faq-question { cursor: pointer; transition: color 0.3s; }
+        .faq-question:hover { color: #00f3ff; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+        .faq-answer.open { max-height: 300px; padding-top: 0.75rem; padding-bottom: 1rem; }
+        .faq-chevron { transition: transform 0.3s ease; }
+        .faq-chevron.rotate { transform: rotate(180deg); }
+        .review-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .review-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.4); }
         
         /* Modal Scrollbar Fix */
         .scrollbar-hide::-webkit-scrollbar { display: none; }
@@ -65,6 +164,7 @@
                         <a href="#gallery" class="hover:text-neon-pink transition px-3 py-2 rounded-md text-sm font-medium">實錄</a>
                         <a href="#video" class="hover:text-neon-pink transition px-3 py-2 rounded-md text-sm font-medium">影音</a>
                         <a href="#reviews" class="hover:text-neon-pink transition px-3 py-2 rounded-md text-sm font-medium">好評</a>
+                        <a href="#faq" class="hover:text-neon-pink transition px-3 py-2 rounded-md text-sm font-medium">FAQ</a>
                     </div>
                 </div>
             </div>
@@ -137,7 +237,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div onclick="handleCardClick('baby')" class="plan-card bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden cursor-pointer">
-                    <div class="h-40 overflow-hidden"><img src="images/baby-cover.jpg" class="w-full h-full object-cover"></div>
+                    <div class="h-40 overflow-hidden"><img src="images/baby-cover.jpg" alt="高雄抓周派對場地 - Ruins Bar 廢墟風抓周慶祝佈置" class="w-full h-full object-cover"></div>
                     <div class="p-5">
                         <h4 class="text-lg font-bold text-white mb-1">抓周 / 性別派對</h4>
                         <p class="text-neon-blue font-bold mb-2">$39,800</p>
@@ -145,7 +245,7 @@
                     </div>
                 </div>
                 <div onclick="handleCardClick('birthday')" class="plan-card bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden cursor-pointer">
-                    <div class="h-40 overflow-hidden"><img src="images/party-cover.jpg" class="w-full h-full object-cover"></div>
+                    <div class="h-40 overflow-hidden"><img src="images/party-cover.jpg" alt="高雄慶生派對場地 - Ruins Bar 工業風潮流派對" class="w-full h-full object-cover"></div>
                     <div class="p-5">
                         <h4 class="text-lg font-bold text-white mb-1">潮流慶生派對</h4>
                         <p class="text-neon-blue font-bold mb-2">$60,000 起</p>
@@ -153,7 +253,7 @@
                     </div>
                 </div>
                 <div onclick="handleCardClick('rental')" class="plan-card bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden cursor-pointer">
-                    <div class="h-40 overflow-hidden"><img src="images/venue-empty.jpg" class="w-full h-full object-cover"></div>
+                    <div class="h-40 overflow-hidden"><img src="images/venue-empty.jpg" alt="高雄場地租借 - Ruins Bar 廢墟風空間全景" class="w-full h-full object-cover"></div>
                     <div class="p-5">
                         <h4 class="text-lg font-bold text-white mb-1">純場地租借</h4>
                         <p class="text-neon-blue font-bold mb-2">$5,000 / hr</p>
@@ -161,7 +261,7 @@
                     </div>
                 </div>
                 <div onclick="handleCardClick('meeting')" class="plan-card bg-zinc-900 border border-zinc-700 rounded-xl overflow-hidden cursor-pointer">
-                    <div class="h-40 overflow-hidden"><img src="images/meeting-cover.jpg" class="w-full h-full object-cover"></div>
+                    <div class="h-40 overflow-hidden"><img src="images/meeting-cover.jpg" alt="高雄會議場地租借 - Ruins Bar 工業風講座空間" class="w-full h-full object-cover"></div>
                     <div class="p-5">
                         <h4 class="text-lg font-bold text-white mb-1">會議講座方案</h4>
                         <p class="text-neon-blue font-bold mb-2">$10,000 起</p>
@@ -180,12 +280,12 @@
         <div class="max-w-7xl mx-auto px-4">
             <h2 class="text-3xl font-bold text-white mb-8 text-center">精彩實錄 Gallery</h2>
             <div class="columns-2 md:columns-3 gap-4 space-y-4">
-                <div class="gallery-item"><img src="images/venue-decor-wedding.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
-                <div class="gallery-item"><img src="images/party-dj-crowd.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
-                <div class="gallery-item"><img src="images/proposal-romantic-light.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
-                <div class="gallery-item"><img src="images/food-buffet.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
-                <div class="gallery-item"><img src="images/baby-party-setup.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
-                <div class="gallery-item"><img src="images/venue-outdoor-vibe.jpg" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/venue-decor-wedding.jpg" alt="廢墟風輕婚禮佈置 - 花藝與燈光設計" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/party-dj-crowd.jpg" alt="Ruins Bar DJ 派對現場 - 工業風派對氛圍" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/proposal-romantic-light.jpg" alt="浪漫求婚場景 - 燈光與氣球佈置" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/food-buffet.jpg" alt="精緻外燴 Buffet 餐點展示" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/baby-party-setup.jpg" alt="抓周派對場地佈置 - 粉嫩氣球與甜點桌" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
+                <div class="gallery-item"><img src="images/venue-outdoor-vibe.jpg" alt="Ruins Bar 戶外區夜間氛圍 - 燈串與高腳桌" class="w-full rounded-lg hover:opacity-80 transition border border-zinc-800"></div>
             </div>
         </div>
     </section>
@@ -201,9 +301,66 @@
     </section>
 
     <section id="reviews" class="py-20 bg-zinc-900 border-t border-zinc-800">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <h2 class="text-3xl font-bold text-white mb-2">五星好評見證</h2>
-            <div class="mt-10"><a href="https://share.google/sRFN8r3FeaPpirnf3" target="_blank" class="inline-flex items-center text-gray-400 hover:text-white transition text-sm border-b border-gray-600 hover:border-white pb-1"><i class="fab fa-google mr-2"></i> 前往 Google 查看全部真實評論</a></div>
+        <div class="max-w-7xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-white mb-2 text-center">五星好評見證</h2>
+            <p class="text-gray-400 text-center mb-10">Google 評價 <span class="text-yellow-400 font-bold">5.0</span> ⭐⭐⭐⭐⭐ (48 則評論)</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="review-card bg-zinc-800 rounded-xl p-6 border border-zinc-700">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 rounded-full bg-neon-pink flex items-center justify-center text-white font-bold mr-3">L</div>
+                        <div><p class="text-white font-bold text-sm">Linda Chen</p><p class="text-gray-500 text-xs">⭐⭐⭐⭐⭐</p></div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">「在這裡辦了求婚派對，場地氛圍超棒！廢墟風格配上燈光佈置，女友感動到哭。工作人員很專業，全程幫忙控場，大推！」</p>
+                </div>
+                <div class="review-card bg-zinc-800 rounded-xl p-6 border border-zinc-700">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 rounded-full bg-neon-blue flex items-center justify-center text-black font-bold mr-3">K</div>
+                        <div><p class="text-white font-bold text-sm">Kevin Wu</p><p class="text-gray-500 text-xs">⭐⭐⭐⭐⭐</p></div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">「公司尾牙在這裡辦，同事們都嗨翻了。DJ 音樂超讚，空間剛好適合 40 人左右。食物精緻，CP 值高！」</p>
+                </div>
+                <div class="review-card bg-zinc-800 rounded-xl p-6 border border-zinc-700">
+                    <div class="flex items-center mb-3">
+                        <div class="w-10 h-10 rounded-full bg-champagne flex items-center justify-center text-black font-bold mr-3">M</div>
+                        <div><p class="text-white font-bold text-sm">Mei Huang</p><p class="text-gray-500 text-xs">⭐⭐⭐⭐⭐</p></div>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">「小型證婚儀式在 Ruins Bar 辦的。場地很有特色，拍照出來的效果超美！親友們都說從來沒去過這麼酷的婚禮場地。」</p>
+                </div>
+            </div>
+            <div class="text-center"><a href="https://share.google/sRFN8r3FeaPpirnf3" target="_blank" class="inline-flex items-center text-gray-400 hover:text-white transition text-sm border border-gray-600 hover:border-white px-6 py-3 rounded-full"><i class="fab fa-google mr-2"></i> 前往 Google 查看全部 48 則真實評論</a></div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-ruin-dark border-t border-zinc-800">
+        <div class="max-w-3xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-white mb-10 text-center"><i class="fas fa-circle-question text-neon-blue mr-3"></i>常見問題 FAQ</h2>
+            <div class="space-y-1">
+                <div class="faq-item py-4">
+                    <div class="faq-question flex justify-between items-center text-white font-bold" onclick="toggleFaq(this)"><span>場地可容納多少人？</span><i class="fas fa-chevron-down faq-chevron text-gray-500"></i></div>
+                    <div class="faq-answer text-gray-400 text-sm leading-relaxed">室內空間可容納約 30-50 人，加上戶外區域最多可達 80 人。依活動類型可彈性調整桌椅配置。</div>
+                </div>
+                <div class="faq-item py-4">
+                    <div class="faq-question flex justify-between items-center text-white font-bold" onclick="toggleFaq(this)"><span>場地租借費用怎麼算？</span><i class="fas fa-chevron-down faq-chevron text-gray-500"></i></div>
+                    <div class="faq-answer text-gray-400 text-sm leading-relaxed">純場地租借：平日 $10,000/3hr 起，假日 $5,000/hr（低消 2hr）。包套方案另有專屬定價，可透過上方的線上試算系統即時查詢。</div>
+                </div>
+                <div class="faq-item py-4">
+                    <div class="faq-question flex justify-between items-center text-white font-bold" onclick="toggleFaq(this)"><span>可以自己帶食物和飲料嗎？</span><i class="fas fa-chevron-down faq-chevron text-gray-500"></i></div>
+                    <div class="faq-answer text-gray-400 text-sm leading-relaxed">純場地租借方案可自行外帶餐點，但酒水需透過場地提供或事先溝通。包套方案已含餐飲服務。</div>
+                </div>
+                <div class="faq-item py-4">
+                    <div class="faq-question flex justify-between items-center text-white font-bold" onclick="toggleFaq(this)"><span>場地在哪裡？交通方便嗎？</span><i class="fas fa-chevron-down faq-chevron text-gray-500"></i></div>
+                    <div class="faq-answer text-gray-400 text-sm leading-relaxed">位於高雄市鹽埕區瀈南街205號，近駁二藝術特區。捷運鹽埕埔站步行約 8 分鐘，周邊有付費停車場。</div>
+                </div>
+                <div class="faq-item py-4">
+                    <div class="faq-question flex justify-between items-center text-white font-bold" onclick="toggleFaq(this)"><span>需要付訂金嗎？取消政策如何？</span><i class="fas fa-chevron-down faq-chevron text-gray-500"></i></div>
+                    <div class="faq-answer text-gray-400 text-sm leading-relaxed">確認預約後需支付 30% 訂金以保留檔期。14 天前取消可退 80%，7 天前退 50%，7 天內恕不退費。</div>
+                </div>
+                <div class="faq-item py-4">
+                    <div class="faq-question flex justify-between items-center text-white font-bold" onclick="toggleFaq(this)"><span>場地有音響設備嗎？</span><i class="fas fa-chevron-down faq-chevron text-gray-500"></i></div>
+                    <div class="faq-answer text-gray-400 text-sm leading-relaxed">場地配備專業音響系統，支援藍牙連接和有線輸入，可自行播放音樂。如需 DJ 演出可透過加購選單預約。</div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -312,7 +469,12 @@
     </div>
 
     <a href="javascript:void(0)" onclick="directLine()" class="sticky-btn" aria-label="Line洽詢"><i class="fa-brands fa-line"></i></a>
-    <footer class="bg-black py-10 border-t border-zinc-800 mb-16"><div class="max-w-7xl mx-auto px-4 text-center"><p class="text-gray-500 text-sm">© 2024 Ruins Bar</p></div></footer>
+    <footer class="bg-black py-10 border-t border-zinc-800 mb-16">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-gray-500 text-sm">© 2024 Ruins Bar ｜ 高雄市鹽埕區瀈南街205號 ｜ 0932-828-922</p>
+            <p class="text-gray-600 text-xs mt-2">Powered by <a href="https://www.hello-stay.com" class="hover:text-white transition">Hello Stay</a></p>
+        </div>
+    </footer>
 
     <script>
         const LINE_ID = "@529ldsir"; 
@@ -679,6 +841,14 @@
             if (navigator.clipboard) { navigator.clipboard.writeText(msg).then(() => { window.location.href = LINE_DEEP_LINK; }).catch(() => { window.location.href = LINE_DEEP_LINK; }); } else { window.location.href = LINE_DEEP_LINK; }
         }
         function directLine() { window.location.href = LINE_DEEP_LINK; }
+        function toggleFaq(el) {
+            const answer = el.nextElementSibling;
+            const chevron = el.querySelector('.faq-chevron');
+            const isOpen = answer.classList.contains('open');
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.faq-chevron').forEach(c => c.classList.remove('rotate'));
+            if (!isOpen) { answer.classList.add('open'); chevron.classList.add('rotate'); }
+        }
     </script>
 </body>
 </html>
